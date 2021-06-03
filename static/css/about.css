@@ -1,0 +1,126 @@
+
+
+/* ILLUSTRATION */
+/*#illustration {
+  background-image:url('../images/about-us-1.jpg');
+}
+.illustration-box {
+	width:100%;
+	background:rgba(0,0,0,0.5)
+}*/
+
+
+/* ABOUT US */
+section#about-us, 
+section#directors,
+section#small-description,
+section#about-products {
+	padding:var(--lg-padding);
+	background:var(--bg-tertiary);
+}
+.big-title, 
+.medium-title, 
+.small-title {
+	font-weight:600;
+	color:var(--bg-primary);
+}
+.about-us-content {
+	color:var(--bg-light);
+	opacity:0.9;
+	white-space:pre-line;
+	line-height:1.7;
+}
+
+
+/* Responsive Profile Card Width */
+@media screen and (min-width:1400px) {
+	.profile-card.wrapper {
+		width:70%;
+	}
+}
+@media screen and (min-width:1200px) and (max-width:1400px) {
+	.profile-card.wrapper {
+		width:65%;
+	}
+}
+@media screen and (min-width:992px) and (max-width:1200px) {
+	.profile-card.wrapper {
+		width:75%;
+	}
+}
+@media screen and (min-width:768px) and (max-width:992px) {
+	.profile-card.wrapper {
+		width:85%;
+	}
+}
+@media screen and (min-width:576px) and (max-width:768px) {
+	.profile-card.wrapper {
+		width:80%;
+	}
+}
+@media screen and (max-width:576px) {
+	.profile-card.wrapper {
+		width:100%;
+	}
+}
+
+/* Responsive alignment of profile card */
+@media screen and (min-width:768px) {
+	.profile-card.left-card {
+		float:right;
+	}
+}
+@media screen and (max-width:768px) {
+	.profile-card {
+		left:50%;
+		transform:translateX(-50%);
+		-webkit-transform:translateX(-50%);
+	}
+}	
+
+
+.profile-cards .director-bio {
+	color:var(--bg-grey);
+}
+
+/* DIRECTORS */
+.profile-cards .profile-card {
+	/*width:22rem;*/
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 5px 10px 0px;
+}
+.profile-cards .director-designation {
+	font-weight:600;
+	color:rgba(112, 112, 112, 0.7);
+}
+
+
+
+/* About Products Section */
+@media screen and (max-width:576px) {
+	.left {
+		order:2;
+	}
+	.right {
+		order:1;
+	}
+}
+.pdModel-img-holder {
+	width:85%;
+}
+@media screen and (min-width:768px) {
+	.pdModel-img-holder {
+		height:90%;
+	}
+}
+@media screen and (max-width:768px) {
+	.pdModel-img-holder {
+		height:85%;
+	}
+}
+.shop-btn {
+	font-weight:800;
+	font-size:1.1rem;
+	letter-spacing:1.02px;
+	width:220px;
+	padding:2.6%;
+}

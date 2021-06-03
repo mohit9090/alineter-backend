@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <title>Page not found 404 - Alineter</title>
+
+  <meta link-colorarset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+  <!-- FAVICON -->
+  <link rel="icon" href="images/alineter-b.png">
+
+  <!-- SCROLL REVEAL LINK -->
+  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+
+  <!-- FONT AWESOME LINK -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!--GOOGLE FONTS-->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600&family=Nunito:wght@200;300;400;700;800&family=Open+Sans:wght@300;400;600;800&family=Roboto:wght@100;300;400&display=swap" rel="stylesheet">
+
+  <!-- EXTERNAL CSS LINKS -->
+  <link rel="stylesheet" href="/static/css/style.css?{% now 'U' %}">
+  <link rel="stylesheet" href="/static/css/error.css?{% now 'U' %}">
+
+
+</head>
+
+<body>
+
+  <section id="body">    
+
+    <section id="page-content" class="position-relative">
+
+
+      <!-- ERROR SECTION -->
+      <section id="error-wrapper" class="w-100">
+        <div class="container-fluid">
+          <div class="error">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 error-catch">
+                <div class="d-flex flex-column cy position-relative">
+                  <h1 class="display-1 font-weight-bold txt-primary error-code">404</h1>
+                  <h1 class="display-4 txt-grey">Oops!</h1>
+                  <br>
+                  <p class="error-text txt-light">You may have picked the wrong door because I haven't been able to lay my eye on the page you've been searching for.</p>
+                  <br>
+                  <a href="index.html" class="btn btn-i-primary error-btn btn-lg rounded">Take me Home</a>
+                </div>  
+              </div>
+              <div class="col-lg-6 col-md-6 error-graphics">
+                <div class="position-relative cy">
+                  <img src="images/robot.png" class=""/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>        
+      </section>
+
+
+      <!--Copyright Section-->
+      <footer id="copyright-section">
+        <div class="copyright-wrapper text-center">
+          <div class="container-fluid">
+            <small>
+              <span>&copy;2020-<span id="copyright-year"></span></span>
+              <span><a href="index.html" class="link s-2">Alineter</a></span>
+              <span>All Rights Reserved.</span>
+              <span><a href="#" class="link s-2">Terms of Use</a></span>
+              <span>|</span>
+              <span><a href="#" class="link s-2">Privacy Policy</a></span>
+            </small>
+          </div>
+         <script>
+            let year=new Date().getFullYear().toString().substr(2);document.getElementById("copyright-year").innerHTML=year;
+          </script>
+        </div>
+      </footer>
+      
+
+
+
+    </section><!--Page Content-->
+
+  </section><!--Body-->
+
+
+</body>
+</html>
+

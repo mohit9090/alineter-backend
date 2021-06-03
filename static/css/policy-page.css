@@ -1,0 +1,114 @@
+
+/*wrapper*/
+#company-policy-wrapper {
+	padding:5.5rem 2.4%;
+	background-color:var(--bg-tertiary);	
+}
+
+
+.policy-container {
+	margin-bottom:7.5rem;
+}
+.policy-head--s1 {
+	margin-bottom:2.2rem;
+}
+.faq-wrapper,
+.wba-container {
+	margin-bottom:3.5rem;
+}
+
+
+.policy-head--s1 h1,
+.policy-head--s2 h1,
+.policy-body h1 {
+	font-size:2rem;
+	font-weight:600;
+	color:var(--bg-primary);
+}
+.policy-head--s1 h1,
+.policy-body h1 {
+	font-size:2rem;
+}
+.policy-head--s2 h1 {
+	font-size:1.2rem;
+}
+
+
+.policy-body :is( p, ul) {
+	font-size:1rem;
+	font-weight:400;
+	margin:0;
+	margin-bottom:1.8rem;
+	color:var(--bg-light);
+}
+.policy-body h1 {
+	margin-bottom:1rem;
+}
+.policy-body p {
+	white-space:pre-line;
+	line-height:1.7;
+}
+
+/*link*/
+.helpline {
+	color:inherit;
+	text-decoration:underline;
+}
+.helpline:hover {
+	color:var(--bg-primary);
+}
+/*button*/
+.tnc-btn,
+.review-btn {
+	padding:0.7rem 1.2rem;
+}
+
+
+/*write about us page*/
+.wba-form-wrapper .form-group {
+	margin-bottom:2rem;
+}
+.auth-label {
+	color:var(--bg-light);
+	position: relative;
+	left: 8.5px;
+}
+.auth-input {
+	color:var(--bg-light);
+	border-color:var(--bg-light);
+	background:transparent;
+	letter-spacing:1.001px;
+	border-radius:0;
+}
+.help-text {
+	color:var(--bg-primary);
+	opacity:0.75;
+}
+.rating-box {
+	margin-top:0.7rem;
+}
+.rating-icon {
+	font-size:2.4rem;
+	color:var(--bg-grey);
+}
+.rating-icon:not(:last-child) {
+	margin-right:0.5rem;
+}
+.review-btn {
+	font-size:1.2rem;
+	letter-spacing:1.01px;
+}
+.rating-icon.hover,
+.rating-icon.selected {
+	color:var(--bg-primary);
+}
+.rating-icon.hover {
+	opacity:0.5;
+}
+.rating-icon.selected {
+	opacity:1;
+}
+.auth-input[type="file"],
+.rating-icon {
+	cursor:pointer;
+}

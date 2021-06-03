@@ -1,0 +1,237 @@
+/* NAVIGATION */
+#navigation {
+	background:var(--bg-light);
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 9px 0px;
+	z-index:2;
+}
+#navigation.navigation-init {
+	padding:var(--sm-padding-inverse);
+}
+#navigation .nav-right {
+	-webkit-animation-name: increaseOpacity;
+    -webkit-animation-duration:1.3s;
+    animation-name: increaseOpacity;
+    animation-duration:0.8s;
+    animation-timing-function: ease-in;
+}
+.logo-text {
+	color:var(--bg-secondary);
+	font-weight:600;
+	position:relative;
+	letter-spacing:1.02px;
+}
+.navbar-brand:hover .logo-text {
+	color:var(--bg-primary);
+	text-decoration:none;
+}
+@media screen and (min-width:670px) {
+	.show-on-lg {
+		display:block;
+	}
+	.show-on-sm {
+		display:none;
+	}
+}
+@media screen and (max-width:670px) {
+	.show-on-sm {
+		display: block
+	}
+}
+@media screen and (min-width:540px) and (max-width:670px) {
+	.show-on-lg:not(.item-1, .item-2) {
+		display:none;
+	}
+}
+@media screen and (min-width:414px) and (max-width:540px) {
+	.show-on-lg:not(.item-1) {
+		display:none;
+	}
+}
+@media screen and (max-width:414px) {
+	.show-on-lg {
+		display:none;
+	}
+}
+@media screen and (min-width:320px) {
+	.user-func,
+	#brand-logo {
+		display:block;
+	}
+	.logo-text {
+		top:-8px;
+		font-size:0.55rem;
+	}
+}
+@media screen and (max-width:320px) {
+	.user-func,
+	#brand-logo {
+		display:none;
+	}
+	.logo-text {
+		top:0;
+		font-size:0.7rem;
+	}
+}
+
+/* DROPDOWN */
+.dropdown:hover .dropdown-menu {
+	display:block;
+}
+
+
+/* NAVBAR TOGGLER BUTTON */
+.toggler-btn {
+  padding:1.3em;
+  background:var(--bg-tertiary);
+  border-radius:100px;
+  position:relative;
+  text-align:center;
+  overflow:hidden;
+}
+.bar {
+	width:50%;
+	left:50%;
+	transform:translateX(-50%);
+	-webkit-transform:translateX(-50%);
+	position:absolute;
+  	height:3.29px;
+  	padding:0;
+  	background-color:var(--bg-primary);  	
+}
+.bar-1 {
+	top:40%;
+	border-top-left-radius:100px;
+	border-top-right-radius:100px;
+}
+.bar-2 {
+	top:57%;
+	border-bottom-right-radius:100px;
+	border-bottom-left-radius:100px;
+}
+.toggler-btn:hover,
+.toggler-btn:focus {
+	filter:brightness(110%);
+}
+.toggler-btn:focus .bar-1 {
+	left:40%;         
+}
+.toggler-btn:focus .bar-2 {
+	left:60%;       
+}
+
+
+/* Navlinks CSS */
+#navigation .nav-link,
+.site-links .nav-link {
+	color:var(--bg-tertiary);
+	font-size:1.08rem;
+	letter-spacing:1.02px;
+	font-weight:300;
+}
+#navigation .nav-link.dropdown-item {
+	font-size:0.88rem;
+}
+#navigation .nav-link.dropdown-item,
+.site-links .nav-link {
+	border:3.5px solid transparent;
+}
+.site-links .nav-link {
+	padding:0.9rem;
+}
+/*#navigation .nav-link.navbar-toggler {
+	color:var(--bg-primary);
+	cursor:pointer;
+}*/
+
+
+/* Hovering Effects on Navlinks */
+#navigation .nav-link:hover,
+.site-links .nav-link:hover {
+	background:rgba(112, 112, 112, 0.07);
+}
+#navigation .nav-link.dropdown-item:hover,
+.site-links .nav-link:hover {
+	/*
+		Hover effect on all dropdown-link except 
+		navbar-toggler inside dropdown content
+		Hover effect on site-links inside slide-navbar
+	*/
+	border-color:transparent transparent transparent var(--bg-primary);
+}
+
+
+/* SLIDE NAVIGATION */
+#slide-navigation {
+  height:100%;
+  min-width:255px;
+  position:fixed;
+  z-index:5;
+  top:0;
+  left:-120%;
+  background-color:var(--bg-light);
+  overflow-x:hidden;
+  overflow-y:auto;
+}
+.slidenav-wrapper {
+	position:absolute;
+	top:0;
+	left:0;
+}
+.slidenav-wrapper :is(.user-section) {
+	padding:0;
+}
+.user-section-main {
+	position:relative;
+}
+.user-section-main > .nav-controller {
+	position:absolute;
+	top:0;
+	right:0;
+}
+.nav-controller .close-sidenav {
+	color:var(--bg-light);
+	border-radius:50%;
+}
+.user-section-wrapper > .user-info {
+	padding:1.5rem 0.5rem;
+}
+.user-info .pfimg-holder {
+	width:45px;
+	height:45px;
+	border-radius:50%;
+	background:var(--bg-primary);
+}
+.pfimg-holder .pfImg {
+	border-radius:50%;
+}
+.user-function > div {
+	padding:0.6rem;
+	background:var(--bg-primary)
+}
+/*user-function-link hover effects*/
+.user-function--link {
+	color:var(--bg-light);
+	opacity:0.9;
+}
+.user-function--link:hover {
+	color:var(--bg-light);
+	opacity:1;
+	text-decoration:none;
+}
+/*set bg for fancy hover effect*/
+.user-function--link.fancy-effects.slide_line::after {
+	background:var(--bg-light);
+}
+
+
+/* ===== Hide Y-Axis Scrollbar ==== */
+/*
+#slide-navigation::-webkit-scrollbar {
+    display:none;
+}
+#slide-navigation {
+  -ms-overflow-style:none;
+  scrollbar-width:none;  
+}
+*/
+

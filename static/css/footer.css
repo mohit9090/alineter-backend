@@ -1,0 +1,143 @@
+
+
+/* FOOTER */
+.scroll-horizontal.to-top > .btn {
+	color:var(--bg-light);
+	background:var(--bg-secondary);
+	width:80px;
+	border-radius:100px 100px 0 0;
+	position:relative;
+	top:13px;
+}
+.scroll-horizontal.to-top > .btn:not(.mobile-device):hover {
+	color:var(--bg-light);
+	background:var(--bg-tertiary);
+}
+#footer {
+	background:var(--bg-secondary);
+	position:relative;
+}
+#footer > .container-fluid {
+	padding:var(--lg-padding);
+}
+#footer .title {
+	color:var(--bg-primary);
+}
+#footer h4.title {
+	font-weight:600;
+}
+#footer h3.title {
+	font-weight:400;
+}
+.col-footer {
+	margin:0;
+	margin-top:1.7rem;
+}
+.col-footer .section:not(:last-child) {
+	margin-bottom:1.3rem;
+}
+
+
+/*CTA*/
+.input--s2 {
+	border-radius:0;	
+}
+.subscriber-email {
+	color:var(--bg-light);
+	background:var(--bg-secondary);
+	border-color:var(--bg-primary);
+	text-align:center;
+	padding:1.4%;
+	width:70%;
+}
+.subscriber-email,
+.subscriber-email:focus {
+	border-right:0;
+	border-width:1.5px;
+}
+.subscriber-email,
+.subscriber-email::placeholder {
+	letter-spacing:1.02px;
+}
+.subscriber-email::placeholder {
+	color:var(--bg-light);
+	opacity:0.5;
+}
+.subscribe-btn {
+	background:var(--bg-primary);
+	color:var(--bg-light);
+	font-size:0.9rem;
+	font-weight:400;
+}
+.subscribe-btn:hover {
+	color:var(--bg-light);
+	filter:brightness(90%);
+}
+
+
+/*Footer Links*/
+#footer .link {
+	font-size:0.87rem;
+	line-height:2px;
+	text-decoration:none;
+}
+#footer .link.s-1,
+#footer .link.s-3 {
+	color:var(--bg-light);
+}
+#footer .link.s-2,
+#footer .link.s-1:hover {
+	color:var(--bg-primary);
+}
+#footer .link.s-2:hover,
+#footer .link.s-3:hover {
+	text-decoration:underline;
+}
+
+
+/*Social Links*/
+.social-link {
+	padding:6px;
+	font-size:2rem;
+	opacity:1;
+}
+.social-link:hover {
+	opacity:0.7;
+}
+.fa-facebook-square {
+ 	color:var(--facebook);
+}
+.fa-instagram {
+ 	color:var(--instagram);	
+}
+.fa-twitter-square {
+ 	color:var(--twitter);
+}
+.fa-linkedin-square {
+	color:var(--linkedin);
+}
+
+
+.contact-us .fa {
+	color:var(--bg-primary);
+	transform:scale(1);
+	-webkit-transform:scale(1);
+}
+.contact-us .link {
+	word-break:break-all;
+}
+.payment-method img{
+	margin:0 1.1rem 0.1rem 0;
+}
+
+
+
+/*Footer Copyright*/
+.copyright-wrapper {
+	padding:1%;
+	background:rgba(112, 112, 112, 0.15);
+}
+.copyright-wrapper span:not(:last-child) {
+	margin-right:0.1rem;
+}
+
