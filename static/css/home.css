@@ -3,7 +3,6 @@
 /* ILLUSTRATION */
 #illustration {
   background-color:var(--bg-tertiary);
-  background-image:url('../images/model_web_2--50.jpg');
   background-position:right;
 }
 .illustration-box::-webkit-scrollbar {
