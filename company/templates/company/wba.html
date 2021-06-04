@@ -42,7 +42,7 @@
 
 {% block css_link %}
   
-  <link rel="stylesheet" type="text/css" href="/static/css/policy-page.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/policy-page.css' %}?{% now 'U' %}">
 
 {% endblock css_link %}
 
@@ -145,7 +145,7 @@
 
 {% block js_script_link %}
 
-  <script type="text/javascript" src="{% static 'js/wba.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/wba.js' %}?{% now 'U' %}"></script>
 
   <script type="text/javascript">
     const scrollBtn = document.querySelectorAll(".scroll-btn");

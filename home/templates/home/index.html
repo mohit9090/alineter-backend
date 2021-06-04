@@ -45,7 +45,7 @@
 
 {% block css_link %}
 
-  <link rel="stylesheet" type="text/css" href="/static/css/home.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}?{% now 'U' %}">
 
 {% endblock css_link %}
 
@@ -265,16 +265,16 @@
 
 {% block js_script_link %}
 
-  <script type="text/javascript" src="{% static 'js/usp--data.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/usp-load.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/usp--data.js' %}?{% now 'U' %}"></script>
+  <script type="text/javascript" src="{% static 'js/usp-load.js' %}?{% now 'U' %}"></script>
 
-  <script type="text/javascript" src="{% static 'js/quick-product--data.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/quick-product.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/quick-product--data.js' %}?{% now 'U' %}"></script>
+  <script type="text/javascript" src="{% static 'js/quick-product.js' %}?{% now 'U' %}"></script>
 
-  <script type="text/javascript" src="{% static 'js/customer-review--data.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/show-more-review.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/customer-review.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/customer-review-responsive.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/customer-review--data.js' %}?{% now 'U' %}"></script>
+  <script type="text/javascript" src="{% static 'js/show-more-review.js' %}?{% now 'U' %}"></script>
+  <script type="text/javascript" src="{% static 'js/customer-review.js' %}?{% now 'U' %}"></script>
+  <script type="text/javascript" src="{% static 'js/customer-review-responsive.js' %}?{% now 'U' %}"></script>
 
   <script type="text/javascript">
     const scrollBtn = document.querySelectorAll(".scroll-btn");

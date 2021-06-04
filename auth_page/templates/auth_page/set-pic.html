@@ -42,7 +42,9 @@
 
 
 {% block css_link %}
-  <link rel="stylesheet" type="text/css" href="/static/css/authenticate.css?{% now 'U' %}">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/authenticate.css' %}?{% now 'U' %}">
+
 {% endblock css_link %}
 
 
@@ -107,7 +109,7 @@
 
 {% block js_script_link %}
 
-  <script type="text/javascript" src="{% static 'js/set-pfpic.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/set-pfpic.js' %}?{% now 'U' %}"></script>
 
   <script type="text/javascript">
     const scrollBtn = document.querySelectorAll(".scroll-btn");

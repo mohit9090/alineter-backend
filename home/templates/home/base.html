@@ -39,18 +39,18 @@
   <link rel="icon" href="images/alineter-b.png">
 
   <!-- EXTERNAL CSS LINKS -->
-  <link rel="stylesheet" type="text/css" href="/static/css/style.css?{% now 'U' %}">
-  <link rel="stylesheet" type="text/css" href="/static/css/navigation.css?{% now 'U' %}">
-  <link rel="stylesheet" type="text/css" href="/static/css/input-styles.css?{% now 'U' %}">
-  <link rel="stylesheet" type="text/css" href="/static/css/footer.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/navigation.css' %}?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/input-styles.css' %}?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}?{% now 'U' %}">
 
   <!-- Order of this should be maintained -->
   {% block css_link %}
 
   {% endblock css_link %}
 
-  <link rel="stylesheet" type="text/css" href="/static/css/input-validation.css?{% now 'U' %}">
-  <link rel="stylesheet" type="text/css" href="/static/css/utility.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/input-validation.css' %}?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/utility.css' %}?{% now 'U' %}">
 
 
 
@@ -204,14 +204,14 @@
   </section><!--Body-->
 
 
-<script type="text/javascript" src="{% static 'js/activate-page.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/activate-page.js' %}?{% now 'U' %}"></script>
 
-<script type="text/javascript" src="{% static 'js/sliding-navbar.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/scroll-reveal.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/utility.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/verification.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/sliding-navbar.js' %}?{% now 'U' %}"></script>
+<script type="text/javascript" src="{% static 'js/scroll-reveal.js' %}?{% now 'U' %}"></script>
+<script type="text/javascript" src="{% static 'js/utility.js' %}?{% now 'U' %}"></script>
+<script type="text/javascript" src="{% static 'js/verification.js' %}?{% now 'U' %}"></script>
 
-<script type="text/javascript" src="{% static 'js/detect-mobile.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/detect-mobile.js' %}?{% now 'U' %}"></script>
 
 {% block js_script_link %}
 

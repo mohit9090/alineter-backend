@@ -42,7 +42,7 @@
 
 {% block css_link %}
 
-  <link rel="stylesheet" type="text/css" href="/static/css/blog.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/blog.css' %}?{% now 'U' %}">
 
 {% endblock css_link %}
 
