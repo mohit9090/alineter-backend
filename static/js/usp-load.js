@@ -42,7 +42,7 @@ function mapUSP(uspList) {
   let usp_div = "";
 
   uspList.forEach( usp => {
-    usp_div += `<div class="card text-center usp-box reveal__from-bottom mx-auto" onclick="animateIcon(this)">
+    usp_div += `<div class="card text-center usp-box reveal__from-bottom mx-auto ${detectMob() ? 'mobile-device' : '' }" onclick="animateIcon(this)">
       <div class="card-body">
         <div class="my-auto">
           <div class="mx-auto icon-filler">
@@ -88,15 +88,16 @@ function animateIcon(icon) {
   }, 700);
 };  
 
-
 function onSuccessAddClass() {
   /* 
     Add class mobile-device to usp-icons if the device is mobile
     This func will encounter both on load and on resize
   */
   let uspIcons = getUSP_DIV();
+  console.log("hgere");
 
   let isMobile = detectMob();
+
   isMobile ? addMobile__Class(uspIcons) : removeMobile__Class(uspIcons);
 };
 
@@ -110,10 +111,6 @@ function constructUSP() {
 
   uspContainer.innerHTML = usp_html;
 
-  // events is defined in utility.js, events = ["load", "resize"]
-  events.forEach( event => {
-    window.addEventListener(event, onSuccessAddClass)
-  });
 };
 constructUSP();
 
