@@ -24,7 +24,7 @@ function mapBlogs(blogs) {
                   <div class="blog-author-wrap d-flex justify-content-between pl-0 pr-0 pb-2">
                     <div class="blog-author d-flex">
                       <div class="blog-author-img-holder">
-                        <a href="${blog.blog_author.profile_url}"><img src="${blog.blog_author.pfImg}" alt="${blog.blog_author.name} profile pic | Alineter" class="blog-author-img img-cover" alt="author name | Alineter"/></a>
+                        <a href="${blog.blog_author.profile_url}"><img src="${blog.blog_author.pfImg}" alt="${blog.blog_author.name}" class="blog-author-img img-cover" style="font-size:0.8rem"/></a>
                       </div>
                       <div class="ml-2 d-flex flex-column">
                         <small class="d-flex blog-author-name">
