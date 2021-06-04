@@ -21,7 +21,7 @@ urlpatterns = [
     path('auth/', include('auth_page.urls')),
     path('blog/', include('blog.urls')),  
     path('company/', include('company.urls')),  
-    path('policy/', include('company_policy.urls')),  
+    path('company/policy/', include('company_policy.urls')),  
     path('', include('home.urls')),  
 ]
 

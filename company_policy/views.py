@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 
 
@@ -16,3 +16,7 @@ def terms_condition(request):
 
 def ordering_terms(request):
 	return render(request, 'company_policy/ordering-terms.html')
+
+
+def redirect_default(request):
+	return redirect('policy:faq')
