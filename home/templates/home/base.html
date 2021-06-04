@@ -1,0 +1,220 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  {% block title %}
+
+  {% endblock title %}
+
+  <meta link-colorarset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1C1C1C">
+
+
+  <!-- SEO -->
+  {% block seo_meta %}
+
+  {% endblock seo_meta %}
+
+
+  <!-- BOOTSTRAP AND JQUERY -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+  <!-- SCROLL REVEAL LINK -->
+  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+
+  <!-- FONT AWESOME LINK -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!--GOOGLE FONTS-->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600&family=Nunito:wght@200;300;400;700;800&family=Open+Sans:wght@300;400;600;800&family=Roboto:wght@100;300;400&display=swap" rel="stylesheet">
+
+  <!-- FAVICON -->
+  <link rel="icon" href="images/alineter-b.png">
+
+  <!-- EXTERNAL CSS LINKS -->
+  <link rel="stylesheet" type="text/css" href="/static/css/style.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="/static/css/navigation.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="/static/css/input-styles.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="/static/css/footer.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="/static/css/input-validation.css?{% now 'U' %}">
+  <link rel="stylesheet" type="text/css" href="/static/css/utility.css?{% now 'U' %}">
+
+  {% block css_link %}
+
+  {% endblock css_link %}
+
+
+  <style type="text/css">
+
+    /* Loading Animation */
+
+    #loading {
+      width:100%;
+      height:100vh;
+    }
+    .loading-wrapper {
+      position:relative;
+      top:50%;
+      transform:translateY(-50%) scale(1);
+      -webkit-transform:translateY(-50%) scale(1);
+    }
+    .cube-spinner-nm {
+      transform:scale(1);
+      -webkit-transform:scale(1);
+    }
+    .cube-spinner-lg {
+      transform:scale(1.1);
+      -webkit-transform:scale(1.1);
+    }
+    .cube-spinner-md {
+      transform:scale(0.8);
+      -webkit-transform:scale(0.8);
+    }
+    .cube-spinner-sm {
+      transform:scale(0.6);
+      -webkit-transform:scale(0.6);
+    }
+    .spinner {
+      position:relative;
+      width:60px;
+      height:60px;
+      left:50%;
+      transform:translateX(-50%);
+      -webkit-transform:translateX(-50%);
+    }
+    .cube {
+      position:absolute;
+      top:0;
+      left:0;
+      width:20px;
+      height:20px;
+      border:0;
+      border-radius:2px;
+      -webkit-animation: loading-cubemove 1.8s infinite ease-in-out;
+      animation: loading-cubemove 1.8s infinite ease-in-out;
+    }
+    .cube-1 {
+      background-color:#F15A24;
+    }
+    .cube-2 {
+      background-color:#000000;
+      -webkit-animation-delay: -0.9s;
+      animation-delay: -0.9s;
+
+    }
+    @-webkit-keyframes loading-cubemove {
+      25% { 
+        -webkit-transform:translateX(42px) rotate(-90deg) scale(0.5);
+      } 50% { 
+        -webkit-transform:translateX(42px) translateY(42px) rotate(-180deg) ;
+      } 75% { 
+        -webkit-transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+      } 100% { 
+        -webkit-transform:rotate(-360deg);
+      }
+    }
+    @keyframes loading-cubemove {
+      25% { 
+        transform:translateX(42px) rotate(-90deg) scale(0.5); 
+        -webkit-transform:translateX(42px) rotate(-90deg) scale(0.5);
+      } 50% { 
+        transform:translateX(42px) translateY(42px) rotate(-179deg);
+        -webkit-transform:translateX(42px) translateY(42px) rotate(-179deg);
+      } 50.1% { 
+        transform:translateX(42px) translateY(42px) rotate(-180deg); 
+        -webkit-transform:translateX(42px) translateY(42px) rotate(-180deg);
+      } 75% { 
+        transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5); 
+        -webkit-transform:translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+      } 100% { 
+        transform:rotate(-360deg); 
+        -webkit-transform:rotate(-360deg);
+      }
+    }
+
+    section#body {
+      display:none;
+      -webkit-animation-name: increaseOpacity;
+      -webkit-animation-duration:1.3s;
+      animation-name: increaseOpacity;
+      animation-duration: 0.5s;
+      animation-timing-function: ease-in;
+    }
+    @-webkit-keyframes increaseOpacity {
+      from {
+        opacity:0 
+      } 
+      to {
+        opacity:1 
+      }
+    }
+    @keyframes increaseOpacity { 
+      from {
+        opacity:0 
+      } 
+      to {
+        opacity:1 
+      }
+    }
+
+  </style>
+ 
+</head>
+
+<body>
+
+  <section id="loading">
+    <div class="loading-wrapper">
+      <div class="spinner">
+        <div class="cube cube-1"></div>
+        <div class="cube cube-2"></div>
+      </div>
+    </div> 
+  </section>
+
+  
+
+  <section id="body">
+
+    {% include 'home/nav.html' %}
+
+    
+    <section id="page-content" class="position-relative">
+
+      {% block page_content %}
+
+      {% endblock page_content %}
+
+      
+      {% include 'home/footer.html' %}
+
+    </section><!--Page Content-->
+
+  
+  </section><!--Body-->
+
+
+<script type="text/javascript" src="{% static 'js/activate-page.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/sliding-navbar.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/scroll-reveal.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/utility.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/verification.js' %}"></script>
+
+{% block js_script_link %}
+
+{% endblock js_script_link %}
+
+
+</body>
+
+</html>
+
+

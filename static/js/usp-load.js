@@ -1,39 +1,40 @@
   
-  const uspContainer = document.getElementById("usp-wrapper")
- 
-  //jsonUSP is derived from js/usp-data.js
-  const usp_icons = JSON.parse(jsonUSP)
+
+const uspContainer = document.getElementById("usp-wrapper")
+
+//jsonUSP is derived from js/usp-data.js
+const usp_icons = JSON.parse(jsonUSP)
 
 
-  const [run_man, truck, cotton_fabric, india, personalised] = usp_icons;
+const [run_man, truck, cotton_fabric, india, personalised] = usp_icons;
 
-  const uspList = [
-    {
-      icon:run_man,
-      tag:'All Moment Ready',
-      textColor:'text-blue'
-    },
-    {
-      icon:truck,
-      tag:'Free shipping of all products',
-      textColor:''
-    },
-    {
-      icon:cotton_fabric,
-      tag:'Moisturised cotton fabric',
-      textColor:''
-    },
-    {
-      icon:india,
-      tag:'Made in India',
-      textColor:''
-    },
-    {
-      icon:personalised,
-      tag:'Personalised modern designs',
-      textColor:''
-    }
-  ]
+const uspList = [
+  {
+    icon:run_man,
+    tag:'All Moment Ready',
+    textColor:'text-blue'
+  },
+  {
+    icon:truck,
+    tag:'Free shipping of all products',
+    textColor:''
+  },
+  {
+    icon:cotton_fabric,
+    tag:'Moisturised cotton fabric',
+    textColor:''
+  },
+  {
+    icon:india,
+    tag:'Made in India',
+    textColor:''
+  },
+  {
+    icon:personalised,
+    tag:'Personalised modern designs',
+    textColor:''
+  }
+];
 
 
 
@@ -94,7 +95,6 @@ function onSuccessAddClass() {
     This func will encounter both on load and on resize
   */
   let uspIcons = getUSP_DIV();
-
 
   let isMobile = detectMob();
   isMobile ? addMobile__Class(uspIcons) : removeMobile__Class(uspIcons);

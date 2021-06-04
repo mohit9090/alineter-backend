@@ -368,55 +368,6 @@
 
 
 
-
-
-/* NEWSLETTER */
-/*@media screen and (min-width:700px) {
-	.newsletter-box {
-		width:75%;
-	}
-}
-@media screen and (max-width:700px) {
-	.newsletter-box {
-		width:100%;
-	}
-}
-.newsletter-subscribe {
-	padding:3% 2%;
-	border:5px solid rgba(22,12,40,0.7);
-}
-@media screen and (min-width:860px) {
-	#newsletter-subscribe-lg {
-		display:none;
-	}
-	#newsletter-subscribe-sm {
-		display:block;
-	}
-}
-@media screen and (max-width:860px) {
-	#newsletter-subscribe-lg {
-		display:none;
-	}
-	#newsletter-subscribe-sm {
-		display:block;
-	}
-}
-.newsletter-subscribe .newsletter-subscribe-form{
-	border-left:5px solid #6C63FF;
-}
-.newsletter-subscribe .input--s1 {
-	background:transparent;
-}
-.newsletter-subscribe .input--s1.filled {
-	color:#6C63FF;
-}
-.newsletter-subscribe .input--s1:focus {
-	color:#6C63FF;
-	border-color:#6C63FF;
-}*/
-
-
-
 /* More Reviews */
 #more-reviews-overlay {
 	position:fixed;
@@ -429,10 +380,10 @@
 }
 .reviews-nav {
 	position: sticky;
-  	top:0;
-  	z-index:6;
-  	background:rgba(28, 28, 28, 0.9);
-  	border-bottom:1px solid white;
+	top:0;
+	z-index:6;
+	background:rgba(28, 28, 28, 0.9);
+	border-bottom:1px solid white;
 }
 .reviews-nav,
 .more-reviews-container {

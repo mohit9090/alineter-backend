@@ -1,0 +1,121 @@
+
+<!-- ============ NAVIGATION BAR SECTION =========== -->   
+
+<nav id="navigation" class="navbar fixed-top navigation-init">
+  <div class="nav-left">
+    <a href="index.html" class="navbar-brand">
+      <div class="d-flex flex-column p-0 text-center align-items-center">
+        <img src="images/alineter-b.png" id="brand-logo" width=47 height=47 alt="alineter logo"/>
+        <small class="logo-text">ALINETER</small>
+      </div>
+    </a>
+  </div>
+  <div class="nav-right ml-auto">
+    <ul class="d-flex my-auto" style="list-style:none">
+      <li class="nav-item show-on-lg item-1 my-auto mr-1">
+        <a href="store.html" class="nav-link">Store</a>
+      </li>
+      <li class="nav-item show-on-lg item-2 my-auto mr-1">
+        <a href="look-book.html" class="nav-link">Blogs</a>
+      </li>
+      <li class="nav-item show-on-lg item-3 dropdown mr-2 my-auto">
+        <button class="nav-link dropdown-toggler btn" id="more-section-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          More&nbsp;<span class="fa fa-caret-down"></span>
+        </button>
+        <div class="dropdown-menu shadow m-0 pl-0 pr-0" aria-labelledby="more-section-dropdown">
+          <a class="nav-link dropdown-item" href="about.html">About Us</a>
+          <a class="nav-link dropdown-item" href="contact.html">Contact Us</a>
+          <a class="nav-link dropdown-item" href="faq.html">FAQs</a>
+          <a class="nav-link dropdown-item" href="wba.html">Write About Us</a>
+          <a class="nav-link dropdown-item" href="terms.html">Terms of Use</a>
+          <a class="nav-link dropdown-item" href="ordering-term.html">Ordering Terms</a>
+          <a class="nav-link dropdown-item" href="cnr.html">Cancellation & Refund</a>
+          <a class="nav-link dropdown-item" href="terms.html">Privacy Policy</a>
+          <!-- <div class="dropdown-divider"></div>
+          <a class="nav-link dropdown-item navbar-toggler p-2 pl-3" onclick="opennav()"><span class="fa fa-ellipsis-v"></span>&nbsp;&nbsp;More</a> -->
+        </div>
+      </li>
+      <li class="nav-item mr-3 my-auto user-func">
+        <div class="d-flex">
+          <a href="signup.html" class="btn btn-o-tertiary ripple-opacity-l rounded pl-4 pr-4">Sign Up</a>
+
+          <!-- when user is logged in -->
+          <!-- <a href="" class="nav-link">
+            <span class="fa fa-user-circle-o txt-tertiary" style="font-size:1.3rem"></span>
+          </a>
+
+          <a href="" class="nav-link">
+            <span class="fa fa-opencart txt-tertiary">&nbsp;<span>0</span></span>
+          </a> -->
+        </div>
+      </li> 
+      <li class="nav-item show-on-sm my-auto">
+        <button type="button" class="btn toggler-btn ripple-opacity-d" onclick="opennav()">
+          <div class="bar bar-1"></div>
+          <div class="bar bar-2"></div>
+        </button> 
+      </li>
+    </ul>
+  </div>
+
+</nav>
+
+
+<!-- ======== SLIDE NAVIGATION ========== -->
+
+<section id="slide-navigation">
+  <div class="container-fluid w-100 h-100 position-relative">
+    <div class="slidenav-wrapper w-100">
+
+      <div class="user-section text-center sticky-top fill-tertiary txt-light">
+
+        <div class="user-section-main">
+          <!--Nav Controller-->
+          <div class="nav-controller">
+              <button onclick="closenav()" class="btn close-sidenav"><span class="fa fa-times"></span></button>
+          </div>
+
+          <div class="user-section-wrapper">
+            <div class="user-info d-flex">
+              <div class="mr-3 my-auto pfimg-holder">
+                <img src="./images/avatar.png" class="pfImg img-cover"/>
+                <!-- <img src="./images/mohit_300.png" class="pfimg"/> -->
+              </div>
+              <div class="my-auto">
+                <p class="lead txt-light">Hey, User</p>
+                <!-- <p class="lead text-cultured">Hey, Mohit</p> -->
+              </div>
+            </div>
+            <div class="user-function">
+              <div class="d-flex justify-content-between">
+                <a href="signup.html" class="user-function--link fancy-effects slide_line"><span class="fa fa-id-badge"></span>&nbsp;Create Account</a>
+                <a href="login.html" class="user-function--link fancy-effects slide_line"><span class="fa fa-sign-in"></span>&nbsp;Login</a>
+                <!-- <a href="#my-account" class="user-function--link fancy-effects slide_line"><span class="fa fa-user"></span>&nbsp;My Account</a>
+                <a href="#logout" class="user-function--link fancy-effects slide_line"><span class="fa fa-sign-in"></span>&nbsp;Logout</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>        
+
+      <div class="site-links p-0 pb-5">
+        <a href="index.html" class="nav-link"><span class="fa fa-home"></span>&nbsp;&nbsp;Home</a>
+        <a href="store.html" class="nav-link"><span class="fa fa-shopping-bag"></span>&nbsp;&nbsp;Store</a>
+        <a href="look-book.html" class="nav-link"><span class="fa fa-picture-o"></span>&nbsp;&nbsp;Blogs</a>
+        <a href="about.html" class="nav-link"><span class="fa fa-address-card"></span>&nbsp;&nbsp;About Us</a>
+        <a href="contact.html" class="nav-link"><span class="fa fa-paper-plane"></span>&nbsp;&nbsp;Contact Us</a>
+        <a href="faq.html" class="nav-link"><span class="fa fa-question-circle"></span>&nbsp;&nbsp;FAQ</a>
+        <a href="wba.html" class="nav-link"><span class="fa fa-pencil"></span>&nbsp;&nbsp;Write About Us</a>
+        <a href="terms.html" class="nav-link"><span class="fa fa-file"></span>&nbsp;&nbsp;Terms of Use</a>
+        <a href="ordering-term.html" class="nav-link"><span class="fa fa-file"></span>&nbsp;&nbsp;Ordering Terms</a>
+        <a href="cnr.html" class="nav-link"><span class="fa fa-undo"></span>&nbsp;&nbsp;Cancellation & Refund</a>
+        <a href="terms.html" class="nav-link"><span class="fa fa-lock"></span>&nbsp;&nbsp;Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERLAY EFFECT NAVIGATION -->
+<section id="overlay-effect" onclick="closenav()">
+</section>
