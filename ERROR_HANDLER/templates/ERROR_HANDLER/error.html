@@ -80,7 +80,8 @@
             </small>
           </div>
          <script>
-            let year=new Date().getFullYear().toString().substr(2);document.getElementById("copyright-year").innerHTML=year;
+            let year=new Date().getFullYear().toString().slice(2);
+            document.getElementById("copyright-year").innerHTML = year;
           </script>
         </div>
       </footer>

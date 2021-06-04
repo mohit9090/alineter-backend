@@ -14,9 +14,9 @@
 
 
   <!-- SEO -->
-  {% block seo_meta %}
+  {% block seo_metatag %}
 
-  {% endblock seo_meta %}
+  {% endblock seo_metatag %}
 
 
   <!-- BOOTSTRAP AND JQUERY -->
@@ -208,6 +208,8 @@
 <script type="text/javascript" src="{% static 'js/utility.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/verification.js' %}"></script>
 
+<script type="text/javascript" src="{% static 'js/detect-mobile.js' %}"></script>
+
 {% block js_script_link %}
 
 {% endblock js_script_link %}
@@ -216,5 +218,4 @@
 </body>
 
 </html>
-
 

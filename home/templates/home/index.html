@@ -13,7 +13,7 @@
 
 
 
-{% block seo_meta %}
+{% block seo_metatag %}
   
   <meta name="description" content="This online SEO cheat sheet lists everyting to rank first...">
   <meta name="keywords" content="seo,cheat,sheet">
@@ -39,7 +39,7 @@
   <meta property="twitter:image" content="https://mohit9090.github.io/alineter/images/blog-img--1.webp" />
   <meta property="twitter:site" content="ALINETER" />
 
-{% endblock seo_meta %}
+{% endblock seo_metatag %}
 
 
 
@@ -265,7 +265,6 @@
 
 {% block js_script_link %}
 
-  <script type="text/javascript" src="{% static 'js/detect-mobile.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/usp--data.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/usp-load.js' %}"></script>
 
@@ -278,12 +277,10 @@
   <script type="text/javascript" src="{% static 'js/customer-review-responsive.js' %}"></script>
 
   <script type="text/javascript">
-
     const scrollBtn = document.querySelectorAll(".scroll-btn");
       
     let isMobile = detectMob();
     isMobile ? addMobile__Class([...scrollBtn]) : removeMobile__Class([...scrollBtn]);
-
   </script>
 
 {% endblock js_script_link %}
