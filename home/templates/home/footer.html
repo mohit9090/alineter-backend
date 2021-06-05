@@ -55,30 +55,30 @@
             <div class="d-flex flex-column">
               <div class="d-flex flex-column section first">
                 <div>
-                  <a href="ordering-term.html" class="link s-1">Ordering & Payment Terms</a>
+                  <a href="{% url 'policy:ordering_terms' %}" class="link s-1">Ordering & Payment Terms</a>
                 </div>
                 <div>
-                  <a href="shipping.html" class="link s-1">Shipping</a>
+                  <a href="#" class="link s-1">Shipping</a>
                 </div>
                 <div>
-                  <a href="sizing.html" class="link s-1">Sizing Guide</a>
+                  <a href="#" class="link s-1">Sizing Guide</a>
                 </div>
                 <div>
-                  <a href="faq.html" class="link s-1">FAQs</a>
+                  <a href="{% url 'policy:faq' %}" class="link s-1">FAQs</a>
                 </div>
               </div>
               <div class="d-flex flex-column section second">
                 <div>
-                  <a href="terms.html" class="link s-1">Privacy Policy</a>
+                  <a href="{% url 'policy:terms_condition' %}" class="link s-1">Privacy Policy</a>
                 </div>
                 <div>
-                  <a href="terms.html" class="link s-1">Terms of Use</a>
+                  <a href="{% url 'policy:terms_condition' %}" class="link s-1">Terms of Use</a>
                 </div>
                 <div>
-                  <a href="cnr.html" class="link s-1">Return Policy</a>
+                  <a href="{% url 'policy:cancellation_refund' %}" class="link s-1">Return Policy</a>
                 </div>
                 <div>
-                  <a href="cnr.html" class="link s-1">Cancellation & Refund</a>
+                  <a href="{% url 'policy:cancellation_refund' %}" class="link s-1">Cancellation & Refund</a>
                 </div>
               </div>
             </div>                  
@@ -123,11 +123,11 @@
     <div class="container-fluid txt-light">
       <small>
         <span>&copy;2020-<span id="copyright-year"></span></span>
-        <span><a href="index.html" class="link s-2">Alineter</a></span>
+        <span><a href="{% url 'home:home' %}" class="link s-2">Alineter</a></span>
         <span>All Rights Reserved.</span>
-        <span><a href="terms.html" class="link s-2">Terms of Use</a></span>
+        <span><a href="{% url 'policy:terms_condition' %}" class="link s-2">Terms of Use</a></span>
         <span>|</span>
-        <span><a href="terms.html" class="link s-2">Privacy Policy</a></span>
+        <span><a href="{% url 'policy:terms_condition' %}" class="link s-2">Privacy Policy</a></span>
       </small>
     </div>
    <script>
@@ -136,3 +136,10 @@
     </script>
   </div>
 </footer>
+
+
+<!--
+
+Shipping and sizing guide URL is not there
+
+-->
