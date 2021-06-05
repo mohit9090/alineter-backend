@@ -10,6 +10,10 @@ def contact(request):
 	return render(request, 'company/contact.html')
 
 
+def faq(request):
+	return render(request, 'company/faq.html')
+
+
 def write_about_us(request):
 	return render(request, 'company/wba.html')
 

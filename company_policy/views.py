@@ -2,9 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 
 
-def faq(request):
-	return render(request, 'company_policy/faq.html')
-
 
 def cancellation_refund(request):
 	return render(request, 'company_policy/cancellation-refund.html')

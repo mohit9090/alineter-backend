@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'company_policy',
     'ERROR_HANDLER',
     'home',
+    'store',
 ]
 
 MIDDLEWARE = [

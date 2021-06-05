@@ -23,6 +23,7 @@ urlpatterns = [
     path('company/', include('company.urls')),  
     path('company/policy/', include('company_policy.urls')),  
     path('', include('home.urls')),  
+    path('store/', include('store.urls'))
 ]
 
 

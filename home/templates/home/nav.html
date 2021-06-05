@@ -13,7 +13,7 @@
   <div class="nav-right ml-auto">
     <ul class="d-flex my-auto" style="list-style:none">
       <li class="nav-item show-on-lg item-1 my-auto mr-1">
-        <a href="#" class="nav-link">Store</a>
+        <a href="{% url 'store:store' %}" class="nav-link">Store</a>
       </li>
       <li class="nav-item show-on-lg item-2 my-auto mr-1">
         <a href="{% url 'blog:blog' %}" class="nav-link">Blogs</a>
@@ -25,7 +25,7 @@
         <div class="dropdown-menu shadow m-0 pl-0 pr-0" aria-labelledby="more-section-dropdown">
           <a class="nav-link dropdown-item" href="{% url 'company:about' %}">About Us</a>
           <a class="nav-link dropdown-item" href="{% url 'company:contact' %}">Contact Us</a>
-          <a class="nav-link dropdown-item" href="{% url 'policy:faq' %}">FAQs</a>
+          <a class="nav-link dropdown-item" href="{% url 'company:faq' %}">FAQs</a>
           <a class="nav-link dropdown-item" href="{% url 'company:write_about_us' %}">Write About Us</a>
           <a class="nav-link dropdown-item" href="{% url 'policy:terms_condition' %}">Terms of Use</a>
           <a class="nav-link dropdown-item" href="{% url 'policy:ordering_terms' %}">Ordering Terms</a>
@@ -100,11 +100,11 @@
 
       <div class="site-links p-0 pb-5">
         <a href="{% url 'home:home' %}" class="nav-link"><span class="fa fa-home"></span>&nbsp;&nbsp;Home</a>
-        <a href="#" class="nav-link"><span class="fa fa-shopping-bag"></span>&nbsp;&nbsp;Store</a>
+        <a href="{% url 'store:store' %}" class="nav-link"><span class="fa fa-shopping-bag"></span>&nbsp;&nbsp;Store</a>
         <a href="{% url 'blog:blog' %}" class="nav-link"><span class="fa fa-picture-o"></span>&nbsp;&nbsp;Blogs</a>
         <a href="{% url 'company:about' %}" class="nav-link"><span class="fa fa-address-card"></span>&nbsp;&nbsp;About Us</a>
         <a href="{% url 'company:contact' %}" class="nav-link"><span class="fa fa-paper-plane"></span>&nbsp;&nbsp;Contact Us</a>
-        <a href="{% url 'policy:faq' %}" class="nav-link"><span class="fa fa-question-circle"></span>&nbsp;&nbsp;FAQ</a>
+        <a href="{% url 'company:faq' %}" class="nav-link"><span class="fa fa-question-circle"></span>&nbsp;&nbsp;FAQ</a>
         <a href="{% url 'company:write_about_us' %}" class="nav-link"><span class="fa fa-pencil"></span>&nbsp;&nbsp;Write About Us</a>
         <a href="{% url 'policy:terms_condition' %}" class="nav-link"><span class="fa fa-file"></span>&nbsp;&nbsp;Terms of Use</a>
         <a href="{% url 'policy:ordering_terms' %}" class="nav-link"><span class="fa fa-file"></span>&nbsp;&nbsp;Ordering Terms</a>
