@@ -207,7 +207,7 @@
               <div class="form-check">
                 <input class="form-check-input auth-input" type="checkbox" name="accept-tnc" id="accept-tnc" onclick="ifValid(this, 5)" data-tab="2" required >
                 <label class="form-check-label auth-label" for="accept-tnc">
-                  I accept to the <a href="#">Terms and Conditions</a>
+                  I accept to the <a href="{% url 'policy:terms_condition' %}">Terms and Conditions</a>
                 </label>
               </div>
               <small id="help-text"></small>
@@ -223,7 +223,7 @@
               </div>
             </div><hr>
             <div class="d-flex justify-content-end">
-              <small class="float-right"><a href="login.html" class="card-link">Already an User?</a></small>
+              <small class="float-right"><a href="{% url 'auth:login' %}" class="card-link">Already an User?</a></small>
             </div>
           </div>
         

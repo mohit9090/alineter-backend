@@ -131,11 +131,8 @@ function recursiveMapping(set, times, open_div) {
 	for(var i=0; i<times; i++) {
 		let reviews = mapReviews(set[i], "w-100");
 		reviewsHTML = reviewsHTML + open_div + reviews + close_div;	
-	}
+	};
 
-	// setTimeout(function(){
-	// 	reviewsContainer.innerHTML = reviewsHTML;
-	// },5000);
 	reviewsContainer.innerHTML = reviewsHTML;
 }
 
@@ -190,7 +187,7 @@ function constructReviews(numOfReviews) {
 		document.getElementById("testimonial").innerHTML = `<div class="no-reviewer-wrapper text-center">
             <h3 class="txt-light">There are no Reviews</h3>
             <p class="lead txt-primary">Be the FIRST One to </p>
-            <a href="#" class="btn show-more-btn reveal__from-bottom"><span class="fa fa-pencil"></span>&nbsp;&nbsp;Write About Us</a>
+            <a href="{% url 'company:write_about_us' %}" class="btn show-more-btn reveal__from-bottom"><span class="fa fa-pencil"></span>&nbsp;&nbsp;Write About Us</a>
           </div>`;
 	}
 }
@@ -206,6 +203,26 @@ function buildShowMoreBtn() {
 function displayReviews() {
 	/* Number of Reviews that are actually shown */
 	var shownReviews = reviewers.length;
+
+	// Loading animation before Testimonial Loads
+	reviewsContainer.innerHTML = `
+    <div class="w-100 cube-spinner-md">
+      <div class="spinner">
+        <div class="cube cube-1"></div>
+        <div class="cube cube-2" style="background-color:#FEFEFE"></div>
+      </div>
+    </div> 
+	`;
+	
+	showMoreBtn.innerHTML = `
+    <div class="w-100 cube-spinner-md">
+      <div class="spinner">
+        <div class="cube cube-1"></div>
+        <div class="cube cube-2" style="background-color:#FEFEFE"></div>
+      </div>
+    </div> 
+	`;
+
 	constructReviews(shownReviews);
 	buildShowMoreBtn();
 }

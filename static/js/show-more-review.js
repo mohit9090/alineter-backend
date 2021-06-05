@@ -106,19 +106,28 @@ function show_more__Reviews() {
 	let toggle_state = 1;
 	toggleReviewOverlay(toggle_state);
 
+	// Loading animation before Testimonial Loads
+	moreReviewsContainer__row.innerHTML = `
+    <div class="w-100" style="height:100vh">
+      <div class="spinner" style="left:50%;top:35%;transform:translate(-50%,-50%);-webkit-transform:translate(-50%,-50%)">
+        <div class="cube cube-1"></div>
+        <div class="cube cube-2" style="background-color:#FEFEFE"></div>
+      </div>
+    </div> 
+  `;
+
 	let moreReviews_html = ""
 	moreReviews_html = mapOverlayReviews();
 	
-	setTimeout(function() {
-		moreReviewsContainer__row.innerHTML = moreReviews_html;
-	},1500)
-	// moreReviewsContainer__row.innerHTML = moreReviews_html;
+
+	moreReviewsContainer__row.innerHTML = moreReviews_html;
 
 	setTimeout(function() {
 		toggleReviewContent(toggle_state);
 	}, 300);
 
 }
+
 function close_more__Reviews() {
 	/*
 		Close the Overlay to hide More Reviews By Customer
@@ -131,3 +140,4 @@ function close_more__Reviews() {
 		toggleReviewOverlay(toggle_state);
 	}, 300);
 }
+

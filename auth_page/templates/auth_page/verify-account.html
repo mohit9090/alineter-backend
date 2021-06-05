@@ -92,7 +92,7 @@
         <div class="modal-body">
           <p class="lead">OTP didn't match with the one we have sent to you.</p>
           <p>You might have typed wrong OTP or your Mail Id is not appropriate</p>
-          <a href="signup.html" class="card-link">Go to Signup</a>
+          <a href="{% url 'auth:signup' %}" class="card-link">Go to Signup</a>
           <a href="#" class="card-link">Resend OTP</a>
         </div>
       </div>

@@ -88,29 +88,25 @@ function animateIcon(icon) {
   }, 700);
 };  
 
-function onSuccessAddClass() {
-  /* 
-    Add class mobile-device to usp-icons if the device is mobile
-    This func will encounter both on load and on resize
-  */
-  let uspIcons = getUSP_DIV();
-  console.log("hgere");
-
-  let isMobile = detectMob();
-
-  isMobile ? addMobile__Class(uspIcons) : removeMobile__Class(uspIcons);
-};
 
 function constructUSP() {
-  let usp_html = "";
+  let usp_html;
+
+  // Loading animation before USP Loads
+  uspContainer.innerHTML = `
+      <div class="w-100 cube-spinner-md">
+        <div class="spinner">
+          <div class="cube cube-1"></div>
+          <div class="cube cube-2"></div>
+        </div>
+      </div> 
+  `;
 
   usp_html = mapUSP(uspList);
-  setTimeout(function() {
-    uspContainer.innerHTML = usp_html;
-  },5000);
 
   uspContainer.innerHTML = usp_html;
 
 };
 constructUSP();
+
 

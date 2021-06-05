@@ -52,7 +52,7 @@
                   <br>
                   <p class="error-text txt-light">You may have picked the wrong door because I haven't been able to lay my eye on the page you've been searching for.</p>
                   <br>
-                  <a href="index.html" class="btn btn-i-primary error-btn btn-lg rounded">Take me Home</a>
+                  <a href="{% url 'home:home' %}" class="btn btn-i-primary error-btn btn-lg rounded">Take me Home</a>
                 </div>  
               </div>
               <div class="col-lg-6 col-md-6 error-graphics">
@@ -72,11 +72,11 @@
           <div class="container-fluid">
             <small>
               <span>&copy;2020-<span id="copyright-year"></span></span>
-              <span><a href="index.html" class="link s-2">Alineter</a></span>
+              <span><a href="{% url 'home:home' %}" class="link s-2">Alineter</a></span>
               <span>All Rights Reserved.</span>
-              <span><a href="#" class="link s-2">Terms of Use</a></span>
+              <span><a href="{% url 'policy:terms_condition' %}" class="link s-2">Terms of Use</a></span>
               <span>|</span>
-              <span><a href="#" class="link s-2">Privacy Policy</a></span>
+              <span><a href="{% url 'policy:terms_condition' %}" class="link s-2">Privacy Policy</a></span>
             </small>
           </div>
          <script>

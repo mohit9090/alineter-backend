@@ -275,10 +275,18 @@ function mapProducts(pagecontent, cardWidth, cardHeight) {
 function constructProducts(pagecontent, cardWidth, cardHeight) {
 	let products_html = "";
 
+	// Loading animation before Product Loads
+	quickProductContainer.innerHTML = `
+      <div class="w-100 cube-spinner-md">
+        <div class="spinner">
+          <div class="cube cube-1"></div>
+          <div class="cube cube-2"></div>
+        </div>
+      </div> 
+	`;
+
 	products_html = mapProducts(pagecontent, cardWidth, cardHeight);
-	// setTimeout(function(){
-	// 	quickProductContainer.innerHTML = products_html;
-	// },5000);
+	
 	quickProductContainer.innerHTML = products_html;
 }
 
