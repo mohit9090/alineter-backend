@@ -19,14 +19,13 @@ def profilepic_directory_path(instance, filename):
 	Change filename of profile picture
 	"""
 	ext = filename.split('.')[1]
-	filename = f'{instance.username}-pic.${ext}'
+	filename = f'{instance.user.username}-pic.${ext}'
 
 	return f'customer/profilepic/{filename}' 
 
 
 class Customer(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-	username = models.CharField(verbose_name='Username', max_length=50, null=True, blank=True)
 	mobile = models.CharField(verbose_name='Mobile Number', max_length=10)
 	landmark = models.TextField(verbose_name='Landmark', null=True, blank=True)
 	street_address = models.TextField(verbose_name='Street Address')
@@ -37,7 +36,7 @@ class Customer(models.Model):
 	profile_pic = models.ImageField(upload_to=profilepic_directory_path, verbose_name='Profile Pic', blank=True, null=True)
 
 	def __str__(self):
-		return self.username
+		return self.user.username
 
 	def get_address(self):
 		return f"{self.landmark if self.landmark else ''}\n{self.street_address},\n{self.city}, Pin-{self.pin},\n{self.state}, {self.country}"
@@ -46,10 +45,6 @@ class Customer(models.Model):
 		if self.state and self.country:
 			self.state = self.state.capitalize()
 			self.country = self.country.capitalize()
-		
-		if not self.username:
-			extracted_name = self.user.email.split('@')[0]
-			self.username = re.sub('[#$%&*+=?^`{|}~]', '' , extracted_name)
 
 		if self.profile_pic:
 			super(Customer, self).save(*args, **kwargs)
@@ -69,8 +64,13 @@ Link User model to Customer model on creation of user instance
 """
 @receiver(post_save, sender=User)
 def createCustomer(sender, instance, created, **kwargs):
-	customer_group = Group.objects.get(name='customer')
-	instance.groups.add(customer_group) # Add this user to customer group
+	print("creation")
+	try:
+		customer_group = Group.objects.get(name='customer')
+	except Group.DoesNotExist:
+		pass
+	else: 
+		instance.groups.add(customer_group) # Add this user to customer group
 
 	if created:
 		Customer.objects.create(user=instance)
@@ -78,6 +78,7 @@ def createCustomer(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def updateCustomer(sender, instance, created, **kwargs):
+	print("updation")
 	if not created:
 		instance.customer.save()
 
@@ -85,10 +86,6 @@ def updateCustomer(sender, instance, created, **kwargs):
 """
 
 // Erroe
-
-unknown fiel password 1 and password 2
-
-username is reqd field
 
 add unique=True to to username
 if same username exists by coincidence then add a 4digit random integer to it 

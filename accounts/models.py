@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import Group, AbstractBaseUser, BaseUserManager, PermissionsMixin
 import uuid
+import re
 
 
 class UserManager(BaseUserManager):
@@ -9,7 +10,7 @@ class UserManager(BaseUserManager):
 		Creates and save a User
 		"""
 		if not email:
-			raise ValueError('Users must have an email address')
+			raise ValueError('Users must have an Email address')
 		
 		if not first_name:
 			raise ValueError('Users must have a First name')
@@ -28,7 +29,7 @@ class UserManager(BaseUserManager):
 		Creates and save a Staff User
 		"""
 		if not email:
-			raise ValueError('Staff Users must have an email address')
+			raise ValueError('Staff Users must have an Email address')
 		
 		if not first_name:
 			raise ValueError('Staff Users must have a First name')
@@ -48,10 +49,10 @@ class UserManager(BaseUserManager):
 		Creates and save a Superuser
 		"""
 		if not email:
-			raise ValueError('Users must have an email address')
+			raise ValueError('Users must have an Email address')
 		
 		if not first_name:
-			raise ValueError('Users must have an username')
+			raise ValueError('Users must have an First name')
 
 		user = self.create_user(
 				email=self.normalize_email(email),
@@ -68,7 +69,9 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
 	id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
-	email = models.EmailField(verbose_name='Email adress', max_length=60, unique=True)
+	email = models.EmailField(verbose_name='Email address', max_length=60, unique=True)
+	username = models.CharField(verbose_name='Username', max_length=50, blank=True, null=True)
+
 	first_name = models.CharField(verbose_name='First name', max_length=30)
 	last_name = models.CharField(verbose_name='Last name', max_length=30)
 	
@@ -97,10 +100,15 @@ class User(AbstractBaseUser):
 		return True 
 
 	def get_full_name(self):
-		if self.last_name:
-			return f'{self.first_name} {self.last_name}'
-		return f'{self.first_name} {self.last_name}'
+		return f'{self.first_name} {self.last_name if self.last_name else ""}'
 
 	def get_short_name(self):
 		return f'{self.first_name}'
+
+	def save(self, *args, **kwargs):
+		if not self.username:
+			extracted_name = self.email.split('@')[0]
+			self.username = re.sub('[#$%&*+=?^`{|}~]', '' , extracted_name)
+		super(User, self).save(*args, **kwargs)
+
 
