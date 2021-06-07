@@ -1,8 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
+from django.contrib.auth.models import User, Group
+# from .models import Customer
 
 def signup(request):
+	# cust = Customer.objects.get(user=User.objects.last())
+	# print(cust.get_address())
+	# print(cust.id)
 	return render(request, 'auth_page/signup.html')
 
 
