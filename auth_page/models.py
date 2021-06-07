@@ -1,57 +1,96 @@
 from django.db import models
+
+from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import make_password
+
+from django.db.models.signals import pre_save, post_save
+from django.dispatch import receiver
+
+from PIL import Image
 import uuid
+import re
 
-# from django.contrib.auth.models import User, Group
-# from django.contrib.auth.hashers import make_password
-
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
-
-# from PIL import Image
+User = get_user_model()
 
 
-# class Customer(models.Model):
-# 	id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-# 	user = models.OneToOneField(User, on_delete=models.CASCADE)
-# 	mobile = models.CharField(max_length=10, null=False, blank=False)
-# 	city = models.CharField(max_length=80, null=False, blank=False)
-# 	street = models.TextField(null=False, blank=False)
-# 	pincode = models.CharField(max_length=6, null=False, blank=False)
-# 	state = models.CharField(max_length=50, null=False, blank=False)
-# 	country = models.CharField(max_length=30, null=False, blank=False)
-# 	profile_pic = models.ImageField(upload_to='customer/pfpic', null=True, blank=True)
+def profilepic_directory_path(instance, filename):
+	"""
+	Change filename of profile picture
+	"""
+	ext = filename.split('.')[1]
+	filename = f'{instance.username}-pic.${ext}'
 
-# 	def __str__(self):
-# 		return self.user.username
+	return f'customer/profilepic/{filename}' 
 
 
-# 	def get_address(self):
-# 		return f'{self.street}, {self.city}, PIN-{self.pincode}, {self.state}, {self.country}'
+class Customer(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	username = models.CharField(verbose_name='Username', max_length=50, null=True, blank=True)
+	mobile = models.CharField(verbose_name='Mobile Number', max_length=10)
+	landmark = models.TextField(verbose_name='Landmark', null=True, blank=True)
+	street_address = models.TextField(verbose_name='Street Address')
+	city = models.CharField(verbose_name='City', max_length=40)
+	pin = models.CharField(verbose_name='PIN', max_length=6)
+	state = models.CharField(verbose_name='State', max_length=30)
+	country = models.CharField(verbose_name='Country', max_length=30)
+	profile_pic = models.ImageField(upload_to=profilepic_directory_path, verbose_name='Profile Pic', blank=True, null=True)
+
+	def __str__(self):
+		return self.username
+
+	def get_address(self):
+		return f"{self.landmark if self.landmark else ''}\n{self.street_address},\n{self.city}, Pin-{self.pin},\n{self.state}, {self.country}"
+
+	def save(self, *args, **kwargs):
+		if self.state and self.country:
+			self.state = self.state.capitalize()
+			self.country = self.country.capitalize()
+		
+		if not self.username:
+			extracted_name = self.user.email.split('@')[0]
+			self.username = re.sub('[#$%&*+=?^`{|}~]', '' , extracted_name)
+
+		if self.profile_pic:
+			super(Customer, self).save(*args, **kwargs)
+			img = Image.open(self.profile_pic.path)
+			if img.height>200 and img.width>200:
+				set_dim = (200, 200)
+				img.thumbnail(set_dim)
+			img.save(self.profile_pic.path, quality=50)
+
+		super(Customer, self).save(*args, **kwargs)
 
 
 
-# # Create an user instance in Customer Profile
-# @receiver(post_save, sender=User)
-# def link_customer_profile(sender, instance, created, **kwargs):
-# 	if created:
-# 		Customer.objects.create(user=instance)
+
+"""
+Link User model to Customer model on creation of user instance
+"""
+@receiver(post_save, sender=User)
+def createCustomer(sender, instance, created, **kwargs):
+	customer_group = Group.objects.get(name='customer')
+	instance.groups.add(customer_group) # Add this user to customer group
+
+	if created:
+		Customer.objects.create(user=instance)
 
 
-# # Update user instance in Customer Profile
-# @receiver(post_save, sender=User)
-# def update_customer_profile(sender, instance, created, **kwargs):
-# 	if not(created):
-# 		instance.customer.save()
+@receiver(post_save, sender=User)
+def updateCustomer(sender, instance, created, **kwargs):
+	if not created:
+		instance.customer.save()
 
 
+"""
 
-# https://stackoverflow.com/questions/15140942/django-imagefield-change-file-name-on-upload
+// Erroe
 
-	
+unknown fiel password 1 and password 2
 
+username is reqd field
 
+add unique=True to to username
+if same username exists by coincidence then add a 4digit random integer to it 
 
-
-
-# in settings.py
-# AUTH_USER_MODEL = 'auth_page.Account'
+"""
