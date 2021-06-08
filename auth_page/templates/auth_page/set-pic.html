@@ -56,6 +56,14 @@
       <div class="card auth-card mx-auto border-0 verification-card" style="">
         
         <div class="card-header text-center border-0">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
           <h3 class="auth-title">Change Profile Photo</h3>
         </div>
 
@@ -113,10 +121,9 @@
 
   <script type="text/javascript">
     const scrollBtn = document.querySelectorAll(".scroll-btn");
-    const uploadBtn = document.querySelector(".upload-media-btn");
       
     let isMobile = detectMob();
-    isMobile ? addMobile__Class([...scrollBtn, uploadBtn]) : removeMobile__Class([...scrollBtn, uploadBtn]);
+    isMobile ? addMobile__Class([...scrollBtn]) : removeMobile__Class([...scrollBtn]);
   </script>
 
 {% endblock js_script_link %}

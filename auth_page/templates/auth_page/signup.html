@@ -69,9 +69,17 @@
           </div>
         </div>
 
-        <form id="user-registration-form" action="verify-account.html" method="post">
-
+        <form id="user-registration-form" action="{% url 'auth:signup' %}" method="post">
+          {% csrf_token %}
           <div class="mb-3 d-flex flex-column justify-content-center">
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
             <h2 class="text-center auth-title">Registration Page</h2>
             <!-- Circles which indicates the steps of the form: -->
             <div class="step-marker">
@@ -161,13 +169,10 @@
               <div class="d-flex flex-column input-wrapper mr-1" style="width:47%">
                 <label for="user-state" class="font-weight-bold auth-label">State</label>
                 <select class="d-none input--s2 w-100 fulfilled--all auth-input" id="user-state" name="user-state" value="Odisha" data-tab="2" data-fulfill="true">
-                 <!--  <option value="Odisha">Odisha</option>
-                  <option value="West Bengal">West Bengal</option>
-                  <option value="Andhra Pradesh">Andhra Pradesh</option>
-                  <option value="Chhattisgarh">Chhattisgarh</option> -->
+                  <option class='state-option' value="Odisha">Odisha</option>
                 </select>
 
-                <div class="states-dropdown w-100">
+                <div class="states-dropdown w-100" name="cricket-bat" value="grey nicollas">
                   <button type="button" class="btn states-dropbtn d-flex fulfilled--all justify-content-between" onclick="showStates()" data-tab="2">
                     <span class="state-display-value">Odisha</span>
                     <i class="fa fa-caret-down align-self-center"></i>

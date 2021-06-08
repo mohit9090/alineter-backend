@@ -170,10 +170,15 @@ function setState(state) {
   */
   let get_state = state.getAttribute("value");
   document.getElementById("user-state").setAttribute("value", get_state);
-  document.getElementsByClassName("state-display-value")[0].innerHTML = get_state;
-  
+  document.getElementsByClassName("state-display-value")[0].innerHTML = get_state;  
+
+  const stateOption = document.querySelector('.state-option');
+  stateOption.value = get_state;
+  stateOption.textContent = get_state;
+
   hideStates();
 }
+
 
 function hideStates() {
   /*
