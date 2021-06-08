@@ -8,8 +8,6 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
 from PIL import Image
-import uuid
-import re
 
 User = get_user_model()
 
@@ -83,11 +81,3 @@ def updateCustomer(sender, instance, created, **kwargs):
 		instance.customer.save()
 
 
-"""
-
-// Erroe
-
-add unique=True to to username
-if same username exists by coincidence then add a 4digit random integer to it 
-
-"""
