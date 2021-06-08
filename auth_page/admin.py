@@ -15,7 +15,7 @@ class CustomerAdmin(admin.ModelAdmin):
 		('Profile Pic', {'fields': ('profile_pic',)})
 	)
 
-	search_fields = ['user', 'city', 'pin', 'state']
+	search_fields = ['mobile', 'city', 'pin', 'state']
 	ordering = ['user']
 
 
