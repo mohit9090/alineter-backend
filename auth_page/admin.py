@@ -16,7 +16,7 @@ class CustomerAdmin(admin.ModelAdmin):
 	)
 
 	search_fields = ['user', 'city', 'pin', 'state']
-	ordering = ['state']
+	ordering = ['user']
 
 
 admin.site.register(Customer, CustomerAdmin)

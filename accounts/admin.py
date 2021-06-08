@@ -15,10 +15,10 @@ class UserAdmin(BaseUserAdmin):
 
     readonly_fields=('date_joined', 'last_login',)
 
-    list_display = ['username', 'email', 'first_name', 'last_name', 'is_admin']
+    list_display = ['username', 'email', 'first_name', 'last_name']
     list_filter = ['is_superuser', 'is_admin', 'is_staff']
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
         ('Permissions', {'fields': ('is_admin', 'is_superuser', 'is_staff')}),
         ('Date and Time', {'fields': ('date_joined', 'last_login',)}),
@@ -32,7 +32,7 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
     search_fields = ['email', 'username', 'first_name', 'last_name']
-    ordering = ['username']
+    ordering = ['-date_joined']
     filter_horizontal = ()
 
 

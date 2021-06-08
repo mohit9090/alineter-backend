@@ -62,7 +62,6 @@ Link User model to Customer model on creation of user instance
 """
 @receiver(post_save, sender=User)
 def createCustomer(sender, instance, created, **kwargs):
-	print("creation")
 	try:
 		customer_group = Group.objects.get(name='customer')
 	except Group.DoesNotExist:
@@ -76,7 +75,6 @@ def createCustomer(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def updateCustomer(sender, instance, created, **kwargs):
-	print("updation")
 	if not created:
 		instance.customer.save()
 

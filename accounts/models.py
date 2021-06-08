@@ -108,7 +108,14 @@ class User(AbstractBaseUser):
 	def save(self, *args, **kwargs):
 		if not self.username:
 			extracted_name = self.email.split('@')[0]
-			self.username = re.sub('[#$%&*+=?^`{|}~]', '' , extracted_name)
+			formatted_name = re.sub('[#$%&*+=?^`{|}~-]', '' , extracted_name)
+			
+			if len(User.objects.filter(username__iexact=formatted_name)):
+				# username already exists
+				import random
+				self.username = f'{formatted_name}{random.randint(1111, 9999)}'
+			else:
+				self.username = formatted_name
 		super(User, self).save(*args, **kwargs)
 
 
