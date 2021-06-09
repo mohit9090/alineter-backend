@@ -9,45 +9,64 @@ User = get_user_model()
 
 from . models import Customer
 
+
+# from django.views.decorators.csrf import csrf_exempt
+
+# @csrf_exempt # for testing only
 def signup(request):
 	if request.POST:
+		"""
+			Most required validation are done in frontend with javascript
+		"""
 		try:
-			email = request.POST.get('user-email')
-			email = email if '.com' in email else email + '.com'
-			password = request.POST.get('user-password')
-			first_name = request.POST.get('user-fName')
-			last_name = request.POST.get('user-lName')
-			mobile = request.POST.get('user-mobileNum')
-			street = request.POST.get('user-street-address')
-			city = request.POST.get('user-city')
-			pin = request.POST.get('user-pincode')
-			state = request.POST.get('user-state')
-			country = request.POST.get('user-country')
+			email = request.POST.get('user-email').strip()
+			password = request.POST.get('user-password').strip()
+			first_name = request.POST.get('user-fName').strip()
+			last_name = request.POST.get('user-lName').strip()
+			mobile = request.POST.get('user-mobileNum').strip()
+			street = request.POST.get('user-street-address').strip()
+			city = request.POST.get('user-city').strip()
+			pin = request.POST.get('user-pincode').strip()
+			state = request.POST.get('user-state').strip()
+			country = request.POST.get('user-country').strip()
+				
 
-			# Create User
-			try:
-				user = User.objects.create(email=email, first_name=first_name, password=make_password(password))
-			except:
-				messages.warning(request, 'Account with this email already exists.')
-				return redirect('auth:signup')
-			else:
-				user.last_name = last_name
-				user.save()
+			# check if no field is left empty
+			if email and first_name and password and last_name and mobile and street and city and pin and state and country:
+				email = email if '.com' in email else email + '.com' # if '.com' is missing in email then add it
+
+				# Create User
+				try:
+					user = User.objects.create_user(email=email, first_name=first_name, password=make_password(password))
+				except:
+					messages.warning(request, 'It seems account with this email already exists in our database.')
+					return redirect('auth:signup')
+				else:
+					user.last_name = last_name
+					user.save()
 
 				# Create User as Customer
-				customer = Customer.objects.get(user=user)
-				customer.mobile = mobile
-				customer.street_address = street
-				customer.city = city
-				customer.pin = pin
-				customer.state = state
-				customer.country = country
-				customer.save()
+				try:
+					customer = Customer.objects.get(user=user)
+				except Customer.DoesNotExist:
+					messages.warning(request, 'User was not created successfully for this Customer')
+					return redirect('auth:signup')
+				else:
+					customer.mobile = mobile
+					customer.street_address = street
+					customer.city = city
+					customer.pin = pin
+					customer.state = state
+					customer.country = country
+					customer.save()
 
-				messages.success(request, 'Account created successfully.')
-				return redirect('auth:set_profile_pic')
+					messages.success(request, 'Account created successfully.')
+					return redirect('auth:set_profile_pic')
+			else:
+				messages.warning(request, 'Some Fields were kept empty')
+				return redirect('auth:signup')
 		except:
-			messages.error(request, 'Sorry Something went wrong. Try again later')
+			messages.error(request, 'Sorry Something went wrong. Check if you have filled all the requireed fields, It seems some parameters required were missing. Try again later')
 			return redirect('auth:signup')
 
 	return render(request, 'auth_page/signup.html')
