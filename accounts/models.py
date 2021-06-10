@@ -116,6 +116,9 @@ class User(AbstractBaseUser):
 				self.username = f'{formatted_name}{random.randint(1111, 9999)}'
 			else:
 				self.username = formatted_name
+		if self.first_name and self.last_name:
+			self.first_name = self.first_name.capitalize()
+			self.last_name = self.last_name.capitalize()
 		super(User, self).save(*args, **kwargs)
 
 

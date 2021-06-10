@@ -199,6 +199,16 @@
 .auth-input.otp::placeholder {
 	color:rgba(112, 112, 112, 0.3);
 }
+.timer {
+	font-weight: bold;
+	margin-right: 0.2rem;
+}
+.timer::before {
+	content: '(';
+}
+.timer::after {
+	content: ')';
+}
 
 
 /*Specific for PROFILE PIC SECTION*/

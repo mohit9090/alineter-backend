@@ -9,10 +9,17 @@ User = get_user_model()
 
 from . models import Customer
 
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
-# from django.views.decorators.csrf import csrf_exempt
+import random
 
-# @csrf_exempt # for testing only
+
+VERIFICATION_ATTEMPT = 0 #keeps the count for number of times user sends a request to resend OTP (max = 3)
+MAX_ATTEMPT = 4
+HAS_EXECUTED = False
+
+
+@csrf_protect
 def signup(request):
 	if request.POST:
 		"""
@@ -80,46 +87,61 @@ def set_profilepic(request):
 	return render(request, 'auth_page/set-pic.html')
 
 
+def run_once(func):
+	def wrapper(*args, **kwargs):
+		global HAS_EXECUTED
+		if not HAS_EXECUTED:
+			HAS_EXECUTED = True
+			return func(*args, **kwargs)
+	HAS_EXECUTED = False
+	return wrapper
+
+def if_attempt_left(func):
+	def wrapper(request, *args, **kwargs):
+		global VERIFICATION_ATTEMPT
+		if VERIFICATION_ATTEMPT >= MAX_ATTEMPT:
+			return HttpResponse("max limit reached . going to delete the account")
+		else:
+			return func(request, *args, **kwargs)
+	return wrapper
+
+@run_once
+def generateOTP(request):
+	otp = str(random.randint(11111,99999))
+	print(otp)
+	request.session['sessionotp'] = make_password(otp)
+	# ----------- send mail to user ---------------- #
+	return request.session['sessionotp']
+
+
+@if_attempt_left
 def otp_verification(request):
+	global VERIFICATION_ATTEMPT
+	VERIFICATION_ATTEMPT = VERIFICATION_ATTEMPT+1
+
+	o = generateOTP(request) # will run only once
+	
+	if request.GET:
+		if request.GET.get('r') == 't':
+			global HAS_EXECUTED
+			HAS_EXECUTED = False
+			o = generateOTP(request)
+
+	if request.POST:
+		i = request.POST.get('otp')
+
+		try:
+			request.session['sessionotp']
+		except:
+			# ------------ do something here -------------------- #
+			print("here")
+			pass 
+		else:
+			if check_password(i, request.session['sessionotp']):
+				print("match")
+			else:
+				print("not match")
+
+			del request.session['sessionotp']
+
 	return render(request, 'auth_page/verify-account.html')
-
-
-
-
-"""
-
-	email = models.EmailField(verbose_name='Email address', max_length=60, unique=True)
-	username = models.CharField(verbose_name='Username', max_length=50, blank=True, null=True)
-	first_name = models.CharField(verbose_name='First name', max_length=30)
-	last_name = models.CharField(verbose_name='Last name', max_length=30)
-
-	# user = models.OneToOneField(User, on_delete=models.CASCADE)
-	mobile = models.CharField(verbose_name='Mobile Number', max_length=10)
-	# landmark = models.TextField(verbose_name='Landmark', null=True, blank=True)
-	street_address = models.TextField(verbose_name='Street Address')
-	city = models.CharField(verbose_name='City', max_length=40)
-	pin = models.CharField(verbose_name='PIN', max_length=6)
-	state = models.CharField(verbose_name='State', max_length=30)
-	country = models.CharField(verbose_name='Country', max_length=30)
-	# profile_pic = models.ImageField(upload_to=profilepic_directory_path, verbose_name='Profile Pic', blank=True, null=True)
-
-<QueryDict: {
-'csrfmiddlewaretoken': ['6LwY3yhmvJHhFRS4R8A68lOtQ4ZoEZu99gPSjHREt0L2iReZsM7qplgi10gtAtGa'], 
-'user-fName': ['Mohit'], 
-'user-lName': ['Kumar'], 
-'user-mobileNum': ['8768757647'], 
-'user-email': ['trial100@gmail.com'], 
-'user-password': ['Trial100'], 
-'confirm-password': ['Trial100'], 
-'user-country': ['India'], 
-'user-state': ['Odisha'],
-'user-city': ['Bhubaneswar'], 
-'user-pincode': ['751003'], 
-'user-street-address': ['1136/8591 Patitapaban Nagar, Kalpana'], 
-'accept-tnc': ['on']}>
-
-
-2) if email already exists then redirect to signup page with a message
-3) if any error them redorect to signup with a message
-
-"""

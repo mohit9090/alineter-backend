@@ -56,15 +56,20 @@
       <div class="card auth-card border-0 mx-auto verification-card" style="">
         <div class="card-header text-center border-0">
           <img src="/static/images/alineter/verification.png" class="img-fluid" width=130 height=130>
-          <p class="card-title lead">Enter the OTP sent to <i><strong>youremail@abc.com</strong></i></p>
+          <p class="card-title lead">Enter the OTP sent to <i><strong class="verify-email">youremail@abc.com</strong></i></p>
         </div>
         <div class="card-body normal-wrapper mx-auto">
-          <form method="post" action=".">
+          <form method="post" action="{% url 'auth:otp_verification' %}" id="otp-form">
+            {% csrf_token %}
             <div class="form-group">
               <div class="d-flex flex-column">
                 <input type="number" class="input--s1 auth-input otp" name="otp" id="otp-input" required autocomplete="off" onkeypress="return !(this.value.length > 4)" placeholder="XXXXX"><br>
-                <small class="txt-grey text-center">Dont receive the OTP? <a href="#" class="card-link"><strong>Resend OTP</strong></a></small><br>
-                <button type="button" class="btn auth-btn ripple-opacity-l">Verify</button>
+                <small class="txt-grey text-center">
+                  <span class="timer">02:00</span>
+                  <span>Didn't receive the OTP? </span>
+                  <a href="{% url 'auth:otp_verification' %}?r=t" class="card-link"><strong>Resend OTP</strong></a>
+                </small><br>
+                <button type="button" class="btn auth-btn ripple-opacity-l verification-btn">Verify</button>
               </div>
             </div>
           </form>
@@ -80,6 +85,28 @@
       </div>
     </div>
   </section>
+
+  <script type="text/javascript">
+    
+    const verifyBtn = document.querySelector('.verification-btn');
+    const form = document.getElementById('otp-form');
+    const otpInput = document.getElementById('otp-input');
+
+    verifyBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (otpInput.value.length === 5) form.submit();
+    })
+
+    document.body.addEventListener('keydown', function(e) {
+      
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        if (otpInput.value.length === 5) form.submit();
+        return false;
+      }
+    })
+
+  </script>
 
   <div class="modal fade" id="message-modal">
     <div class="modal-dialog modal-dialog-centered">
@@ -98,6 +125,40 @@
       </div>
     </div>
   </div>
+
+
+  <script type="text/javascript">
+
+    const timeLabel = document.querySelector('.timer');
+    
+    const startLogoutTimer = function(time) {
+      
+      const ticktock = function() {
+        
+        const min = String(Math.trunc(time / 60)).padStart(2, 0);
+        const sec = String(time % 60).padStart(2, 0);
+        const timeStr = `${min}:${sec}`;
+        
+        timeLabel.textContent = timeStr;
+
+        if (time === 0) {
+          clearInterval(timer);
+          // time is over delete the created account and redirect him somewhere
+        }
+
+        time--;
+        
+      };
+
+      ticktock();
+      const timer = setInterval(ticktock, 1000);
+    };
+
+    window.addEventListener('load', function() {
+      startLogoutTimer(90);
+    });
+
+  </script>
 
 {% endblock page_content %}
 
