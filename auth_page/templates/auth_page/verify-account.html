@@ -55,10 +55,18 @@
     <div class="container normal-wrapper">
       <div class="card auth-card border-0 mx-auto verification-card" style="">
         <div class="card-header text-center border-0">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
           <img src="/static/images/alineter/verification.png" class="img-fluid" width=130 height=130>
-          <p class="card-title lead">Enter the OTP sent to <i><strong class="verify-email">youremail@abc.com</strong></i></p>
+          <p class="card-title lead">Enter the OTP sent to <strong class="verify-email">{% if verify_email %}{{ verify_email }}{% endif %}</strong></p>
         </div>
-        <div class="card-body normal-wrapper mx-auto">
+        <div class="card-body normal-wrapper mx-auto p-0">
           <form method="post" action="{% url 'auth:otp_verification' %}" id="otp-form">
             {% csrf_token %}
             <div class="form-group">
@@ -69,19 +77,15 @@
                   <span>Didn't receive the OTP? </span>
                   <a href="{% url 'auth:otp_verification' %}?r=t" class="card-link"><strong>Resend OTP</strong></a>
                 </small><br>
-                <button type="button" class="btn auth-btn ripple-opacity-l verification-btn">Verify</button>
+                <button type="button" class="btn auth-btn ripple-opacity-l verification-btn">
+                  <div class="d-flex justify-content-center">
+                    <span>Verify</span>
+                  </div>
+                </button>
               </div>
             </div>
           </form>
         </div>
-       <!--  <div class="card-footer text-center border-0">
-          <hr>
-          <div class="d-flex justify-content-center mt-4">
-            <p class="mr-4"><mark><b>For Trial*</b></mark></p>
-            <a href="set-profile-pic.html" class="btn btn-success mr-2">Verification Success</a>
-            <a href="#message-modal" data-toggle="modal" class="btn btn-danger ml-2">Verification Failure</a>
-          </div>
-        </div> -->
       </div>
     </div>
   </section>
@@ -94,37 +98,55 @@
 
     verifyBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      if (otpInput.value.length === 5) form.submit();
+      if (otpInput.value.length === 5) {
+        verifyBtn
+          .querySelector('.d-flex')
+          .insertAdjacentHTML('beforeend', `<div class="spinner-border text-light spinner-border-sm my-auto ml-2"></div>`);
+        
+        form.submit();
+      }
     })
 
     document.body.addEventListener('keydown', function(e) {
       
       if (e.keyCode === 13) {
         e.preventDefault();
-        if (otpInput.value.length === 5) form.submit();
+        if (otpInput.value.length === 5) verifyBtn.click();
         return false;
       }
     })
 
   </script>
 
-  <div class="modal fade" id="message-modal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p class="lead">OTP didn't match with the one we have sent to you.</p>
-          <p>You might have typed wrong OTP or your Mail Id is not appropriate</p>
-          <a href="{% url 'auth:signup' %}" class="card-link">Go to Signup</a>
-          <a href="#" class="card-link">Resend OTP</a>
+  {% if verification_status %}
+    {% if verication_status == fail %}
+
+      
+      <div class="modal fade" id="message-modal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="alert alert-danger w-100">
+                Verifcation {{ verification_status|capfirst }}
+              </div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p class="lead">OTP didn't match with the one we have sent to you.</p>
+              <a href="{% url 'auth:otp_verification' %}?r=t" class="card-link float-right">Resend OTP</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+
+      <script type="text/javascript">
+        $("#message-modal").modal('show');
+      </script>
+
+    {% endif %}
+  {% endif %}
 
 
   <script type="text/javascript">
@@ -143,7 +165,9 @@
 
         if (time === 0) {
           clearInterval(timer);
-          // time is over delete the created account and redirect him somewhere
+          setTimeout(function() {
+            window.location.href = "{% url 'auth:delete_account' %}";
+          }, 1000);
         }
 
         time--;

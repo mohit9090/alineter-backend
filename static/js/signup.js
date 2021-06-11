@@ -83,7 +83,7 @@ function nextPrev(jump) {
 	    setTimeout(function() {
 	        // Submit the form after 1 second
 	        registrationForm.submit();
-	    }, 1000);    
+	    }, 500);    
 	} else {
 		//All rabs are not visited so reset it
 		reset();

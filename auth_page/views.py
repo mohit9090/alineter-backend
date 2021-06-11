@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from django.contrib.auth.models import Group
@@ -15,16 +15,13 @@ import random
 
 
 VERIFICATION_ATTEMPT = 0 #keeps the count for number of times user sends a request to resend OTP (max = 3)
-MAX_ATTEMPT = 4
+MAX_ATTEMPT = 4 # keep it 4
 HAS_EXECUTED = False
 
 
-@csrf_protect
 def signup(request):
 	if request.POST:
-		"""
-			Most required validation are done in frontend with javascript
-		"""
+		""" Most required validation are done in frontend with javascript """
 		try:
 			email = request.POST.get('user-email').strip()
 			password = request.POST.get('user-password').strip()
@@ -68,7 +65,10 @@ def signup(request):
 					customer.save()
 
 					messages.success(request, 'Account created successfully.')
-					return redirect('auth:set_profile_pic')
+					# Create session for email ofr other parts of signup section
+					request.session['session_email'] = email
+
+					return redirect('auth:otp_verification')
 			else:
 				messages.warning(request, 'Some Fields were kept empty')
 				return redirect('auth:signup')
@@ -79,14 +79,13 @@ def signup(request):
 	return render(request, 'auth_page/signup.html')
 
 
+
 def login(request):
 	return render(request, 'auth_page/login.html')
 
 
-def set_profilepic(request):
-	return render(request, 'auth_page/set-pic.html')
 
-
+# DECORATORS
 def run_once(func):
 	def wrapper(*args, **kwargs):
 		global HAS_EXECUTED
@@ -96,11 +95,13 @@ def run_once(func):
 	HAS_EXECUTED = False
 	return wrapper
 
-def if_attempt_left(func):
+def after_signup_only(func):
 	def wrapper(request, *args, **kwargs):
-		global VERIFICATION_ATTEMPT
-		if VERIFICATION_ATTEMPT >= MAX_ATTEMPT:
-			return HttpResponse("max limit reached . going to delete the account")
+		try:
+			request.session['session_email']
+		except:
+			# -- Request is not after Signup Page -- #
+			return redirect('home:home')
 		else:
 			return func(request, *args, **kwargs)
 	return wrapper
@@ -109,39 +110,85 @@ def if_attempt_left(func):
 def generateOTP(request):
 	otp = str(random.randint(11111,99999))
 	print(otp)
-	request.session['sessionotp'] = make_password(otp)
+	request.session['session_otp'] = make_password(otp)
 	# ----------- send mail to user ---------------- #
-	return request.session['sessionotp']
+	return request.session['session_otp']
 
 
-@if_attempt_left
+@after_signup_only
 def otp_verification(request):
+	""" Verification is only required after signup. So this page exists only after signup """
 	global VERIFICATION_ATTEMPT
-	VERIFICATION_ATTEMPT = VERIFICATION_ATTEMPT+1
 
-	o = generateOTP(request) # will run only once
-	
+	o = generateOTP(request) # runs only once
+
+	context = {'verify_email': request.session['session_email']}
+
 	if request.GET:
 		if request.GET.get('r') == 't':
 			global HAS_EXECUTED
 			HAS_EXECUTED = False
-			o = generateOTP(request)
+			o = generateOTP(request) # request to regenerate OTP
 
 	if request.POST:
 		i = request.POST.get('otp')
 
 		try:
-			request.session['sessionotp']
+			request.session['session_otp']
 		except:
-			# ------------ do something here -------------------- #
+			# ------------ do something here otp session is not present-------------------- #
+			# This event also occurs when user has entered otp once
 			print("here")
-			pass 
 		else:
-			if check_password(i, request.session['sessionotp']):
-				print("match")
+
+			if check_password(i, request.session['session_otp']):
+				
+				signed_user = get_object_or_404(User, email=request.session['session_email'])
+				signed_user.verified_user = True
+				signed_user.save()				
+				
+				del request.session['session_otp']
+				messages.success(request, 'Account verified successfully.')
+
+				VERIFICATION_ATTEMPT = 0
+				return redirect('auth:set_profile_pic')
 			else:
-				print("not match")
+				signed_user = get_object_or_404(User, email=request.session['session_email'])
+				signed_user.verified_user = False
+				signed_user.save()
 
-			del request.session['sessionotp']
+				del request.session['session_otp']
+				context['verification_status'] = 'fail'
 
-	return render(request, 'auth_page/verify-account.html')
+	# ORDER OF METHOD IS IMPORTANT
+	if VERIFICATION_ATTEMPT >= MAX_ATTEMPT:
+		return redirect('auth:delete_account')
+	else:
+		VERIFICATION_ATTEMPT = VERIFICATION_ATTEMPT + 1
+
+	return render(request, 'auth_page/verify-account.html', context)
+
+
+@after_signup_only
+def set_profilepic(request):
+	# print(request.session['session_email'])
+	# del request.session['session_email']
+	"""
+	Store the sessio email and delete it so that verify-account will not be loaded again
+	"""
+	return render(request, 'auth_page/set-pic.html')
+
+
+@after_signup_only
+def delete_account(request):
+	""" Verifcation failed so delete account of the user created just now """
+	delete_user = get_object_or_404(User, email=request.session['session_email'])
+	delete_user.delete()
+	messages.warning(request, 'Account deleted due to successive verification failure or Late response')
+
+	del request.session['session_email']
+
+	global VERIFICATION_ATTEMPT
+	VERIFICATION_ATTEMPT = 0
+
+	return redirect('auth:signup')

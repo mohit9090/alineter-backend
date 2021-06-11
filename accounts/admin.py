@@ -21,6 +21,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {'fields': ('email', 'username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
         ('Permissions', {'fields': ('is_admin', 'is_superuser', 'is_staff')}),
+        ('Account Verification', {'fields': ('verified_user',)}),
         ('Date and Time', {'fields': ('date_joined', 'last_login',)}),
         ('Groups', {'fields': ('groups',)}),
     )

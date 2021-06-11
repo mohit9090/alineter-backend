@@ -74,6 +74,8 @@ class User(AbstractBaseUser):
 
 	first_name = models.CharField(verbose_name='First name', max_length=30)
 	last_name = models.CharField(verbose_name='Last name', max_length=30)
+
+	verified_user = models.BooleanField(verbose_name='Verfied User', default=False)
 	
 	date_joined = models.DateTimeField(verbose_name='Date joined', auto_now_add=True)
 	last_login = models.DateTimeField(verbose_name='Last login', auto_now=True)

@@ -7,5 +7,6 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
     path('set-pic/', views.set_profilepic, name='set_profile_pic'),
-    path('verify-account/', views.otp_verification, name='otp_verification')
+    path('verify-account/', views.otp_verification, name='otp_verification'),
+    path('delete-account/', views.delete_account, name='delete_account')
 ]
