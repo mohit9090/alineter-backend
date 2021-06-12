@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.contrib import messages
 User = get_user_model()
 
@@ -11,13 +12,49 @@ from . models import Customer
 
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
-
 import random
+
 
 
 VERIFICATION_ATTEMPT = 0 #keeps the count for number of times user sends a request to resend OTP (max = 3)
 MAX_ATTEMPT = 4 # keep it 4
 HAS_EXECUTED = False
+
+
+""" ------------ DECORATORS START ------------- """
+
+def run_once(func):
+	def wrapper(*args, **kwargs):
+		global HAS_EXECUTED
+		if not HAS_EXECUTED:
+			HAS_EXECUTED = True
+			return func(*args, **kwargs)
+	HAS_EXECUTED = False
+	return wrapper
+
+def after_signup_only(func):
+	def wrapper(request, *args, **kwargs):
+		try:
+			request.session['session_email']
+		except:
+			# -- Request is not after Signup Page -- #
+			return redirect('home:home')
+		else:
+			return func(request, *args, **kwargs)
+	return wrapper
+
+def check_verification(func):
+	def wrapper(request, *args, **kwargs):
+		signed_user = get_object_or_404(User, email=request.session['session_email'])
+		if not signed_user.verified_user:
+			""" need for verification """
+			return func(request, *args, **kwargs)
+		return redirect('home:home')
+	return wrapper
+
+""" ------------ DECORATORS END ------------- """
+
+
 
 
 def signup(request):
@@ -42,7 +79,7 @@ def signup(request):
 
 				# Create User
 				try:
-					user = User.objects.create_user(email=email, first_name=first_name, password=make_password(password))
+					user = User.objects.create_user(email=email, first_name=first_name, password=password)
 				except:
 					messages.warning(request, 'It seems account with this email already exists in our database.')
 					return redirect('auth:signup')
@@ -82,41 +119,32 @@ def signup(request):
 
 
 def login(request):
-	return render(request, 'auth_page/login.html')
+	if request.POST:
+		login_email = request.POST.get('login-email')
+		login_password = request.POST.get('login-pwd')
 
-
-""" ------------ DECORATORS START ------------- """
-
-def run_once(func):
-	def wrapper(*args, **kwargs):
-		global HAS_EXECUTED
-		if not HAS_EXECUTED:
-			HAS_EXECUTED = True
-			return func(*args, **kwargs)
-	HAS_EXECUTED = False
-	return wrapper
-
-def after_signup_only(func):
-	def wrapper(request, *args, **kwargs):
 		try:
-			request.session['session_email']
+			user = User.objects.get(email=login_email)
 		except:
-			# -- Request is not after Signup Page -- #
-			return redirect('home:home')
+			""" user for this email doesnot exists """
+			messages.warning(request, "Credentials are not correct")
 		else:
-			return func(request, *args, **kwargs)
-	return wrapper
+			if not user.verified_user:
+				""" Account verification has not been completed for this user """
+				messages.warning(request, "It seems that you have not verified your account. First verify it and then try loging in")
+				request.session['session_email'] = user.email
+				return redirect('auth:otp_verification')
 
-def check_verification(func):
-	def wrapper(request, *args, **kwargs):
-		signed_user = get_object_or_404(User, email=request.session['session_email'])
-		if not signed_user.verified_user:
-			""" need for verification """
-			return func(request, *args, **kwargs)
-		return redirect('home:home')
-	return wrapper
+			authenticated_user = authenticate(request, email=login_email, password=login_password)
 
-""" ------------ DECORATORS END ------------- """
+			if authenticated_user is not None:
+				""" credentials valid log him in """
+				login_user(request, authenticated_user)
+				return redirect('home:home')
+			else:
+				messages.warning(request, "Credentials are not correct")
+		# print(user)
+	return render(request, 'auth_page/login.html')
 
 
 
@@ -222,3 +250,39 @@ def delete_account(request):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+
+Trial121 pbkdf2_sha256$216000$dzRTdQu54hcz$k15iMDe2NLCcCpu8UNEuYJ8A45iFlcFpvlZ6VfUKYeY=
+pbkdf2_sha256$216000$oEN9KSsTgmYu$5VIRoMa3ntyw4r8E0L4oRHjf58PX+PL+n29znuURGD4=
+trial121@gmail.com
+
+Trial121 pbkdf2_sha256$216000$EgFhQBg3m51q$IVokY8j/VDC8/OV9pIbJRXhAE7XXgJKOL4PQ7wiEhE4=
+pbkdf2_sha256$216000$oEN9KSsTgmYu$5VIRoMa3ntyw4r8E0L4oRHjf58PX+PL+n29znuURGD4=
+trial121@gmail.com
+
+Trial121 pbkdf2_sha256$216000$34vS0TWvtgSz$8makdtIs06Z0I0KUlWMyxLWDbTK2MV9cAHukfpZh2oA=
+pbkdf2_sha256$216000$oEN9KSsTgmYu$5VIRoMa3ntyw4r8E0L4oRHjf58PX+PL+n29znuURGD4=
+trial121@gmail.com
+
+pbkdf2_sha256$216000$oEN9KSsTgmYu$5VIRoMa3ntyw4r8E0L4oRHjf58PX+PL+n29znuURGD4=
+
+
+
+
+Hunting4something
+
+
+
+"""

@@ -55,7 +55,8 @@
     <div class="container normal-wrapper">
       <div class="card auth-card border-0 mx-auto verification-card">
         <div class="card-body w-100 rounded p-0">
-          <form method="post" action=".">
+          <form method="post" action="{% url 'auth:login' %}">
+            {% csrf_token %}
             <div class="card-header text-center border-0">
               {% if messages %}
                 {% for message in messages %}
@@ -69,15 +70,19 @@
             </div><hr>
             
             <div class="form-group">
-              <label for="login-uniqueField" class="font-weight-bold auth-label">Email / Mobile Num</label>
-              <input type="text" class="input--s2 auth-input w-100 email" name="login-uniqueField" id="login-uniqueField" required autocomplete="off" spellcheck="false" placeholder="Email or Mobile number">
+              <label for="login-email" class="font-weight-bold auth-label">Email</label>
+              <input type="email" class="input--s2 auth-input w-100 email" name="login-email" id="login-email" required autocomplete="off" spellcheck="false" placeholder="Email or Mobile number">
             </div>
             <div class="form-group">
               <label for="login-pwd" class="font-weight-bold auth-label">Password</label>
               <input type="password" class="input--s2 auth-input w-100 pwd" name="login-pwd" id="login-pwd" required autocomplete="off" placeholder="Password">
             </div>
             <div class="form-group text-center">
-              <button type="submit" class="btn auth-btn w-50">Login</button>
+              <button type="submit" class="btn auth-btn w-50">
+                <div class="d-flex justify-content-center">
+                  <span>Login</span>
+                </div>
+              </button>
             </div>
           </form> 
         </div>
@@ -87,6 +92,23 @@
       </div>
     </div>
   </section>
+
+
+  <script type="text/javascript">
+    
+    const loginBtn = document.querySelector('.auth-btn');
+    
+    loginBtn.addEventListener('click', function() {
+      loginBtn
+      .querySelector('.d-flex')
+      .insertAdjacentHTML('beforeend', `<div class="spinner-border text-light spinner-border-sm my-auto ml-2"></div>`);
+
+      setTimeout(function() {
+        document.querySelector('.spinner-border').remove()
+      }, 1200);
+    })
+
+  </script>
 
 {% endblock page_content %}
 
