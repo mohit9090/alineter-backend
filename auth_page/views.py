@@ -11,6 +11,7 @@ from . models import Customer
 
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
+
 import random
 
 
@@ -84,8 +85,8 @@ def login(request):
 	return render(request, 'auth_page/login.html')
 
 
+""" ------------ DECORATORS START ------------- """
 
-# DECORATORS
 def run_once(func):
 	def wrapper(*args, **kwargs):
 		global HAS_EXECUTED
@@ -106,6 +107,19 @@ def after_signup_only(func):
 			return func(request, *args, **kwargs)
 	return wrapper
 
+def check_verification(func):
+	def wrapper(request, *args, **kwargs):
+		signed_user = get_object_or_404(User, email=request.session['session_email'])
+		if not signed_user.verified_user:
+			""" need for verification """
+			return func(request, *args, **kwargs)
+		return redirect('home:home')
+	return wrapper
+
+""" ------------ DECORATORS END ------------- """
+
+
+
 @run_once
 def generateOTP(request):
 	otp = str(random.randint(11111,99999))
@@ -115,7 +129,9 @@ def generateOTP(request):
 	return request.session['session_otp']
 
 
+
 @after_signup_only
+@check_verification
 def otp_verification(request):
 	""" Verification is only required after signup. So this page exists only after signup """
 	global VERIFICATION_ATTEMPT
@@ -138,6 +154,7 @@ def otp_verification(request):
 		except:
 			# ------------ do something here otp session is not present-------------------- #
 			# This event also occurs when user has entered otp once
+			# most probably this case will never arise
 			print("here")
 		else:
 
@@ -157,7 +174,6 @@ def otp_verification(request):
 				signed_user.verified_user = False
 				signed_user.save()
 
-				del request.session['session_otp']
 				context['verification_status'] = 'fail'
 
 	# ORDER OF METHOD IS IMPORTANT
@@ -169,13 +185,24 @@ def otp_verification(request):
 	return render(request, 'auth_page/verify-account.html', context)
 
 
+
 @after_signup_only
 def set_profilepic(request):
-	# print(request.session['session_email'])
-	# del request.session['session_email']
-	"""
-	Store the sessio email and delete it so that verify-account will not be loaded again
-	"""
+	session_email = request.session['session_email']
+
+	if request.POST:
+		if request.FILES:
+			""" File uploaded by user """
+			image = request.FILES.get('profile-img')
+			signed_user = get_object_or_404(User, email=session_email)
+			signed_user.customer.profile_pic = image
+			signed_user.save()
+
+		del request.session['session_email']
+
+		messages.info(request, 'Signup Completed. Please Login to continue')
+		return redirect('auth:login')
+
 	return render(request, 'auth_page/set-pic.html')
 
 
@@ -192,3 +219,6 @@ def delete_account(request):
 	VERIFICATION_ATTEMPT = 0
 
 	return redirect('auth:signup')
+
+
+

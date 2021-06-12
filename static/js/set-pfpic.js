@@ -35,9 +35,12 @@ function validateImage() {
       var reader = new FileReader();
       reader.onload = function(e) {
         document.getElementById("display-pfImage").setAttribute("src",e.target.result);
-        document.getElementsByClassName("upload-media-submit")[0].innerHTML = "Upload";
+        document.querySelector(".upload-media-submit > .d-flex > span").textContent = "Upload";
 
-        replaceClass(document.getElementsByClassName("upload-media-submit")[0], ['skip'], ['upload']);
+        document.querySelector(".upload-media-submit").classList.remove('skip');
+        document.querySelector(".upload-media-submit").classList.add('upload');
+
+        // replaceClass([document.querySelector(".upload-media-submit")], ['skip'], ['upload']);
       };
       reader.readAsDataURL(fileInput.files[0]);
     }

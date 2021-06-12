@@ -81,16 +81,21 @@
             </div>
 
             <div class="lower-section">
-              <form method="get" action="set-profile-pic.html" enctype="multipart/form-data">
+              <form method="post" action="{% url 'auth:set_profile_pic' %}" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="d-flex flex-column">
                   
                   <div class="custom-file d-none mr-1">
-                    <input type="file" class="custom-file-input" name="profile-img" id="profile-img" required onchange="return validateImage()">
+                    <input type="file" class="custom-file-input" name="profile-img" id="profile-img" onchange="return validateImage()">
                     <label class="custom-file-label auth-label" for="profile-img">No Image</label>
                   </div>
 
                   <div class="normal-wrapper mx-auto text-center">
-                    <button type="submit" class="btn upload-media-submit skip w-100 auth-label ripple-opacity-l">Skip & Continue</button>
+                    <button type="submit" class="btn upload-media-submit skip w-100 auth-label ripple-opacity-l">
+                      <div class="d-flex justify-content-center">
+                        <span>Skip & Continue</span>
+                      </div>
+                    </button>
                   </div>
 
                 </div>
@@ -105,10 +110,16 @@
     </div>
   </section>
 
-  <script>
-    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-    });
+  <script type="text/javascript">
+    
+    const uploadBtn = document.querySelector('.upload-media-submit');
+    
+    uploadBtn.addEventListener('click', function() {
+      uploadBtn
+      .querySelector('.d-flex')
+      .insertAdjacentHTML('beforeend', `<div class="spinner-border text-light spinner-border-sm my-auto ml-2"></div>`);
+    })
+
   </script>
 
 {% endblock page_content %}
