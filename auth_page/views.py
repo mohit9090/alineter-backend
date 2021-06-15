@@ -55,6 +55,8 @@ def check_verification(func):
 """ ------------ DECORATORS END ------------- """
 
 
+def redirect_default(request):
+	return redirect('auth:login')
 
 
 def signup(request):
