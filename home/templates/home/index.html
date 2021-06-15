@@ -245,6 +245,36 @@
     isMobile ? addMobile__Class([...scrollBtn]) : removeMobile__Class([...scrollBtn]);
   </script>
 
+
+  <script type="text/javascript">
+    
+
+    // console.log(document.cookie)
+    const getCookie = function(cookieName) {
+      const allCookies = decodeURIComponent(document.cookie);
+      const splitCookies = allCookies.split(";");
+
+      // pair cookies by key, value pair
+      const pairCookies = splitCookies.map(cookie => cookie.split("="))
+
+      // find the cookie by cookieName
+      const foundCookie = pairCookies.find(cookie => cookie[0].trim() === cookieName);
+
+      if (!foundCookie) return false
+
+      const [key, value] = foundCookie; // pair the found cookie
+
+      // Remove "" from cookie value
+      return value.slice(1, value.length-1);
+
+    }
+
+    // console.log(getCookie("dataflair"))
+
+
+
+  </script>
+
 {% endblock js_script_link %}
 
 <!--

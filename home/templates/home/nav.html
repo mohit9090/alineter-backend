@@ -36,16 +36,20 @@
       </li>
       <li class="nav-item mr-3 my-auto user-func">
         <div class="d-flex">
-          <a href="{% url 'auth:signup' %}" class="btn btn-o-tertiary ripple-opacity-l rounded pl-4 pr-4">Sign Up</a>
+          
+          {% if not request.user.is_authenticated %}
+            <a href="{% url 'auth:signup' %}" class="btn btn-o-tertiary ripple-opacity-l rounded pl-4 pr-4">Sign Up</a>
+          {% else %}
+            <!-- when user is logged in -->
+            <a href="" class="nav-link">
+              <span class="fa fa-user-circle-o txt-tertiary" style="font-size:1.3rem"></span>
+            </a>
 
-          <!-- when user is logged in -->
-          <!-- <a href="" class="nav-link">
-            <span class="fa fa-user-circle-o txt-tertiary" style="font-size:1.3rem"></span>
-          </a>
+            <a href="" class="nav-link">
+              <span class="fa fa-opencart txt-tertiary">&nbsp;<span>0</span></span>
+            </a>
+          {% endif %}
 
-          <a href="" class="nav-link">
-            <span class="fa fa-opencart txt-tertiary">&nbsp;<span>0</span></span>
-          </a> -->
         </div>
       </li> 
       <li class="nav-item show-on-sm my-auto">
@@ -75,22 +79,36 @@
           </div>
 
           <div class="user-section-wrapper">
-            <div class="user-info d-flex">
+            <div class="user-info d-flex flex-column">
               <div class="mr-3 my-auto pfimg-holder">
-                <img src="/static/images/alineter/avatar.png" class="pfImg img-cover"/>
-                <!-- <img src="/static/images/alineter/mohit_300.png" class="pfImg img-cover"/> -->
+
+                  <img 
+                    src="{% if not request.user.is_authenticated or not request.user.customer.profile_pic %}/static/images/alineter/avatar/avatar.png{% else %}{{ request.user.customer.profile_pic.url }}{% endif %}" class="pfImg img-cover" alt="{% if not request.user.is_authenticated %}Alineter avatar img{% else %}{{ request.user.username }} profile-pic{% endif %}" />
+
               </div>
               <div class="my-auto">
-                <p class="lead txt-light">Hey, User</p>
-                <!-- <p class="lead text-cultured">Hey, Mohit</p> -->
+                
+                <p class="lead txt-light user-name">Hey,&nbsp; 
+                  {% if not request.user.is_authenticated or not request.user.first_name %}
+                    User
+                  {% else %}
+                    {{ request.user.first_name }}
+                  {% endif %}
+                </p>
+                
               </div>
             </div>
             <div class="user-function">
               <div class="d-flex justify-content-between">
-                <a href="{% url 'auth:signup' %}" class="user-function--link fancy-effects slide_line"><span class="fa fa-id-badge"></span>&nbsp;Create Account</a>
-                <a href="{% url 'auth:login' %}" class="user-function--link fancy-effects slide_line"><span class="fa fa-sign-in"></span>&nbsp;Login</a>
-                <!-- <a href="#my-account" class="user-function--link fancy-effects slide_line"><span class="fa fa-user"></span>&nbsp;My Account</a>
-                <a href="#logout" class="user-function--link fancy-effects slide_line"><span class="fa fa-sign-in"></span>&nbsp;Logout</a> -->
+                
+                {% if not request.user.is_authenticated %}
+                  <a href="{% url 'auth:signup' %}" class="user-function--link fancy-effects slide_line"><span class="fa fa-id-badge"></span>&nbsp;Create Account</a>
+                  <a href="{% url 'auth:login' %}" class="user-function--link fancy-effects slide_line"><span class="fa fa-sign-in"></span>&nbsp;Login</a>
+                {% else %}
+                  <a href="#my-account" class="user-function--link fancy-effects slide_line"><span class="fa fa-user"></span>&nbsp;My Account</a>
+                  <a href="#logout" class="user-function--link fancy-effects slide_line"><span class="fa fa-sign-in"></span>&nbsp;Logout</a>
+                {% endif %}
+
               </div>
             </div>
           </div>

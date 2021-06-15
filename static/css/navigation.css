@@ -204,6 +204,11 @@
 .pfimg-holder .pfImg {
 	border-radius:50%;
 }
+.user-info .user-name {
+	margin: 1rem 0 0 0;
+	word-break: break-all; 
+	text-align: left;
+}
 .user-function > div {
 	padding:0.6rem;
 	background:var(--bg-primary)

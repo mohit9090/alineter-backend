@@ -123,31 +123,10 @@ def login(request):
 		login_email = request.POST.get('login-email')
 		login_password = request.POST.get('login-pwd')
 
-		# try:
-		# 	user = User.objects.get(email=login_email)
-		# except:
-		# 	""" user for this email doesnot exists """
-		# 	messages.warning(request, "Credentials are not correct")
-		# else:
-		# 	if not user.verified_user:
-		# 		""" Account verification has not been completed for this user """
-		# 		messages.warning(request, "It seems that you have not verified your account. First verify it and then try loging in")
-		# 		request.session['session_email'] = user.email
-		# 		return redirect('auth:otp_verification')
-
-		# 	authenticated_user = authenticate(request, email=login_email, password=login_password)
-
-		# 	if authenticated_user is not None:
-		# 		""" credentials valid log him in """
-		# 		login_user(request, authenticated_user)
-		# 		return redirect('home:home')
-		# 	else:
-		# 		messages.warning(request, "Credentials are not correct")
-
-
 		authenticated_user = authenticate(request, email=login_email, password=login_password)
 
 		if authenticated_user is not None:
+			
 			if not authenticated_user.verified_user:
 				""" Account verification has not been completed for this user """
 				messages.warning(request, "It seems that you have not verified your account. First verify it and then try loging in")
@@ -156,6 +135,10 @@ def login(request):
 			else:
 				""" credentials valid and user is also verified so log him in """
 				login_user(request, authenticated_user)
+
+				EXPIRY_AGE = 30*24*60*60 # 1 month in secs
+				request.session.set_expiry(EXPIRY_AGE) # expire this session after EXPIRY_AGE
+
 				return redirect('home:home')
 		else:
 			messages.warning(request, "Credentials are not correct")
