@@ -14,6 +14,8 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 import random
 
+from accounts.decorators import only_unauthenticated_user, only_authenticated_user
+
 
 
 VERIFICATION_ATTEMPT = 0 #keeps the count for number of times user sends a request to resend OTP (max = 3)
@@ -59,6 +61,7 @@ def redirect_default(request):
 	return redirect('auth:login')
 
 
+@only_unauthenticated_user
 def signup(request):
 	if request.POST:
 		""" Most required validation are done in frontend with javascript """
@@ -120,6 +123,7 @@ def signup(request):
 
 
 
+@only_unauthenticated_user
 def login(request):
 	if request.POST:
 		login_email = request.POST.get('login-email')
@@ -149,6 +153,14 @@ def login(request):
 
 
 
+@only_authenticated_user
+def logout(request):
+	logout_user(request)
+	return redirect('home:home') 
+
+
+
+@only_unauthenticated_user
 @run_once
 def generateOTP(request):
 	otp = str(random.randint(11111,99999))
@@ -159,6 +171,7 @@ def generateOTP(request):
 
 
 
+@only_unauthenticated_user
 @after_signup_only
 @check_verification
 def otp_verification(request):
@@ -215,6 +228,7 @@ def otp_verification(request):
 
 
 
+@only_unauthenticated_user
 @after_signup_only
 def set_profilepic(request):
 	session_email = request.session['session_email']
@@ -235,6 +249,8 @@ def set_profilepic(request):
 	return render(request, 'auth_page/set-pic.html')
 
 
+
+@only_unauthenticated_user
 @after_signup_only
 def delete_account(request):
 	""" Verifcation failed so delete account of the user created just now """
@@ -249,41 +265,3 @@ def delete_account(request):
 
 	return redirect('auth:signup')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-
-Trial121 pbkdf2_sha256$216000$dzRTdQu54hcz$k15iMDe2NLCcCpu8UNEuYJ8A45iFlcFpvlZ6VfUKYeY=
-pbkdf2_sha256$216000$oEN9KSsTgmYu$5VIRoMa3ntyw4r8E0L4oRHjf58PX+PL+n29znuURGD4=
-trial121@gmail.com
-
-Trial121 pbkdf2_sha256$216000$EgFhQBg3m51q$IVokY8j/VDC8/OV9pIbJRXhAE7XXgJKOL4PQ7wiEhE4=
-pbkdf2_sha256$216000$oEN9KSsTgmYu$5VIRoMa3ntyw4r8E0L4oRHjf58PX+PL+n29znuURGD4=
-trial121@gmail.com
-
-Trial121 pbkdf2_sha256$216000$34vS0TWvtgSz$8makdtIs06Z0I0KUlWMyxLWDbTK2MV9cAHukfpZh2oA=
-pbkdf2_sha256$216000$oEN9KSsTgmYu$5VIRoMa3ntyw4r8E0L4oRHjf58PX+PL+n29znuURGD4=
-trial121@gmail.com
-
-pbkdf2_sha256$216000$oEN9KSsTgmYu$5VIRoMa3ntyw4r8E0L4oRHjf58PX+PL+n29znuURGD4=
-
-
-
-
-Hunting4something
-
-
-
-"""
