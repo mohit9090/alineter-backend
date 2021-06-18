@@ -34,7 +34,10 @@ from django.conf import settings
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
+
 # ERR_HANDLER URL
+from django.conf.urls import handler404, handler403, handler404, handler500
+
 handler400 = 'ERROR_HANDLER.views.err_400'
 handler403 = 'ERROR_HANDLER.views.err_403'
 handler404 = 'ERROR_HANDLER.views.err_404'
