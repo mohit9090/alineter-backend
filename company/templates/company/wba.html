@@ -54,85 +54,115 @@
     <div class="container-fluid">
 
       <div class="secondary-wrapper mx-auto p-0">
-        
+
+        {% if request.user.is_authenticated %}
+          
+          {% if not messages %}
+            
+            <div class="wba-container text-center">
+              <div class="policy-head--s1 reveal__from-bottom">
+                <h1>Write About Us</h1>
+              </div>
+            </div>
+
+            <div class="wba-form-wrapper">
+              <form id="wba-form" method="post" action="{% url 'company:write_about_us' %}">
+                {% csrf_token %}
+                <!-- <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group reveal__from-bottom">
+                      <label for="reviewer-name" class="auth-label">Your Name</label>
+                      <input type="text" class="input--s2 w-100 auth-input reviewer-name" name="reviewer-name" id="reviewer-name" placeholder="Name Surname" required spellcheck="false" onkeyup="ifValid(this, 0)" maxlength="30">
+                      <small class="help-text" for="reviewer-name"></small>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="form-group reveal__from-bottom">
+                      <label for="reviewer-email" class="auth-label">Your Email</label>
+                      <input type="email" class="input--s2 w-100 auth-input reviewer-email" name="reviewer-email" id="reviewer-email" placeholder="mahitkumar166@gmail.com" required spellcheck="false" onkeyup="ifValid(this, 2)">
+                      <small class="help-text" for="reviewer-email"></small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group reveal__from-bottom">
+                      <label for="reviewer-profilepic" class="auth-label">Profile Photo (optional)</label>
+                      <input type="file" class="input--s2 w-100 auth-input reviewer-profilepic" name="reviewer-profilepic" id="reviewer-profilepic" onchange="validateImage(this)">
+                      <small class="help-text" for="reviewer-profilepic">Allowed file format are jpg, jpeg and png</small>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group reveal__from-bottom">
+                      <label for="reviewer-thought" class="auth-label">Your Experience with Us</label>
+                      <textarea class="textarea--s1 w-100 auth-input reviewer-thought" rows=7 name="reviewer-thought" id="reviewer-thought" placeholder="In less than two small paragraphs, describe your expreience about using our website Alineter" required spellcheck="false" onkeyup="ifValid(this, 0)"></textarea>
+                      <small class="help-text" for="reviewer-thought"></small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group reveal__from-bottom text-center">
+                      <label for="reviewer-rating" class="auth-label">Leave us a Rating</label>
+                      <input type="number" class="input--s2 w-100 d-none auth-input" name="reviewer-rating" id="reviewer-rating" required>
+                      <div class="rating-box mx-auto">
+                        <div class="d-flex justify-content-center flex-wrap">
+                          <i class="fa fa-star rating-icon" data-rating="1" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
+                          <i class="fa fa-star rating-icon" data-rating="2" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
+                          <i class="fa fa-star rating-icon" data-rating="3" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
+                          <i class="fa fa-star rating-icon" data-rating="4" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
+                          <i class="fa fa-star rating-icon" data-rating="5" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
+                        </div>
+                      </div>                      
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row mt-5">
+                  <div class="col-12">
+                    <div class="form-group reveal__from-bottom text-center">
+                      <button type="button" class="btn review-btn btn-i-primary w-50" onclick="validate_wbapage()">
+                        <div class="d-flex justify-content-center" id="review-btn--div">
+                          <span>Submit</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </form>              
+            </div>
+
+          {% else %}
+            {% for message in messages %}
+              <div class="wba-container text-center">
+                <div class="policy-head--s1 reveal__from-bottom">
+                  <img src="{% static 'images/alineter/alineter-w.png' %}" class="img-fluid" width=35 height=35>
+                  <h1 class="mt-2">{{ message }}</h1>
+                  <a href="" class="btn review-btn btn-i-primary mt-5"><span class="fa fa-home">&nbsp;</span>Home</a>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+        {% else %}
+
         <div class="wba-container text-center">
           <div class="policy-head--s1 reveal__from-bottom">
-            <h1>Write About Us</h1>
+            <h1>You need to be our customer</h1>
+            <div class="d-flex flex-column mt-5 p-3">
+              <a href="{% url 'auth:signup' %}" class="btn review-btn btn-o-primary w-50 mx-auto mt-3">Signup</a>
+              <a href="{% url 'auth:login' %}" class="btn review-btn btn-i-primary w-50 mx-auto mt-3">Login</a>
+            </div>
           </div>
         </div>
 
-        <div class="wba-form-wrapper">
-          <form id="wba-form" method="post" action=".">
-            
-            <div class="row">
-              <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group reveal__from-bottom">
-                  <label for="reviewer-name" class="auth-label">Your Name</label>
-                  <input type="text" class="input--s2 w-100 auth-input reviewer-name" name="reviewer-name" id="reviewer-name" placeholder="Name Surname" required spellcheck="false" onkeyup="ifValid(this, 0)" maxlength="30">
-                  <small class="help-text" for="reviewer-name"></small>
-                </div>
-              </div>
-              <div class="col-lg-6 col-md-6 col-sm-12">
-                <div class="form-group reveal__from-bottom">
-                  <label for="reviewer-email" class="auth-label">Your Email</label>
-                  <input type="email" class="input--s2 w-100 auth-input reviewer-email" name="reviewer-email" id="reviewer-email" placeholder="mahitkumar166@gmail.com" required spellcheck="false" onkeyup="ifValid(this, 2)">
-                  <small class="help-text" for="reviewer-email"></small>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-12">
-                <div class="form-group reveal__from-bottom">
-                  <label for="reviewer-profilepic" class="auth-label">Profile Photo (optional)</label>
-                  <input type="file" class="input--s2 w-100 auth-input reviewer-profilepic" name="reviewer-profilepic" id="reviewer-profilepic" onchange="validateImage(this)">
-                  <small class="help-text" for="reviewer-profilepic">Allowed file format are jpg, jpeg and png</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-12">
-                <div class="form-group reveal__from-bottom">
-                  <label for="reviewer-thought" class="auth-label">Your Experience with Us</label>
-                  <textarea class="textarea--s1 w-100 auth-input reviewer-thought" rows=7 name="reviewer-thought" id="reviewer-thought" placeholder="In less than two small paragraphs, describe your expreience about using our website Alineter" required spellcheck="false" onkeyup="ifValid(this, 0)"></textarea>
-                  <small class="help-text" for="reviewer-thought"></small>
-                </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-12">
-                <div class="form-group reveal__from-bottom text-center">
-                  <label for="reviewer-rating" class="auth-label">Leave us a Rating</label>
-                  <input type="number" class="input--s2 w-100 d-none auth-input" name="reviewer-rating" id="reviewer-rating" required>
-                  <div class="rating-box mx-auto">
-                    <div class="d-flex justify-content-center flex-wrap">
-                      <i class="fa fa-star rating-icon" data-rating="1" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
-                      <i class="fa fa-star rating-icon" data-rating="2" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
-                      <i class="fa fa-star rating-icon" data-rating="3" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
-                      <i class="fa fa-star rating-icon" data-rating="4" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
-                      <i class="fa fa-star rating-icon" data-rating="5" onmouseover="starHover__on(this)" onmouseout="starHover__off(this)" onclick="selectStar(this)"></i>
-                    </div>
-                  </div>                      
-                </div>
-              </div>
-            </div>
-
-            <div class="row mt-5">
-              <div class="col-12">
-                <div class="form-group reveal__from-bottom text-center">
-                  <button type="button" class="btn review-btn btn-i-primary w-50" onclick="validate_wbapage()">
-                    <div class="d-flex justify-content-center" id="review-btn--div">
-                      <span>Submit</span>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-          </form>              
-        </div>
+        {% endif %}
 
       </div>
 

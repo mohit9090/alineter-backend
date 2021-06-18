@@ -75,11 +75,13 @@ function selectStar(star) {
 
 function validate_wbapage() {
   const fulfilledFields = document.querySelectorAll(".auth-input[data-fulfill='true']");
+  const allRequiredFields = document.querySelectorAll("#wba-form .auth-input[required]");
+
 
   //loader before submitting or rejecting the form
   reviewBtnDiv.innerHTML += `<div class="spinner-border text-light spinner-border-sm my-auto ml-2"></div>`;
   
-  if(fulfilledFields.length == 5) {
+  if(fulfilledFields.length == allRequiredFields.length) {
     // only 5 fields are rquired here
     setTimeout(function(){
       reviewForm.submit();
