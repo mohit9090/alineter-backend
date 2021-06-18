@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '4i+weu3o=%z%t@e!dgv5y=^paf+x#enz1*5$wr!0o+&g2@@$+p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['alineter.herokuapp.com', '127.0.0.1']
 
