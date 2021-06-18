@@ -88,7 +88,7 @@
               <div class="mr-3 my-auto pfimg-holder">
 
                   <img 
-                    src="{% if not request.user.is_authenticated or not request.user.customer.profile_pic %}/static/images/alineter/avatar/avatar.png{% else %}{{ request.user.customer.profile_pic.url }}{% endif %}" class="pfImg img-cover" alt="{% if not request.user.is_authenticated %}Alineter avatar img{% else %}{{ request.user.username }} profile-pic{% endif %}" />
+                    src="{% if not request.user.is_authenticated or not request.user.customer.profile_pic %}/static/images/alineter/avatar/avatar.png{% else %}/static{{ request.user.customer.profile_pic.url }}{% endif %}" class="pfImg img-cover" alt="{% if not request.user.is_authenticated %}Alineter avatar img{% else %}{{ request.user.username }} profile-pic{% endif %}" />
 
               </div>
               <div class="my-auto">
