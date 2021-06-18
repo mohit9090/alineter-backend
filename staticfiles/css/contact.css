@@ -1,0 +1,100 @@
+
+
+/* ILLUSTRATION */
+/*#illustration {
+  background-image:url('../images/contact-us-2-sm.jpg');
+}
+.illustration-box {
+	width:100%;
+}*/
+
+
+
+/* CONTACT US SECTION */
+section#contact-us {
+	padding:var(--lg-padding);
+	background-color:var(--bg-secondary);
+	background-image:url("../images/explorer-bg-1-1280.jpg");
+	background-size:cover;
+	background-repeat:no-repeat;
+	background-position:center;
+	position:relative;
+}
+#contact-us :is(.overlay-bg) {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:rgba(0, 0, 0, 0.7);
+}
+.reach-us,
+.contact-us {
+	margin-top:5%;
+}
+.contact-us .head > h1 {
+	font-weight:800;
+	color:var(--bg-primary);
+}
+.support-detail p {
+	color:var(--bg-light);
+}
+/*Input style for this section*/
+.user-input {
+	color:var(--bg-light);
+	border-width:1.5px;
+	border-color:var(--bg-light);
+	letter-spacing:1.02px;
+	background:transparent;
+}
+.user-input:focus {
+	border-width:1.5px;
+}
+
+.user-input::placeholder {
+	color:var(--bg-light);
+	opacity:0.8;
+}
+.user-input:focus::placeholder {
+	opacity:1;
+}
+/*Support Links*/
+.mail-support > a,
+.telephone-support > a {
+	color:var(--bg-light);
+}
+.contact-us-btn {
+	width:120px;
+	font-weight:600;
+	font-size:1.1rem;
+	letter-spacing:1.02px;
+	background:var(--bg-light);
+	color:var(--bg-secondary);
+}
+.contact-us-btn:hover {
+	filter:brightness(90%);
+}
+/*MAP*/
+
+.gmap_canvas {
+	overflow:hidden;
+	height:650px;
+	width:100%;
+}
+
+@media screen and (max-width:768px) and (min-width:576px) {
+	.gmap_canvas {
+		height:250px;
+	}	
+}
+@media screen and (max-width:576px) {
+	.left {
+		order:2;
+	}
+	.right {
+		order:1;
+	}
+	.gmap_canvas {
+		height:250px;
+	}
+}

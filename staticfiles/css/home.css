@@ -1,0 +1,394 @@
+
+
+/* ILLUSTRATION */
+#illustration {
+  background-color:var(--bg-tertiary);
+  background-position:right;
+}
+.illustration-box::-webkit-scrollbar {
+	display:none;
+}
+/*Responsive illustration Box*/
+@media screen and (min-width:650px) {
+	#illustration .illustration-box{
+		width:50%;
+	}
+}
+@media screen and (max-width:650px) {
+	#illustration .illustration-box{
+		width:100%;
+	}
+}
+.illustration-head h2 {
+	font-weight:800;
+}
+/*Responsive illustration head*/
+@media screen and (min-width:720px) {
+	.illustration-head h2 {
+		font-size:4.2rem;
+	}
+}
+@media screen and (max-width:720px) {
+	.illustration-head h2 {
+		font-size:3.5rem;
+	}
+}
+.store-btn {
+	width:50%;
+	border-radius:5px;
+	padding:0.8em 0.2em;
+	font-size:1.2rem;
+	letter-spacing:1.01px;
+	color:var(--bg-light);
+	/*background:var(--bg-secondary);*/
+	background-color:transparent;
+	border:1.5px solid var(--bg-primary);
+}
+.store-btn:hover {
+	color:var(--bg-light);
+	border:1.5px solid var(--bg-primary);
+	background:var(--bg-primary);
+}
+
+
+
+
+/* USP */
+#usp {
+	padding:5% 0.5%;
+}
+.usp-box {
+	border-radius:5px;
+	border:0.05px solid rgba(112, 112, 112, 0.2);
+	margin:0.5rem;
+}
+@media screen and (min-width:1300px) {
+	.usp-box {
+		width:300px;
+	}
+}
+@media screen and (min-width:872px) and (max-width:1300px) {
+	.usp-box {
+		width:250px;
+	}
+}
+@media screen and (min-width:782px) and (max-width:871px) {
+	.usp-box {
+		width:200px;
+	}
+}
+@media screen and (min-width:599px) and (max-width:782px) {
+	.usp-box {
+		width:180px;
+	}
+}
+@media screen and (min-width:330px) and (max-width:599px) {
+	.usp-box {
+		width:150px;
+	}
+}
+@media screen and (min-width:320px) and (max-width:330px) {
+	.usp-box {
+		width:160px;
+	}
+}
+@media screen and (max-width:320px) {
+	.usp-box {
+		width:128px;
+	}
+}
+.icon-filler {
+	width:40%;
+	height:40%;
+}
+.usp-tag {
+	font-size:1rem;
+}
+.usp-icon,
+.usp-tag {
+	filter:grayscale(100%);
+}
+/* Icon Animation */
+.usp-box:not(.mobile-device):hover,
+.usp-box.clicked {
+	background:var(--bg-secondary);
+	transition-delay:0.1s;
+	transform:translateY(-10px);
+	-webkit-transform:translateY(-10px);
+}
+.usp-box:not(.mobile-device):hover :is( .usp-tag, .usp-icon),
+.usp-box.clicked :is( .usp-tag, .usp-icon) {
+	transition-delay:0.2s;
+	filter:grayscale(0);
+	cursor:default;
+}
+.usp-box:not(.mobile-device):hover .usp-icon,
+.usp-box.clicked .usp-icon {
+	transform:translateY(15px);
+	-webkit-transform:translateY(15px);
+}
+
+
+
+
+
+/* PRODUCT-QUICK-VIEW */
+#product-quick-view {
+	padding:var(--sm-padding);
+	padding-left:0;
+	padding-right:0;
+	background-color:rgba(112, 112, 112, 0.05);
+	background-image: url("https://www.transparenttextures.com/patterns/inspiration-geometry.png");
+	position:relative;
+}
+/* Product Container */
+.q-product-box {
+	width:100%;
+	padding:0;
+	padding-left:2%;
+	padding-right:2%;
+	z-index:0;
+	display:flex;
+	overflow-x:scroll;
+	position:relative;
+	left:0;
+	transition:opacity 0.1s ease, left 5s ease;
+}
+.q-product-box::-webkit-scrollbar {
+    display:none;
+}
+.q-product-box {
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style:none;
+  scrollbar-width:none;  
+}
+/* Product Card */
+.q-product-card {
+	flex-grow:0;
+	flex-shrink:0;
+}
+.q-product-card:not(:last-child) {
+	margin-right:1%;
+}
+.q-product-card {
+	position:relative;
+	color:var(--bg-light);
+	padding:0;
+	border:0;
+	overflow:hidden;
+}
+.q-product-card:hover .q-product-img {
+	transform:scale(1.1);
+	-webkit-transform:scale(1.1);
+	filter:brightness(70%);
+}
+.q-product-card, 
+.q-product-card > .q-product-img {
+	border-radius:0;
+}
+.q-product-body {
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	padding:3.5% 0;
+	font-size:1.2rem;
+	background:rgba(0, 0, 0, 0.6);
+	opacity:0.7;
+}
+.q-product-card:hover .q-product-body {
+	opacity:0.8;
+}
+/* scroll button for quick products */
+.scroll-vertical {
+	z-index:1;
+	height:100%;
+	position:absolute;
+	top:0;
+}
+.scroll-vertical.left {
+	left:0;
+	padding-left:0.5rem;
+}
+.scroll-vertical.right {
+	right:0;
+	padding-right:0.5em;
+}
+.scroll-vertical > .scroll-btn {
+	position:relative;
+	top:50%;
+	transform:translateY(-50%);
+	-webkit-transform:translateY(-50%);
+	width:45px;
+	height:45px;
+	border-radius:50%;
+	background:var(--bg-light);
+	color:var(--bg-grey);
+	border:0.3px solid var(--bg-grey);
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 5px 10px 0px;
+}
+.scroll-vertical > .scroll-btn:not(.mobile-device):hover {
+	/* All Devices Except Mobile Devices */
+	color:var(--bg-primary);
+	border-color:var(--bg-primary);
+}
+.scroll-vertical > .scroll-btn > i {
+	font-size:1.5rem;
+}
+
+
+
+/*#buy-now,#add-to-cart {
+	padding:var(--lg-padding-inverse);
+}*/
+
+
+
+
+/* TESTIMONIALS */
+#testimonial {
+	padding:var(--sm-padding);
+	background:var(--bg-tertiary);
+	position:relative;
+	z-index:1;
+}
+#testimonial::after {
+	content:'';
+	top:0;
+	left:0;
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+	z-index:-1;
+	opacity:0.4;
+}
+.fa-quote-left {
+	color:var(--bg-light);
+	opacity:0.3;
+}
+#testimonial .heading {
+	font-weight:800;
+	color:var(--bg-light);	
+}
+#testimonial .rating-icon {
+	color:var(--bg-primary);
+}
+.rating-icon.sm {
+	font-size:1rem;
+	color:var(--bg-grey);
+}
+/*Responsive testimonial header*/
+@media screen and (min-width:1300px){
+	.fa-quote-left {
+		font-size:10rem;
+	}
+	#testimonial .heading {
+		font-size:3.2rem;
+	}
+	.rating-icon.lg,
+	.rating-count {
+		font-size:1.8rem;
+	}
+}
+@media screen and (min-width:500px) and (max-width:1300px){
+	.fa-quote-left {
+		font-size:8rem;
+	}
+	#testimonial .heading {
+		font-size:2.6rem;
+	}
+	.rating-icon.lg,
+	.rating-count {
+		font-size:1.4rem;
+	}
+}
+@media screen and (min-width:315px) and (max-width:500px) {
+	.fa-quote-left {
+		font-size:4rem;
+	}
+	#testimonial .heading {
+		font-size:1.4rem;
+	}
+	.rating-icon.lg,
+	.rating-count {
+		font-size:1rem;
+	}
+}
+@media screen and (max-width:315px) {
+	.fa-quote-left {
+		font-size:3rem;
+	}
+	#testimonial .heading {
+		font-size:1rem;
+	}
+	.rating-icon.lg,
+	.rating-count {
+		font-size:0.8rem;
+	}
+}
+.review-box {
+	margin:auto;
+	margin-top:5%;
+}
+.review-card :is( .card-header) {
+	background:var(--bg-primary);
+	border-bottom:1.5px solid var(--bg-light);
+}
+.review-card .reviewer-name {
+	color:var(--bg-secondary);
+	font-weight:600;
+}
+.review-card :is( .card-body) {
+	background:var(--bg-secondary);
+}
+.reviewer-says {
+	letter-spacing:1.001px;
+	word-spacing:1.2px;
+	line-height:1.8;
+	white-space:pre-line;
+	color:var(--bg-grey);
+}
+/*show-more button*/
+.show-more-btn {
+	padding:1rem 2rem;
+	font-size:1.2rem;
+	border:1px solid var(--bg-primary);
+	color:var(--bg-primary);
+	background:transparent;
+}
+.show-more-btn:hover {
+	background:rgba(241, 90, 36, 0.1);
+	color:var(--bg-primary);
+}
+.show-more-btn:focus {
+	background:transparent;
+}
+
+
+
+/* More Reviews */
+#more-reviews-overlay {
+	position:fixed;
+	top:0;
+	width:0;
+	height:100%;
+	background:rgba(28, 28, 28, 0.85);
+	z-index:5;
+	overflow-y:hidden;
+}
+.reviews-nav {
+	position: sticky;
+	top:0;
+	z-index:6;
+	background:rgba(28, 28, 28, 0.9);
+	border-bottom:1px solid white;
+}
+.reviews-nav,
+.more-reviews-container {
+	opacity:0;
+}
+.reviews-nav button {
+	padding:0.5rem 2rem;
+	font-size:1.1rem;
+}

@@ -1,0 +1,1 @@
+web: gunicorn alineter.wsgi --log-file -
