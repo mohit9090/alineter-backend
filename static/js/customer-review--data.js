@@ -83,5 +83,24 @@ reviewers = [
 	}
 ];
 
+const fetchReviews = function(url) {
+	let jsonReviewers;
+	$.ajax({
+		url: url, 
+		success: function(data) {
+			jsonReviewers = data;
+			console.log(jsonReviewers)
+		}
+	})
+
+	console.log('outside: ',jsonReviewers)
+}
+
+window.addEventListener('load', function() {
+	const url = '/company_reviews/';
+
+	const data = fetchReviews(url);
+});
+
 
 const jsonReviewers = JSON.stringify(reviewers);

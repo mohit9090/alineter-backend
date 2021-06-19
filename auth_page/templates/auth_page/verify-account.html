@@ -65,6 +65,7 @@
           {% endif %}
           <img src="/static/images/alineter/verification.png" class="img-fluid" width=130 height=130>
           <p class="card-title lead">Enter the OTP sent to <strong class="verify-email">{% if verify_email %}{{ verify_email }}{% endif %}</strong></p>
+          <p><b>Your OTP is {{ otp }}</b>(Testing purpose only)</p>
         </div>
         <div class="card-body normal-wrapper mx-auto p-0">
           <form method="post" action="{% url 'auth:otp_verification' %}" id="otp-form">

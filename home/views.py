@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from auth_page.models import Customer
 
+from company.models import CompanyReview
 # import uuid
 
 User = get_user_model()
@@ -26,9 +27,37 @@ def home(request):
 	return render(request, 'home/index.html', context)
 
 
+
+def company_reviews(request):
+	reviews = CompanyReview.objects.all()
+
+	reviewers = [] 
+
+	for rev in reviews: 
+		reviewer = {}
+		reviewer['name'] = rev.user.get_full_name()
+		if rev.user.customer.profile_pic:
+			reviewer['img'] = rev.user.customer.profile_pic.url
+		else:
+			reviewer['img'] = 'https://i.imgur.com/jQWThIn.jpg'
+		
+		_review = {}
+		_review['content'] = rev.review
+		_review['rating'] = rev.rating
+		
+		reviewer['review'] = _review
+
+		reviewers.append(reviewer)
+
+
+	return JsonResponse(reviewers, safe=False)
+
+
+
 # testing purpose
 def base(request):
 	return render(request, 'home/base.html')
+
 
 
 

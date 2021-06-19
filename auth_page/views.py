@@ -166,6 +166,7 @@ def generateOTP(request):
 	otp = str(random.randint(11111,99999))
 	print(otp)
 	request.session['session_otp'] = make_password(otp)
+	request.session['trial_otp'] = otp # only for testing purpose
 	# ----------- send mail to user ---------------- #
 	return request.session['session_otp']
 
@@ -198,6 +199,7 @@ def otp_verification(request):
 			# This event also occurs when user has entered otp once
 			# most probably this case will never arise
 			print("here")
+			return HttpResponse("Something went wrong")
 		else:
 
 			if check_password(i, request.session['session_otp']):
@@ -223,6 +225,8 @@ def otp_verification(request):
 		return redirect('auth:delete_account')
 	else:
 		VERIFICATION_ATTEMPT = VERIFICATION_ATTEMPT + 1
+
+	context['otp'] = request.session['trial_otp'] # only for testing purpose
 
 	return render(request, 'auth_page/verify-account.html', context)
 
