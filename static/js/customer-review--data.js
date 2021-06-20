@@ -83,24 +83,31 @@ reviewers = [
 	}
 ];
 
-const fetchReviews = function(url) {
-	let jsonReviewers;
-	$.ajax({
-		url: url, 
-		success: function(data) {
-			jsonReviewers = data;
-			console.log(jsonReviewers)
-		}
-	})
 
-	console.log('outside: ',jsonReviewers)
-}
+// const fetchReviews = function(url) {
 
-window.addEventListener('load', function() {
-	const url = '/company_reviews/';
+// 	csrftoken = getCookie('csrftoken');
 
-	const data = fetchReviews(url);
-});
+// 	fetch(url, {
+// 		method: 'POST',
+// 		headers: {
+// 			'Content-Type':'application/json',
+// 			'X-CSRFToken':csrftoken,
+// 		}
+// 	})
+// 	.then(response => response.json())
+// 	.then(data => {
+// 		// console.log(data);
+// 	});
+// }
 
 
-const jsonReviewers = JSON.stringify(reviewers);
+// window.addEventListener('load', function() {
+// 	const url = '/company_reviews/';
+
+// 	const data = fetchReviews(url);
+// 	console.log(data)
+// });
+
+
+// const jsonReviewers = JSON.stringify(reviewers);

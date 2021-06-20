@@ -99,3 +99,30 @@ function addRatingStar(rating) {
 
 	return ratingIcon
 }
+
+
+
+
+function getCookie(cookieName) {
+	/*
+		Return the cookie value	
+	*/
+	const allCookies = decodeURIComponent(document.cookie);
+	const splitCookies = allCookies.split(";");
+
+	// pair cookies by key, value pair
+	const pairCookies = splitCookies.map(cookie => cookie.split("="))
+
+	// find the cookie by cookieName
+	const foundCookie = pairCookies.find(cookie => cookie[0].trim() === cookieName);
+
+	if (!foundCookie) return false
+
+	const [key, value] = foundCookie; // pair the found cookie
+
+	// Remove "" from cookie value (special cases)
+	// return value.slice(1, value.length-1);
+
+	return value; 
+
+}

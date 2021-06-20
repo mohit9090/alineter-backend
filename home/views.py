@@ -7,6 +7,7 @@ from auth_page.models import Customer
 
 from company.models import CompanyReview
 # import uuid
+import json
 
 User = get_user_model()
 
@@ -31,24 +32,26 @@ def home(request):
 def company_reviews(request):
 	reviews = CompanyReview.objects.all()
 
-	reviewers = [] 
+	reviewers = [] # contains the list of reviewers and their detail
 
-	for rev in reviews: 
-		reviewer = {}
+	for rev in reviews:
+		# if not rev.highlight: 
+		# 	continue
+		reviewer = {} # detail of one reviewer
 		reviewer['name'] = rev.user.get_full_name()
+		
 		if rev.user.customer.profile_pic:
 			reviewer['img'] = rev.user.customer.profile_pic.url
 		else:
-			reviewer['img'] = 'https://i.imgur.com/jQWThIn.jpg'
+			reviewer['img'] = '/static/images/alineter/avatar/avatar.png'
 		
-		_review = {}
-		_review['content'] = rev.review
-		_review['rating'] = rev.rating
+		review_detail = {}
+		review_detail['content'] = rev.review
+		review_detail['rating'] = rev.rating
 		
-		reviewer['review'] = _review
+		reviewer['review'] = review_detail
 
 		reviewers.append(reviewer)
-
 
 	return JsonResponse(reviewers, safe=False)
 
@@ -64,6 +67,26 @@ def base(request):
 
 
 """
+
+# formation of company review json
+[
+	{
+		name : "Mohit Kumar",
+		img : "https://i.imgur.com/jQWThIn.jpg",
+		review : {
+			content : "Some quick example text to build on the card title and make up the bulk of the card's content.",
+			rating : 3.5
+		}
+	},
+	{
+		name : "Caye Henry",
+		img : "https://i.imgur.com/QptVdsp.jpg",
+		review : {
+			content : "Some quick example text to build on the card title and make up the bulk of the card's content.\n\nSome quick example text to build on the card title and make up the bulk of the card's content.",
+			rating : 4.5
+		}
+	}
+]
 
 
 >>> from django.contrib.auth import get_user_model

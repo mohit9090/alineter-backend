@@ -349,6 +349,13 @@
 	white-space:pre-line;
 	color:var(--bg-grey);
 }
+.reviewer-pic-wrapper {
+	background: #fff;
+	border-radius: 50%;
+}
+.reviewer-pic {
+	object-fit: cover;
+}
 /*show-more button*/
 .show-more-btn {
 	padding:1rem 2rem;
