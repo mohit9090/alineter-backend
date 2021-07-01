@@ -1,6 +1,34 @@
 from django.contrib import admin
 
-from . models import CompanyReview
+from . models import Company, CompanyInfo, CompanyAddress, CompanyEmailHelpline, CompanyTelephoneHelpline, CompanyFounder, CompanyReview
+
+class CompanyAdmin(admin.ModelAdmin):
+	list_display = ['name', 'website', 'active']
+
+
+class CompanyInfoAdmin(admin.ModelAdmin):
+	list_display = ['full_name', 'mode', 'founded', 'members']
+
+
+class CompanyAddressAdmin(admin.ModelAdmin):
+	list_display = ['street', 'city', 'pin', 'state']
+	fieldsets = (
+		('Address', {'fields': ('company', 'street', 'city', 'pin', 'district', 'state', 'country',)}),
+	)
+
+
+class CompanyEmailHelplineAdmin(admin.ModelAdmin):
+	list_display = ['helpline', 'email']
+	list_filter = ['helpline']
+
+
+class CompanyTelephoneHelplineAdmin(admin.ModelAdmin):
+	list_display = ['helpline', 'telephone']
+	list_filter = ['helpline']
+
+
+class CompanyFounderAdmin(admin.ModelAdmin):
+	list_display = ['name', 'designation', 'email']
 
 
 class CompanyReviewAdmin(admin.ModelAdmin):
@@ -12,5 +40,11 @@ class CompanyReviewAdmin(admin.ModelAdmin):
 	ordering = ['-date_reviewed']
 
 
-
-admin.site.register(CompanyReview, CompanyReviewAdmin) 
+ 
+admin.site.register(Company, CompanyAdmin)
+admin.site.register(CompanyAddress, CompanyAddressAdmin)
+admin.site.register(CompanyEmailHelpline, CompanyEmailHelplineAdmin)
+admin.site.register(CompanyTelephoneHelpline, CompanyTelephoneHelplineAdmin)
+admin.site.register(CompanyFounder, CompanyFounderAdmin)
+admin.site.register(CompanyReview, CompanyReviewAdmin)
+admin.site.register(CompanyInfo, CompanyInfoAdmin)

@@ -1,17 +1,25 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 
-from . models import CompanyReview
+from . models import Company, CompanyInfo, CompanyReview
 
 from django.contrib import messages
 
 
 def about(request):
-	return render(request, 'company/about.html')
+	company = Company.objects.first()
+	founders = company.companyfounder_set.all()
+	context = {'company':company, 'founders':founders}
+	return render(request, 'company/about.html', context)
 
 
 def contact(request):
-	return render(request, 'company/contact.html')
+	company = Company.objects.first()
+	company_address = company.companyaddress.get_address()
+	company_support_email = company.companyemailhelpline_set.all().get(helpline='support')
+	company_telephone = company.companytelephonehelpline_set.all().get(helpline='call')
+	context = {'address':company_address, 'support_email': company_support_email, 'telephone': company_telephone}
+	return render(request, 'company/contact.html', context)
 
 
 def faq(request):

@@ -73,15 +73,20 @@
             </div><br>
             
             <div class="support-detail">
-              <p class="lead address reveal__from-bottom">Patitapaban Nagar, Kalpana, Bhubaneswar, Khordha, Odisha, India - 751003</p>
+              <p class="lead address reveal__from-bottom">{{ address }}</p>
 
               <p class="lead mail-support reveal__from-bottom">
-                <a href="mailto:support@alineter.com">support@alineter.com</a>
+                <a href="mailto:{{ support_email.email }}">{{ support_email.email }}</a>
               </p>
 
               <p class="lead telephone-support reveal__from-bottom">
-                <a href="tel:+91 88957 38760">+91 88957 38760</a>
+                <a href="tel:+91 {{ telephone.telephone }}"></a>
               </p>
+              <script type="text/javascript">
+                const tel = '{{ telephone.telephone }}';
+                const formatTelephone = `+91 ${tel.slice(0, 5)} ${tel.slice(5)}`;
+                document.querySelector('.telephone-support a').textContent = formatTelephone;
+              </script>
             </div>
             
             <div class="mail-us">
