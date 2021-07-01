@@ -14,3 +14,10 @@ class CompanyReview(models.Model):
 
 	def __str__(self):
 		return f'{self.user.username} rated {self.rating} star'
+
+	def save(self, *args, **kwargs):
+		if self.rating <= 0:
+			self.rating = 0
+		elif self.rating > 5:
+			self.rating = 5
+		super(CompanyReview, self).save(*args, **kwargs) 

@@ -30,13 +30,11 @@ def home(request):
 
 
 def company_reviews(request):
-	reviews = CompanyReview.objects.all()
+	reviews = CompanyReview.objects.all().filter(highlight=True)[:12] # 12 highlighted reviews only
 
 	reviewers = [] # contains the list of reviewers and their detail
 
 	for rev in reviews:
-		# if not rev.highlight: 
-		# 	continue
 		reviewer = {} # detail of one reviewer
 		reviewer['name'] = rev.user.get_full_name()
 		

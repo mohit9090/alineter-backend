@@ -22,16 +22,14 @@ function setReviewsData(responseData) {
 
 function renderResponse() {
 
-	var reviewers = jsonReviewers
+	var reviewers = jsonReviewers.slice(); // Shallow copy
 	
 	/* Actual number of reviews */
 	const totalReviews = reviewers.length;
 
-
 	/* Get At most 6 reviews, PS: Dont make it more than 6 */
 	const max_reviews = 6;
 	reviewers.splice(max_reviews, reviewers.length-max_reviews);
-
 
 	/* Reviewers array is sorted by the length of review content in ascending order */
 	reviewers.sort( function(a, b) {
