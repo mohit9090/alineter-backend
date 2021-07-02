@@ -90,31 +90,44 @@
             </div>
             
             <div class="mail-us">
-              <form method="post" action="{% url 'company:contact' %}">
-                {% csrf_token %}
-                <div class="d-flex flex-column">
-                  <div class="reveal__from-bottom">
-                    <input type="text" name="mailer-name" class="user-input input--s2 w-100" placeholder="Name" spellcheck="false" onkeyup="ifValid(this, 0)" required/>
-                  </div><br>
-                  <div class="reveal__from-bottom">
-                    <input type="email" name="mailer-email" class="user-input input--s2 w-100" placeholder="Email" spellcheck="false" onkeyup="ifValid(this, 2)" required/>
-                  </div><br>
-                  <div class="reveal__from-bottom">
-                    <input type="text" name="mail-subject" class="user-input input--s2 w-100" placeholder="Subject" spellcheck="false" autocomplete="off" onkeyup="ifValid(this, 0)" required/>
-                  </div><br>
-                  <div class="reveal__from-bottom">
-                    <textarea class="user-input textarea--s1 w-100 rounded-0" name="mail-content" spellcheck="false" rows=6 placeholder="Type your message here...." onkeyup="ifValid(this, 0)" required></textarea>
-                  </div><br>
-                  <div class="align-self-end reveal__from-bottom">
-                    <button type="submit" name="send-message" class="btn btn-i-primary pt-2 pb-2 pl-4 pr-4 ripple-opacity-l">Submit</button>
-                    <!-- <button type="button" class="btn review-btn btn-i-primary w-50" onclick="validate_wbapage()">
-                        <div class="d-flex justify-content-center" id="review-btn--div">
+              {% if not messages %}
+                <form method="post" action="{% url 'company:contact' %}" id="contact-us-form">
+                  {% csrf_token %}
+                  <div class="d-flex flex-column">
+                    <div class="reveal__from-bottom">
+                      {% if not request.user.is_authenticated %}
+                        <input type="text" name="mailer-name" class="user-input input--s2 w-100" placeholder="Name Surname" spellcheck="false" onkeyup="ifValid(this, 0)" required/>
+                      {% else %}
+                        <input type="text" name="mailer-name" class="user-input input--s2 w-100 fulfilled--all" placeholder="Name Surname" spellcheck="false" onkeyup="ifValid(this, 0)" required value='{{ request.user.get_full_name }}' data-fulfill='true' readonly />
+                      {% endif %}
+                    </div><br>
+                    <div class="reveal__from-bottom">
+                      {% if not request.user.is_authenticated %}
+                        <input type="email" name="mailer-email" class="user-input input--s2 w-100" placeholder="Email" spellcheck="false" onkeyup="ifValid(this, 2)" required/>
+                      {% else %}
+                        <input type="email" name="mailer-email" class="user-input input--s2 w-100 fulfilled--all" placeholder="Email" spellcheck="false" onkeyup="ifValid(this, 2)" required value='{{ request.user.email }}' data-fulfill='true' readonly />
+                      {% endif %}
+                    </div><br>
+                    <div class="reveal__from-bottom">
+                      <input type="text" name="mail-subject" class="user-input input--s2 w-100" placeholder="Subject" spellcheck="false" autocomplete="off" onkeyup="ifValid(this, 0)" required/>
+                    </div><br>
+                    <div class="reveal__from-bottom">
+                      <textarea class="user-input textarea--s1 w-100 rounded-0" name="mail-content" spellcheck="false" rows=6 placeholder="Type your message here...." onkeyup="ifValid(this, 0)" required></textarea>
+                    </div><br>
+                    <div class="align-self-end reveal__from-bottom">
+                      <button type="button" name="send-message" class="btn contact-btn btn-i-primary pt-2 pb-2 pl-4 pr-4 ripple-opacity-l" onclick="validate_contactpage()">
+                        <div class="d-flex justify-content-center" id="contact-btn--div">
                           <span>Submit</span>
                         </div>
-                      </button> -->
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              {% else %}
+                {% for message in messages %}
+                  <h1 class="txt-primary mt-5">{{ message }}</h1>
+                {% endfor %}
+              {% endif %}
             </div>
           
           </div>
@@ -135,5 +148,7 @@
     let isMobile = detectMob();
     isMobile ? addMobile__Class([...scrollBtn]) : removeMobile__Class([...scrollBtn]);
   </script>
+
+  <script type="text/javascript" src="{% static 'js/contact.js' %}?{% now 'U' %}"></script>
 
 {% endblock js_script_link %}

@@ -128,6 +128,7 @@ class CompanyFounder(models.Model):
 
 
 class CustomerQuery(models.Model):
+	company = models.ForeignKey(Company, on_delete=models.CASCADE)
 	name = models.CharField(verbose_name='Customer Name', max_length=60)
 	email = models.EmailField(verbose_name='Email')
 	date_posted = models.DateTimeField(auto_now_add=True)

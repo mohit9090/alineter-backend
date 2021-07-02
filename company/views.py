@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 
-from . models import Company, CompanyInfo, CompanyReview
+from . models import Company, CompanyInfo, CustomerQuery, CompanyReview
 
 from django.contrib import messages
 
@@ -23,7 +23,20 @@ def contact(request):
 		'support_email': company_support_email, 
 		'telephone': company_telephone
 	}
+	
+	if request.POST:
+		company = Company.objects.first()
+		print(request.POST)
+		customer_name = request.POST.get('mailer-name')
+		customer_email = request.POST.get('mailer-email')
+		mail_subject = request.POST.get('mail-subject')
+		mail_content = request.POST.get('mail-content')
+		customer_query = company.customerquery_set.create(name=customer_name, email=customer_email, subject=mail_subject, content=mail_content)
+
+		messages.success(request, 'Thankyou for reaching us.')
+
 	return render(request, 'company/contact.html', context)
+
 
 
 def faq(request):
