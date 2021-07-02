@@ -76,7 +76,7 @@ function switchClass(isTrue, element, trueClass, falseClass) {
 
 
 
-function addRatingStar(rating) {
+function addRatingStar(rating, starSize, starColor) {
 	/*
 		Dynamically generate star icon based on ratings given
 	*/
@@ -88,13 +88,13 @@ function addRatingStar(rating) {
 	
 
 	for(let i=0; i<fullStar; i++) {
-		ratingIcon += `<i class="fa fa-star rating-icon sm" style="color:#FEFEFE"></i>`;
+		ratingIcon += `<i class="fa fa-star rating-icon ${starSize}" style="color:${starColor}"></i>`;
 	}
 	for(let i=0; i<halfStar; i++) {
-		ratingIcon += `<i class="fa fa-star-half-o rating-icon sm" style="color:#FEFEFE"></i>`;
+		ratingIcon += `<i class="fa fa-star-half-o rating-icon ${starSize}" style="color:${starColor}"></i>`;
 	}
 	for(let i=0; i<noStar; i++) {
-		ratingIcon += `<i class="fa fa-star-o rating-icon sm" style="color:#FEFEFE"></i>`;
+		ratingIcon += `<i class="fa fa-star-o rating-icon ${starSize}" style="color:${starColor}"></i>`;
 	}
 
 	return ratingIcon

@@ -18,7 +18,11 @@ def contact(request):
 	company_address = company.companyaddress.get_address()
 	company_support_email = company.companyemailhelpline_set.all().get(helpline='support')
 	company_telephone = company.companytelephonehelpline_set.all().get(helpline='call')
-	context = {'address':company_address, 'support_email': company_support_email, 'telephone': company_telephone}
+	context = {
+		'address':company_address, 
+		'support_email': company_support_email, 
+		'telephone': company_telephone
+	}
 	return render(request, 'company/contact.html', context)
 
 

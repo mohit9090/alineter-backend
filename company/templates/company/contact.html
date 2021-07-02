@@ -90,22 +90,28 @@
             </div>
             
             <div class="mail-us">
-              <form method="post">
+              <form method="post" action="{% url 'company:contact' %}">
+                {% csrf_token %}
                 <div class="d-flex flex-column">
                   <div class="reveal__from-bottom">
-                    <input type="text" name="mailer-name" class="user-input input--s2 w-100" placeholder="Name" spellcheck="false" onkeyup="ifValid(this, 0)"/>
+                    <input type="text" name="mailer-name" class="user-input input--s2 w-100" placeholder="Name" spellcheck="false" onkeyup="ifValid(this, 0)" required/>
                   </div><br>
                   <div class="reveal__from-bottom">
-                    <input type="email" name="mailer-email" class="user-input input--s2 w-100" placeholder="Email" spellcheck="false" onkeyup="ifValid(this, 2)"/>
+                    <input type="email" name="mailer-email" class="user-input input--s2 w-100" placeholder="Email" spellcheck="false" onkeyup="ifValid(this, 2)" required/>
                   </div><br>
                   <div class="reveal__from-bottom">
-                    <input type="text" name="mail-subject" class="user-input input--s2 w-100" placeholder="Subject" spellcheck="false" autocomplete="off" onkeyup="ifValid(this, 0)"/>
+                    <input type="text" name="mail-subject" class="user-input input--s2 w-100" placeholder="Subject" spellcheck="false" autocomplete="off" onkeyup="ifValid(this, 0)" required/>
                   </div><br>
                   <div class="reveal__from-bottom">
-                    <textarea class="user-input textarea--s1 w-100 rounded-0" name="mail-content" spellcheck="false" rows=6 placeholder="Type your message here...." onkeyup="ifValid(this, 0)"></textarea>
+                    <textarea class="user-input textarea--s1 w-100 rounded-0" name="mail-content" spellcheck="false" rows=6 placeholder="Type your message here...." onkeyup="ifValid(this, 0)" required></textarea>
                   </div><br>
                   <div class="align-self-end reveal__from-bottom">
-                    <button type="submit" name="send-message" class="btn contact-us-btn pt-2 pb-2 pl-4 pr-4 ripple-opacity-l">Submit</button>
+                    <button type="submit" name="send-message" class="btn btn-i-primary pt-2 pb-2 pl-4 pr-4 ripple-opacity-l">Submit</button>
+                    <!-- <button type="button" class="btn review-btn btn-i-primary w-50" onclick="validate_wbapage()">
+                        <div class="d-flex justify-content-center" id="review-btn--div">
+                          <span>Submit</span>
+                        </div>
+                      </button> -->
                   </div>
                 </div>
               </form>

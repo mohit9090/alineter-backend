@@ -127,6 +127,19 @@ class CompanyFounder(models.Model):
 		super(CompanyFounder, self).save(*args, **kwargs)
 
 
+class CustomerQuery(models.Model):
+	name = models.CharField(verbose_name='Customer Name', max_length=60)
+	email = models.EmailField(verbose_name='Email')
+	date_posted = models.DateTimeField(auto_now_add=True)
+	subject = models.CharField(verbose_name='Subject', max_length=255)
+	content = models.TextField(verbose_name='Content')
+
+	def __str__(self):
+		return f'{self.email} - {self.subject}'
+
+	class Meta:
+		verbose_name_plural = 'Customer query'
+
 
 class CompanyReview(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)

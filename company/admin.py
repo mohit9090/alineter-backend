@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from . models import Company, CompanyInfo, CompanyAddress, CompanyEmailHelpline, CompanyTelephoneHelpline, CompanyFounder, CompanyReview
+from . models import Company, CompanyInfo, CompanyAddress, CompanyEmailHelpline, CompanyTelephoneHelpline, CompanyFounder, CustomerQuery, CompanyReview
 
 class CompanyAdmin(admin.ModelAdmin):
 	list_display = ['name', 'website', 'active']
@@ -31,6 +31,14 @@ class CompanyFounderAdmin(admin.ModelAdmin):
 	list_display = ['name', 'designation', 'email']
 
 
+class CustomerQueryAdmin(admin.ModelAdmin):
+	readonly_fields = ('date_posted',)
+	list_display = ['email', 'subject', 'date_posted']
+	list_filter = ['date_posted']
+
+	ordering = ['-date_posted']
+
+
 class CompanyReviewAdmin(admin.ModelAdmin):
 	readonly_fields = ('date_reviewed',)
 
@@ -48,3 +56,4 @@ admin.site.register(CompanyTelephoneHelpline, CompanyTelephoneHelplineAdmin)
 admin.site.register(CompanyFounder, CompanyFounderAdmin)
 admin.site.register(CompanyReview, CompanyReviewAdmin)
 admin.site.register(CompanyInfo, CompanyInfoAdmin)
+admin.site.register(CustomerQuery, CustomerQueryAdmin)

@@ -7,6 +7,9 @@ const reviewsNavElem = document.querySelector(".reviews-nav");
 const moreReviewsContainer = document.getElementById("more-reviews-container");
 const moreReviewsContainer__row = document.querySelector("#more-reviews-container > .row");
 
+const totalReviewsDiv = document.querySelector('.total-reviews');
+const overalRating = document.querySelector('.overall-rating');
+
 
 
 // For setting the data for jsonReviews
@@ -121,7 +124,7 @@ function renderResponse() {
 	                    <small class="reviewer-name">${reviewer.name}</small>
 	                    <div class="d-flex">` + 
 	                    
-	                    addRatingStar(reviewer.review.rating)
+	                    addRatingStar(reviewer.review.rating, 'sm', '#FEFEFE')
 
 	                     + `</div>
 	                  </div>
@@ -322,7 +325,7 @@ function mapOverlayReviews(all_reviewers) {
                     <small class="reviewer-name">${reviewer.name}</small>
                     <div class="d-flex">` + 
                     
-                    addRatingStar(reviewer.review.rating)
+                    addRatingStar(reviewer.review.rating, 'sm', '#FEFEFE')
 
                      + `</div>
                   </div>
@@ -341,6 +344,13 @@ function mapOverlayReviews(all_reviewers) {
 
 	return moreReviews_div;
 }
+
+
+const renderError = function(elem, err) {
+	elem.style.color = 'white';
+	elem.innerHTML = err;
+}
+
 
 let toggle_state;
 
@@ -394,10 +404,7 @@ function close_more__Reviews() {
 }
 
 
-
 const fetchReviews = function(url) {
-
-	csrftoken = getCookie('csrftoken');
 
 	$.ajax({
 		url: url,
@@ -407,16 +414,51 @@ const fetchReviews = function(url) {
 		},
 		complete:function(data) {
 			const responseData = data.responseJSON;
-			setReviewsData(responseData);
-			renderResponse();
+			if (responseData) {
+				setReviewsData(responseData);
+				renderResponse();
+			} else {
+				renderError(reviewsContainer, `<small>Something went wrong. Couldn't fetch reviews.</small>`)
+			}
 		}
 	})
 
 }
 
+
+const renderReviewStats = function(data) {
+	totalReviewsDiv.textContent = data.num_of_reviews;
+	overalRating.innerHTML = addRatingStar(data.total_rating, 'lg', '#F15A24')
+}
+
+
+const fetchReviewsStats = function(url) {
+
+	$.ajax({
+		url: url,
+		type: 'POST',
+		data: {
+			'csrfmiddlewaretoken': csrftoken
+		},
+		complete:function(data) {
+			const responseData = data.responseJSON;
+			if (responseData)
+				renderReviewStats(responseData);
+			else
+				renderError(overalRating, 'Error fetching stats')
+		}
+	})
+}
+
+
+
 window.addEventListener('load', function() {
-	const url = '/company_reviews/';
-	fetchReviews(url);
+	csrftoken = getCookie('csrftoken');
+
+	const reviews_url = '/company_reviews/';
+	const reviews_stats_url = '/reviews_stats/';
+	fetchReviewsStats(reviews_stats_url)
+	fetchReviews(reviews_url);
 });
 
 

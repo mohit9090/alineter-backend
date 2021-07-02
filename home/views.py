@@ -30,34 +30,52 @@ def home(request):
 
 
 def company_reviews(request):
-	reviews = CompanyReview.objects.all().filter(highlight=True)[:12] # 12 highlighted reviews only
+	if request.POST:
+		reviews = CompanyReview.objects.all().filter(highlight=True)[:12] # 12 highlighted reviews only
 
-	reviewers = [] # contains the list of reviewers and their detail
+		reviewers = [] # contains the list of reviewers and their detail
 
-	for rev in reviews:
-		reviewer = {} # detail of one reviewer
-		reviewer['name'] = rev.user.get_full_name()
+		for rev in reviews:
+			reviewer = {} # detail of one reviewer
+			reviewer['name'] = rev.user.get_full_name()
+			
+			if rev.user.customer.profile_pic:
+				reviewer['img'] = rev.user.customer.profile_pic.url
+			else:
+				reviewer['img'] = '/static/images/alineter/avatar/avatar.png'
+			
+			review_detail = {}
+			review_detail['content'] = rev.review
+			review_detail['rating'] = rev.rating
+			
+			reviewer['review'] = review_detail
+
+			reviewers.append(reviewer)
+
+		return JsonResponse(reviewers, safe=False)
+	return HttpResponse("Something went wrong")
+
+
+
+def reviews_stats(request):
+	if request.POST:
+		import math
+
+		reviews = CompanyReview.objects.all()
+		num_reviews = len(reviews)
 		
-		if rev.user.customer.profile_pic:
-			reviewer['img'] = rev.user.customer.profile_pic.url
-		else:
-			reviewer['img'] = '/static/images/alineter/avatar/avatar.png'
-		
-		review_detail = {}
-		review_detail['content'] = rev.review
-		review_detail['rating'] = rev.rating
-		
-		reviewer['review'] = review_detail
+		stars = 0
+		for rev in reviews:
+			stars = stars + rev.rating
+		total_rating = math.ceil(stars/num_reviews) # [stars/(num_reviews*5)]*5
 
-		reviewers.append(reviewer)
+		stats = {
+			'num_of_reviews': num_reviews,
+			'total_rating': total_rating
+		}
 
-	return JsonResponse(reviewers, safe=False)
-
-
-
-# testing purpose
-def base(request):
-	return render(request, 'home/base.html')
+		return JsonResponse(stats, safe=False)
+	return HttpResponse('Something went wrong')
 
 
 
