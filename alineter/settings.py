@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'ERROR_HANDLER',
     'home',
     'store',
+
+    # 3rd part App
+    'ckeditor',
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-from . models import Company, CompanyInfo, CompanyAddress, CompanyEmailHelpline, CompanyTelephoneHelpline, CompanyFounder, CustomerQuery, CompanyReview
+from . models import (Company, CompanyInfo, CompanyAddress, 
+	CompanyEmailHelpline, CompanyTelephoneHelpline, 
+	CompanyFounder, CustomerQuery, CompanyFaq ,CompanyReview)
 
 class CompanyAdmin(admin.ModelAdmin):
 	list_display = ['name', 'website', 'active']
@@ -48,6 +50,14 @@ class CompanyReviewAdmin(admin.ModelAdmin):
 	ordering = ['-date_reviewed']
 
 
+class CompanyFaqAdmin(admin.ModelAdmin):
+	list_display = ['question', 'asked_date']
+	list_filter = ['asked_date']
+
+	ordering = ['-asked_date']
+
+
+
  
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(CompanyAddress, CompanyAddressAdmin)
@@ -57,3 +67,4 @@ admin.site.register(CompanyFounder, CompanyFounderAdmin)
 admin.site.register(CompanyReview, CompanyReviewAdmin)
 admin.site.register(CompanyInfo, CompanyInfoAdmin)
 admin.site.register(CustomerQuery, CustomerQueryAdmin)
+admin.site.register(CompanyFaq, CompanyFaqAdmin)

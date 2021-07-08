@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
-from . models import Company, CompanyInfo, CustomerQuery, CompanyReview
+from . models import Company, CompanyInfo, CustomerQuery, CompanyReview, CompanyFaq
 
 from django.contrib import messages
 
@@ -43,6 +43,21 @@ def faq(request):
 	return render(request, 'company/faq.html')
 
 
+def fetch_faq(request):
+	if request.POST:
+		faqs = CompanyFaq.objects.all()
+		faqs_arr = []
+
+		for faq in faqs:
+			faq_obj = {}
+			faq_obj['question'] = faq.question
+			faq_obj['answer'] = faq.answer
+			
+			faqs_arr.append(faq_obj);
+
+		return JsonResponse(faqs_arr, safe=False)
+	return HttpResponse("Your are not authorized to access this page.") 
+
 def write_about_us(request):
 	if request.POST:
 		""" Get input from the user """
@@ -60,4 +75,7 @@ def write_about_us(request):
 
 def redirect_default(request):
 	return redirect('company:about')
+
+
+
 

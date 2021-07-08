@@ -6,6 +6,8 @@ User = get_user_model()
 
 from PIL import Image
 
+from ckeditor.fields import RichTextField
+
 
 def profilepic_directory_path(instance, filename):
 	ext = filename.split('.')[1]
@@ -142,6 +144,19 @@ class CustomerQuery(models.Model):
 		verbose_name_plural = 'Customer query'
 
 
+class CompanyFaq(models.Model):
+	company = models.ForeignKey(Company, on_delete=models.CASCADE)
+	question = models.TextField(verbose_name='Question')
+	answer = RichTextField()
+	asked_date = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return self.question
+
+	class Meta:
+		verbose_name_plural = 'Customer faq'
+
+
 class CompanyReview(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	review = models.TextField(verbose_name='Review')
@@ -158,3 +173,4 @@ class CompanyReview(models.Model):
 		elif self.rating > 5:
 			self.rating = 5
 		super(CompanyReview, self).save(*args, **kwargs) 
+
