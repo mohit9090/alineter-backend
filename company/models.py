@@ -174,3 +174,31 @@ class CompanyReview(models.Model):
 			self.rating = 5
 		super(CompanyReview, self).save(*args, **kwargs) 
 
+
+
+class CompanyTermsCondition(models.Model):
+	company = models.OneToOneField(Company, on_delete=models.CASCADE)
+	terms_text = RichTextField()
+	date_created = models.DateTimeField(auto_now_add=True)
+	date_modified = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return 'Terms & Condition'
+
+	class Meta:
+		verbose_name_plural = 'Terms & Condition'
+
+
+
+class CompanyPrivacyPolicy(models.Model):
+	company = models.OneToOneField(Company, on_delete=models.CASCADE)
+	privacy_text = RichTextField()
+	date_created = models.DateTimeField(auto_now_add=True)
+	date_modified = models.DateTimeField(auto_now=True)
+
+	def __str__(self):
+		return 'Privacy Policy'
+
+	class Meta:
+		verbose_name_plural = 'Privacy policy'
+

@@ -76,7 +76,7 @@ function switchClass(isTrue, element, trueClass, falseClass) {
 
 
 
-function addRatingStar(rating) {
+function addRatingStar(rating, starSize, starColor) {
 	/*
 		Dynamically generate star icon based on ratings given
 	*/
@@ -88,14 +88,41 @@ function addRatingStar(rating) {
 	
 
 	for(let i=0; i<fullStar; i++) {
-		ratingIcon += `<i class="fa fa-star rating-icon sm" style="color:#FEFEFE"></i>`;
+		ratingIcon += `<i class="fa fa-star rating-icon ${starSize}" style="color:${starColor}"></i>`;
 	}
 	for(let i=0; i<halfStar; i++) {
-		ratingIcon += `<i class="fa fa-star-half-o rating-icon sm" style="color:#FEFEFE"></i>`;
+		ratingIcon += `<i class="fa fa-star-half-o rating-icon ${starSize}" style="color:${starColor}"></i>`;
 	}
 	for(let i=0; i<noStar; i++) {
-		ratingIcon += `<i class="fa fa-star-o rating-icon sm" style="color:#FEFEFE"></i>`;
+		ratingIcon += `<i class="fa fa-star-o rating-icon ${starSize}" style="color:${starColor}"></i>`;
 	}
 
 	return ratingIcon
+}
+
+
+
+
+function getCookie(cookieName) {
+	/*
+		Return the cookie value	
+	*/
+	const allCookies = decodeURIComponent(document.cookie);
+	const splitCookies = allCookies.split(";");
+
+	// pair cookies by key, value pair
+	const pairCookies = splitCookies.map(cookie => cookie.split("="))
+
+	// find the cookie by cookieName
+	const foundCookie = pairCookies.find(cookie => cookie[0].trim() === cookieName);
+
+	if (!foundCookie) return false
+
+	const [key, value] = foundCookie; // pair the found cookie
+
+	// Remove "" from cookie value (special cases)
+	// return value.slice(1, value.length-1);
+
+	return value; 
+
 }

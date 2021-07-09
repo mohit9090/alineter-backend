@@ -2,7 +2,8 @@ from django.contrib import admin
 
 from . models import (Company, CompanyInfo, CompanyAddress, 
 	CompanyEmailHelpline, CompanyTelephoneHelpline, 
-	CompanyFounder, CustomerQuery, CompanyFaq ,CompanyReview)
+	CompanyFounder, CustomerQuery, CompanyFaq ,CompanyReview,
+	CompanyTermsCondition, CompanyPrivacyPolicy)
 
 class CompanyAdmin(admin.ModelAdmin):
 	list_display = ['name', 'website', 'active']
@@ -57,6 +58,12 @@ class CompanyFaqAdmin(admin.ModelAdmin):
 	ordering = ['-asked_date']
 
 
+class CompanyTermsConditionPrivacyPolicyAdmin(admin.ModelAdmin):
+	list_display = ['date_modified', 'date_created']
+
+
+
+
 
  
 admin.site.register(Company, CompanyAdmin)
@@ -68,3 +75,5 @@ admin.site.register(CompanyReview, CompanyReviewAdmin)
 admin.site.register(CompanyInfo, CompanyInfoAdmin)
 admin.site.register(CustomerQuery, CustomerQueryAdmin)
 admin.site.register(CompanyFaq, CompanyFaqAdmin)
+admin.site.register(CompanyTermsCondition, CompanyTermsConditionPrivacyPolicyAdmin)
+admin.site.register(CompanyPrivacyPolicy, CompanyTermsConditionPrivacyPolicyAdmin)

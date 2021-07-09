@@ -63,7 +63,7 @@ section#contact-us {
 .telephone-support > a {
 	color:var(--bg-light);
 }
-.contact-us-btn {
+/*.contact-us-btn {
 	width:120px;
 	font-weight:600;
 	font-size:1.1rem;
@@ -74,7 +74,7 @@ section#contact-us {
 .contact-us-btn:hover {
 	filter:brightness(90%);
 }
-/*MAP*/
+*//*MAP*/
 
 .gmap_canvas {
 	overflow:hidden;

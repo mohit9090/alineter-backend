@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 
+from company.models import CompanyTermsCondition, CompanyPrivacyPolicy
+
 
 
 def cancellation_refund(request):
@@ -8,7 +10,10 @@ def cancellation_refund(request):
 
 
 def terms_condition(request):
-	return render(request, 'company_policy/terms.html')
+	tnc = CompanyTermsCondition.objects.first()
+	privacy_policy = CompanyPrivacyPolicy.objects.first()
+	context = {'tnc':tnc, 'privacy_policy':privacy_policy}
+	return render(request, 'company_policy/terms.html', context)
 
 
 def ordering_terms(request):
