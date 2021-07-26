@@ -1,4 +1,6 @@
 from django.shortcuts import redirect
+from cookie.models import Cookie
+import random
 
 
 def only_unauthenticated_user(func):

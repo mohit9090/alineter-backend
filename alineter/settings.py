@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'auth_page',
     'blog',
+    'cookie',
     'company',
     'company_policy',
     'ERROR_HANDLER',

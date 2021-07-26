@@ -6,13 +6,18 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.contrib import messages
+from django.conf import settings
 User = get_user_model()
 
 from . models import Customer
+from cookie.models import Cookie
 
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 import random
+import datetime
+
+from . password import generate_password
 
 from accounts.decorators import only_unauthenticated_user, only_authenticated_user
 
@@ -55,6 +60,31 @@ def check_verification(func):
 	return wrapper
 
 """ ------------ DECORATORS END ------------- """
+
+""" ------------ SET COOKIE FUNCTION -------- """
+def set_cookie(request, response, key, value, days_expire=7):
+	if not key or not value or not request.user:
+		return response
+	
+	cookie_max_age = days_expire * 24 * 60 * 60 # days_expire in seconds
+	cookie_expiry_date = datetime.datetime.now() + datetime.timedelta(seconds=cookie_max_age)
+	format_expiry_date = datetime.datetime.strftime(cookie_expiry_date, "%a, %d-%b-%Y %H:%M:%S")
+	response.set_cookie(
+		key=key,
+		value=value,
+		expires=format_expiry_date,
+		domain=settings.SESSION_COOKIE_DOMAIN,
+		secure=settings.SESSION_COOKIE_SECURE or None,
+	)
+	# Create Cookie model
+	cookie = Cookie.objects.create(
+		user=request.user, 
+		cookie_id=value, 
+		expiry_date=cookie_expiry_date
+	)
+	
+	return response
+
 
 
 def redirect_default(request):
@@ -125,9 +155,11 @@ def signup(request):
 
 @only_unauthenticated_user
 def login(request):
+
 	if request.POST:
 		login_email = request.POST.get('login-email')
 		login_password = request.POST.get('login-pwd')
+		login_remember = request.POST.get('login-remember-me')
 
 		authenticated_user = authenticate(request, email=login_email, password=login_password)
 
@@ -142,8 +174,18 @@ def login(request):
 				""" credentials valid and user is also verified so log him in """
 				login_user(request, authenticated_user)
 
-				EXPIRY_AGE = 30*24*60*60 # 1 month in secs
-				request.session.set_expiry(EXPIRY_AGE) # expire this session after EXPIRY_AGE
+				""" SET SESSION FOR LOGIN """
+				SESSION_EXPIRY_AGE = 24*60*60 # 1 day in secs
+				request.session.set_expiry(SESSION_EXPIRY_AGE) # expire this session after EXPIRY_AGE
+
+				""" SET COOKIES FOR LOGIN (REMEMBER ME) IF ALLOWED"""
+				if login_remember:
+					# Set Cookie
+					COOKIE_EXIPRY_AGE = 60 # 60 days
+					response = redirect('home:home')
+					cookie_key = 'cookieid'
+					cookie_value = generate_password(max_len=32, allow_symbols=False) 
+					return set_cookie(request, response, key=cookie_key, value=cookie_value, days_expire=COOKIE_EXIPRY_AGE)
 
 				return redirect('home:home')
 		else:
@@ -179,21 +221,21 @@ def otp_verification(request):
 	""" Verification is only required after signup. So this page exists only after signup """
 	global VERIFICATION_ATTEMPT
 
-	o = generateOTP(request) # runs only once
+	generated_otp = generateOTP(request) # runs only once
 
 	context = {'verify_email': request.session['session_email']}
 
 	if request.GET:
-		if request.GET.get('r') == 't':
+		if request.GET.get('r') == 't': # GET reuest to re-generate OTP
 			global HAS_EXECUTED
 			HAS_EXECUTED = False
-			o = generateOTP(request) # request to regenerate OTP
+			generated_otp = generateOTP(request) # request to regenerate OTP
 
 	if request.POST:
-		i = request.POST.get('otp')
+		input_otp = request.POST.get('otp')
 
 		try:
-			request.session['session_otp']
+			generated_otp = request.session['session_otp']
 		except:
 			# ------------ do something here otp session is not present-------------------- #
 			# This event also occurs when user has entered otp once
@@ -202,7 +244,7 @@ def otp_verification(request):
 			return HttpResponse("Something went wrong")
 		else:
 
-			if check_password(i, request.session['session_otp']):
+			if check_password(input_otp, generated_otp):
 				
 				signed_user = get_object_or_404(User, email=request.session['session_email'])
 				signed_user.verified_user = True
