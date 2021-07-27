@@ -18,6 +18,7 @@ import random
 import datetime
 
 from . password import generate_password
+from cookie.cookies import set_cookie, delete_cookie
 
 from accounts.decorators import only_unauthenticated_user, only_authenticated_user
 
@@ -60,42 +61,6 @@ def check_verification(func):
 	return wrapper
 
 """ ------------ DECORATORS END ------------- """
-
-""" ------------ SET COOKIE FUNCTION -------- """
-def set_cookie(request, response, key, value, days_expire=7):
-	if not key or not value or not request.user:
-		return response
-	
-	cookie_max_age = days_expire * 24 * 60 * 60 # days_expire in seconds
-	cookie_expiry_date = datetime.datetime.now() + datetime.timedelta(seconds=cookie_max_age)
-	format_expiry_date = datetime.datetime.strftime(cookie_expiry_date, "%a, %d-%b-%Y %H:%M:%S")
-	response.set_cookie(
-		key=key,
-		value=value,
-		expires=format_expiry_date,
-		domain=settings.SESSION_COOKIE_DOMAIN,
-		secure=settings.SESSION_COOKIE_SECURE or None,
-	)
-	# Create Cookie model for current user instance
-	cookie = Cookie.objects.create(
-		user=request.user, 
-		cookie_id=value, 
-		expiry_date=cookie_expiry_date
-	)
-	return response
-
-
-""" ----------- DELETE COOKIE FUNCTION ---------- """
-def delete_cookie(request, response, key):
-	response.delete_cookie(key)
-	# Delete Cookie from model for current user instance
-	try:
-		user_cookie = Cookie.objects.get(user=request.user)
-	except Cookie.DoesNotExist:
-		pass
-	else:
-		user_cookie.delete()
-	return response
 
 
 
@@ -167,14 +132,12 @@ def signup(request):
 
 @only_unauthenticated_user
 def login(request):
-
 	if request.POST:
 		login_email = request.POST.get('login-email')
 		login_password = request.POST.get('login-pwd')
 		login_remember = request.POST.get('login-remember-me')
 
 		authenticated_user = authenticate(request, email=login_email, password=login_password)
-
 		if authenticated_user is not None:
 			
 			if not authenticated_user.verified_user:
@@ -214,7 +177,7 @@ def logout(request):
 
 	""" (REMEMBER ME COOOKIE IS PRESENT), so Delete the Cookie """
 	if request.COOKIES.get(cookie_key):
-		response = delete_cookie(request, response, cookie_key)
+		response = delete_cookie(request, response, cookie_key, user=request.user)
 
 	logout_user(request)
 	return response
