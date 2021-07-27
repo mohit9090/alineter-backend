@@ -76,13 +76,25 @@ def set_cookie(request, response, key, value, days_expire=7):
 		domain=settings.SESSION_COOKIE_DOMAIN,
 		secure=settings.SESSION_COOKIE_SECURE or None,
 	)
-	# Create Cookie model
+	# Create Cookie model for current user instance
 	cookie = Cookie.objects.create(
 		user=request.user, 
 		cookie_id=value, 
 		expiry_date=cookie_expiry_date
 	)
-	
+	return response
+
+
+""" ----------- DELETE COOKIE FUNCTION ---------- """
+def delete_cookie(request, response, key):
+	response.delete_cookie(key)
+	# Delete Cookie from model for current user instance
+	try:
+		user_cookie = Cookie.objects.get(user=request.user)
+	except Cookie.DoesNotExist:
+		pass
+	else:
+		user_cookie.delete()
 	return response
 
 
@@ -197,8 +209,15 @@ def login(request):
 
 @only_authenticated_user
 def logout(request):
+	cookie_key = 'cookieid'
+	response = redirect('home:home')
+
+	""" (REMEMBER ME COOOKIE IS PRESENT), so Delete the Cookie """
+	if request.COOKIES.get(cookie_key):
+		response = delete_cookie(request, response, cookie_key)
+
 	logout_user(request)
-	return redirect('home:home') 
+	return response
 
 
 

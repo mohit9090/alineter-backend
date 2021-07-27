@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 from django.contrib.auth import get_user_model
 User = get_user_model() 
@@ -14,8 +16,15 @@ class Cookie(models.Model):
 		return self.cookie_id
 
 
-""" 
 
-if the cookie with the user already exists by chanace then delete the previous cookie
+""" Delete the previous instance of user if it is already existing """
+@receiver(pre_save, sender=Cookie)
+def check_existence(sender, instance, **kwargs):
+	try:
+		prev_user_instance = Cookie.objects.get(user=instance.user)
+	except Cookie.DoesNotExist:
+		return
+	else:
+		prev_user_instance.delete()
 
-"""
+
