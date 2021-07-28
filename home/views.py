@@ -11,6 +11,9 @@ import json
 
 User = get_user_model()
 
+# from accounts.decorators import check_login_cookie
+
+# @check_login_cookie
 def home(request):
 	context = {}
 

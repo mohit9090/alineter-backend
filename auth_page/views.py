@@ -1,27 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.contrib import messages
 from django.conf import settings
+from django.views.decorators.csrf import csrf_protect, csrf_exempt # check
 User = get_user_model()
 
-from . models import Customer
+# Models
+from auth_page.models import Customer
 from cookie.models import Cookie
 
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
-
-import random
-import datetime
-
-from . password import generate_password
+# Functions
+from auth_page.password import generate_password
 from cookie.cookies import set_cookie, delete_cookie
 
+# Decorators 
 from accounts.decorators import only_unauthenticated_user, only_authenticated_user
+from cookie.decorators import check_login_cookie
 
+# Python Import
+import random
+import datetime
 
 
 VERIFICATION_ATTEMPT = 0 #keeps the count for number of times user sends a request to resend OTP (max = 3)
@@ -68,6 +70,7 @@ def redirect_default(request):
 	return redirect('auth:login')
 
 
+@check_login_cookie
 @only_unauthenticated_user
 def signup(request):
 	if request.POST:
@@ -129,7 +132,7 @@ def signup(request):
 	return render(request, 'auth_page/signup.html')
 
 
-
+@check_login_cookie
 @only_unauthenticated_user
 def login(request):
 	if request.POST:
@@ -169,7 +172,7 @@ def login(request):
 	return render(request, 'auth_page/login.html')
 
 
-
+@check_login_cookie
 @only_authenticated_user
 def logout(request):
 	cookie_key = 'cookieid'
@@ -182,6 +185,9 @@ def logout(request):
 	logout_user(request)
 	return response
 
+
+
+#----------------------- CHECK DECORATOR
 
 
 @only_unauthenticated_user
