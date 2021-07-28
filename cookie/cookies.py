@@ -1,5 +1,7 @@
 from django.conf import settings
+# Models
 from cookie.models import Cookie
+# Python Import
 import datetime
 
 """ ------------ SET COOKIE FUNCTION -------- """

@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-
-from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from auth_page.models import Customer
-
-from company.models import CompanyReview
-# import uuid
-import json
-
 User = get_user_model()
+
+# Models
+from company.models import CompanyReview
+
+# Python Import
+# import json
+
 
 # from accounts.decorators import check_login_cookie
 

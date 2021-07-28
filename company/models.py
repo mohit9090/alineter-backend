@@ -1,11 +1,10 @@
 from django.db import models
 from django.utils.timesince import timesince
-
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+# 3rd party import
 from PIL import Image
-
 from ckeditor.fields import RichTextField
 
 

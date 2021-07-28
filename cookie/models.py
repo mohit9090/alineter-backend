@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-
 from django.contrib.auth import get_user_model
 User = get_user_model() 
 
@@ -27,6 +26,3 @@ def check_existence(sender, instance, **kwargs):
 	else:
 		prev_user_instance.delete()
 
-
-
-# 2021-07-27 14:26:35.992036+00:00  ----  2021-07-27 14:27:36.472036+00:00  ----  2021-07-27 20:01:40.436411

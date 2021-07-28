@@ -1,15 +1,13 @@
 from django.db import models
-
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
-
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-from PIL import Image
-
 User = get_user_model()
+
+# 3rd party import
+from PIL import Image
 
 
 def profilepic_directory_path(instance, filename):

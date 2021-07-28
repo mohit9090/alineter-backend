@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-
-from . models import Company, CompanyInfo, CustomerQuery, CompanyReview, CompanyFaq
-
 from django.contrib import messages
+
+# Models
+from company.models import Company, CustomerQuery, CompanyReview, CompanyFaq
+
 
 
 def about(request):
