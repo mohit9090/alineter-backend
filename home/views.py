@@ -7,13 +7,16 @@ User = get_user_model()
 # Models
 from company.models import CompanyReview
 
+# Decorators
+from cookie.decorators import check_login_cookie
+
 # Python Import
 # import json
 
 
 # from accounts.decorators import check_login_cookie
 
-# @check_login_cookie
+@check_login_cookie
 def home(request):
 	context = {}
 

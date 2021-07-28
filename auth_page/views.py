@@ -1,29 +1,27 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, Http404
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.contrib import messages
-from django.conf import settings
-from django.views.decorators.csrf import csrf_protect, csrf_exempt # check
+# from django.views.decorators.csrf import csrf_protect, csrf_exempt # check
 User = get_user_model()
 
 # Models
 from auth_page.models import Customer
-from cookie.models import Cookie
 
 # Functions
 from auth_page.password import generate_password
 from cookie.cookies import set_cookie, delete_cookie
 
 # Decorators 
+from auth_page.decorators import after_signup_only, check_verification
 from accounts.decorators import only_unauthenticated_user, only_authenticated_user
 from cookie.decorators import check_login_cookie
 
 # Python Import
 import random
-import datetime
 
 
 VERIFICATION_ATTEMPT = 0 #keeps the count for number of times user sends a request to resend OTP (max = 3)
@@ -42,25 +40,25 @@ def run_once(func):
 	HAS_EXECUTED = False
 	return wrapper
 
-def after_signup_only(func):
-	def wrapper(request, *args, **kwargs):
-		try:
-			request.session['session_email']
-		except:
-			# -- Request is not after Signup Page -- #
-			return redirect('home:home')
-		else:
-			return func(request, *args, **kwargs)
-	return wrapper
+# def after_signup_only(func):
+# 	def wrapper(request, *args, **kwargs):
+# 		try:
+# 			request.session['session_email']
+# 		except:
+# 			# -- Request is not after Signup Page -- #
+# 			return redirect('home:home')
+# 		else:
+# 			return func(request, *args, **kwargs)
+# 	return wrapper
 
-def check_verification(func):
-	def wrapper(request, *args, **kwargs):
-		signed_user = get_object_or_404(User, email=request.session['session_email'])
-		if not signed_user.verified_user:
-			""" need for verification """
-			return func(request, *args, **kwargs)
-		return redirect('home:home')
-	return wrapper
+# def check_verification(func):
+# 	def wrapper(request, *args, **kwargs):
+# 		signed_user = get_object_or_404(User, email=request.session['session_email'])
+# 		if not signed_user.verified_user:
+# 			""" need for verification """
+# 			return func(request, *args, **kwargs)
+# 		return redirect('home:home')
+# 	return wrapper
 
 """ ------------ DECORATORS END ------------- """
 
@@ -186,11 +184,6 @@ def logout(request):
 	return response
 
 
-
-#----------------------- CHECK DECORATOR
-
-
-@only_unauthenticated_user
 @run_once
 def generateOTP(request):
 	otp = str(random.randint(11111,99999))
@@ -214,7 +207,7 @@ def otp_verification(request):
 	context = {'verify_email': request.session['session_email']}
 
 	if request.GET:
-		if request.GET.get('r') == 't': # GET reuest to re-generate OTP
+		if request.GET.get('r') == 't': # GET request to re-generate OTP
 			global HAS_EXECUTED
 			HAS_EXECUTED = False
 			generated_otp = generateOTP(request) # request to regenerate OTP

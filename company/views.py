@@ -5,8 +5,12 @@ from django.contrib import messages
 # Models
 from company.models import Company, CustomerQuery, CompanyReview, CompanyFaq
 
+# Decorators
+from cookie.decorators import check_login_cookie
 
 
+
+@check_login_cookie
 def about(request):
 	company = Company.objects.first()
 	founders = company.companyfounder_set.all()
@@ -14,6 +18,7 @@ def about(request):
 	return render(request, 'company/about.html', context)
 
 
+@check_login_cookie
 def contact(request):
 	company = Company.objects.first()
 	company_address = company.companyaddress.get_address()
@@ -27,7 +32,6 @@ def contact(request):
 	
 	if request.POST:
 		company = Company.objects.first()
-		print(request.POST)
 		customer_name = request.POST.get('mailer-name')
 		customer_email = request.POST.get('mailer-email')
 		mail_subject = request.POST.get('mail-subject')
@@ -39,7 +43,7 @@ def contact(request):
 	return render(request, 'company/contact.html', context)
 
 
-
+@check_login_cookie
 def faq(request):
 	return render(request, 'company/faq.html')
 
@@ -59,6 +63,8 @@ def fetch_faq(request):
 		return JsonResponse(faqs_arr, safe=False)
 	return HttpResponse("Your are not authorized to access this page.") 
 
+
+@check_login_cookie
 def write_about_us(request):
 	if request.POST:
 		""" Get input from the user """

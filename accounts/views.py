@@ -13,6 +13,5 @@ from cookie.decorators import check_login_cookie
 @check_login_cookie 
 @only_authenticated_user 
 def account(request):
-	print("inside view function")
 	return render(request, "accounts/account.html")
 

@@ -10,11 +10,8 @@ import datetime
 
 
 def check_login_cookie(view_func):
-	print("decorator A, calling to - ", view_func)
 	def wrapper_login_cookie(request, *args, **kwargs):
 		cookie_key = 'cookieid'
-		print("wrapper A, calling to - ", view_func)
-
 		# Cookie Session Exists
 		if not request.user.is_authenticated and request.COOKIES.get(cookie_key):
 			cookie_id = request.COOKIES.get(cookie_key)
