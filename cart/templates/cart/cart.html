@@ -1,0 +1,285 @@
+
+{% extends 'home/base.html' %}
+
+{% load static %}
+
+
+
+{% block title %}
+
+  <title>Your Cart | Alineter</title>
+
+{% endblock title %}
+
+
+
+{% block seo_metatag %}
+  
+  <meta name="description" content="This online SEO cheat sheet lists everyting to rank first...">
+  <meta name="keywords" content="seo,cheat,sheet">
+
+  <meta property="og:site_name" content="Alineter">
+  <meta property="og:title" content="0.1 seconds is all it takes">
+  <meta property="og:description" content="What are the things people notice first to form a quick opinion on you? Here's your answer">
+  <meta property="og:url" content="https://www.colbyfayock.com/2020/03/anyone-can-map-inspiration-and-an-introduction-to-the-world-of-mapping/">
+  <meta property="og:type" content="article">
+
+  <meta property="article:publisher" content="https://www.alineter.com"/>
+  <meta property="article:section" content="Trending Design"/>
+  <meta property="article:tag" content="Fashion"/>
+  <meta property="article:published_time" content="2021-03-12T00:01:56+00:00" />
+  <meta property="article:author" content="Sanmay Biswal"/>
+
+  <meta property="og:image" content="https://mohit9090.github.io/alineter/images/blog-img--1.webp">
+  <meta property="og:image:secure_url" content="https://mohit9090.github.io/alineter/images/blog-img--1.webp">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="640">
+
+  <meta property="twitter:card" content="What are the things people notice first to form a quick opinion on you? Here's your answer" />
+  <meta property="twitter:image" content="https://mohit9090.github.io/alineter/images/blog-img--1.webp" />
+  <meta property="twitter:site" content="ALINETER" />
+
+{% endblock seo_metatag %}
+
+
+
+{% block css_link %}
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}?{% now 'U' %}">
+
+{% endblock css_link %}
+
+
+
+{% block page_content %}
+
+  <section id="cart-header" class="w-100 scroll-reveal-content">
+    <div class="reveal__opacity">
+      <h1>Shopping Cart</h1>
+    </div>
+  </section>
+
+  <section id="cart" class="w-100">
+    <div class="row">
+      <div class="cart-container col-lg-8 col-md-7 col-sm-12">
+        <div class="cart--div">
+          <div class="heading--div">
+            <h6 class="heading">5 items in cart</h6>
+          </div>
+          <div class="cart--list-wrapper">
+            <ul class="list cart--list">
+              <li class="list-item cart--item row ml-0 mr-0">
+                <div class="item-img--wrapper col-3 border-right">
+                  <div class="item-img--div cy position-relative">
+                    <a href="#product"><img src="{% static 'images/alineter/men-fashion-2.jpg' %}" class="item-img"></a>
+                  </div>
+                </div>
+                
+                <div class="item-detail--wrapper col-7">
+                  <div class="item-detail d-flex flex-column text-left">
+                    <a href="#product" class="item-name">This is the name of the product</a>
+                    <span class="item-price">
+                      <span class="price-tag">Price:</span>
+                      <span class="price-new">₹879</span>
+                      <span class="price-original">₹1200</span>
+                    </span>
+                  </div>
+                  <div class="item-quantity d-flex flex-wrap text-left">
+                    <span class="heading">Quantity:</span>
+                    <div class="item-quantity-counter d-flex">
+                      <button class="btn count--btn upcount"><span class="fa fa-caret-down"></span></button>
+                      <span class="display align-self-center">1</span>
+                      <button class="btn count--btn downcount"><span class="fa fa-caret-up"></span></button>
+                    </div>
+                  </div>
+                  <div class="item-link--div d-flex flex-wrap text-left">
+                    <a href="#remove" class="item-link remove">Remove Item</a>
+                  </div>
+                </div>
+                
+                <div class="item-checkout--wrapper col-2 border-left">
+                  <div class="add-for-checkout position-relative cy">
+                    <small class="font-weight-bold">ADD</small>
+                    <input type="checkbox" name="" checked>
+                  </div>
+                </div>
+              </li>
+
+              <li class="list-item cart--item row ml-0 mr-0">
+                <div class="item-img--wrapper col-3 border-right">
+                  <div class="item-img--div cy position-relative">
+                    <a href="#product"><img src="{% static 'images/alineter/men-fashion-5.jpg' %}" class="item-img"></a>
+                  </div>
+                </div>
+                
+                <div class="item-detail--wrapper col-7">
+                  <div class="item-detail d-flex flex-column text-left">
+                    <a href="#product" class="item-name">This is the name of the product</a>
+                    <span class="item-price">
+                      <span class="price-tag">Price:</span>
+                      <span class="price-new">₹879</span>
+                      <span class="price-original">₹1200</span>
+                    </span>
+                  </div>
+                  <div class="item-quantity d-flex flex-wrap text-left">
+                    <span class="heading">Quantity:</span>
+                    <div class="item-quantity-counter d-flex">
+                      <button class="btn count--btn upcount"><span class="fa fa-caret-down"></span></button>
+                      <span class="display align-self-center">1</span>
+                      <button class="btn count--btn downcount"><span class="fa fa-caret-up"></span></button>
+                    </div>
+                  </div>
+                  <div class="item-link--div d-flex flex-wrap text-left">
+                    <a href="#remove" class="item-link remove">Remove Item</a>
+                  </div>
+                </div>
+                
+                <div class="item-checkout--wrapper col-2 border-left">
+                  <div class="add-for-checkout position-relative cy">
+                    <small class="font-weight-bold">ADD</small>
+                    <input type="checkbox" name="" checked>
+                  </div>
+                </div>
+              </li>
+
+              <li class="list-item cart--item row ml-0 mr-0">
+                <div class="item-img--wrapper col-3 border-right">
+                  <div class="item-img--div cy position-relative">
+                    <a href="#product"><img src="{% static 'images/alineter/men-fashion.jpg' %}" class="item-img"></a>
+                  </div>
+                </div>
+                
+                <div class="item-detail--wrapper col-7">
+                  <div class="item-detail d-flex flex-column text-left">
+                    <a href="#product" class="item-name">This is the name of the product</a>
+                    <span class="item-price">
+                      <span class="price-tag">Price:</span>
+                      <span class="price-new">₹879</span>
+                      <span class="price-original">₹1200</span>
+                    </span>
+                  </div>
+                  <div class="item-quantity d-flex flex-wrap text-left">
+                    <span class="heading">Quantity:</span>
+                    <div class="item-quantity-counter d-flex">
+                      <button class="btn count--btn upcount"><span class="fa fa-caret-down"></span></button>
+                      <span class="display align-self-center">1</span>
+                      <button class="btn count--btn downcount"><span class="fa fa-caret-up"></span></button>
+                    </div>
+                  </div>
+                  <div class="item-link--div d-flex flex-wrap text-left">
+                    <a href="#remove" class="item-link remove">Remove Item</a>
+                  </div>
+                </div>
+                
+                <div class="item-checkout--wrapper col-2 border-left">
+                  <div class="add-for-checkout position-relative cy">
+                    <small class="font-weight-bold">ADD</small>
+                    <input type="checkbox" name="" checked>
+                  </div>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-container col-lg-4 col-md-5 col-sm-12">
+        <div class="checkout--div d-flex flex-column">
+          <div class="heading--div">
+            <h6 class="heading">Order summary</h6>
+          </div>
+          
+          <div class="price--div">
+            <ul class="list price--list">
+              <li class="list-item price--item d-flex justify-content-between">
+                <span class="price--item-name">Total</span>
+                <span class="price--item-value">700</span>
+              </li>
+              <li class="list-item price--item d-flex justify-content-between">
+                <span class="price--item-name">Discount</span>
+                <span class="price--item-value discount">120</span>
+              </li>
+              <li class="list-item price--item d-flex justify-content-between">
+                <span class="price--item-name">Shipping</span>
+                <span class="price--item-value">30</span>
+              </li>
+              <li class="list-item price--item d-flex justify-content-between">
+                <span class="price--item-name">Net Total</span>
+                <span class="price--item-value">610</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="promocode--div">
+            <div class="heading--div">
+              <h6 class="heading">Promotional Code</h6>
+            </div>
+            <div class="promocode-applied--div">
+              <ul class="list promocode--list">
+                <!-- <li class="list-item promocode--item d-flex">
+                  <span class="promocode align-self-center">No Promocode</span>
+                </li> -->
+
+                <li class="list-item promocode--item d-flex">
+                  <button class="btn cancel-code-btn">&times;</button>
+                  <span class="promocode align-self-center">dsgfudsy7832vwq81</span>
+                </li>
+                <li class="list-item promocode--item d-flex">
+                  <button class="btn cancel-code-btn">&times;</button>
+                  <span class="promocode align-self-center">77wgfudsy7832vwasd</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="promocode--form">
+              <div class="input-group">
+                <input type="text" class="form-control coupon-code--input" name="coupon-code"spellcheck="false" placeholder="Enter Coupon Code">
+                 <div class="input-group-append">
+                   <button type="button" class="btn btn-i-primary apply-code-btn">
+                    <div class="d-flex justify-content-center">
+                      <span>Apply</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout--div">
+            <button type="button" class="btn btn-i-primary w-100 checkout-btn">
+              <div class="d-flex justify-content-center">
+                <span>Checkout</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock page_content %}
+
+
+
+{% block js_script_link %}
+
+  <script type="text/javascript">
+    const scrollBtn = document.querySelectorAll(".scroll-btn");
+
+    let isMobile = detectMob();
+    isMobile ? addMobile__Class([...scrollBtn]) : removeMobile__Class([...scrollBtn]);
+  </script>
+
+
+{% endblock js_script_link %}
+
+<!--
+
+-- NOTE --
+
+2) FIX LOADING ANIMATION BEFORE ELEMENTS LOAD
+
+buy now , shop now is not linked
+
+-->

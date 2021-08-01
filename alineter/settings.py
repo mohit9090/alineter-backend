@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'auth_page',
     'blog',
+    'cart',
     'cookie',
     'company',
     'company_policy',
