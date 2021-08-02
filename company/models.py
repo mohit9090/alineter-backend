@@ -11,7 +11,7 @@ from ckeditor.fields import RichTextField
 def profilepic_directory_path(instance, filename):
 	ext = filename.split('.')[1]
 	username = ''.join(instance.name.split(' '))
-	filename = f'{username}.${ext}'
+	filename = f'{username}.{ext}'
 
 	return f'alineter/founder/{filename}'
 

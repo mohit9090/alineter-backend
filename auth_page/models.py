@@ -15,7 +15,7 @@ def profilepic_directory_path(instance, filename):
 	Change filename of profile picture
 	"""
 	ext = filename.split('.')[1]
-	filename = f'{instance.user.username}-pic.${ext}'
+	filename = f'{instance.user.username}-pic.{ext}'
 
 	return f'customer/profilepic/{filename}' 
 
