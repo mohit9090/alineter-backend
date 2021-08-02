@@ -46,8 +46,10 @@ input[name="q"] + .fa-times,
 .category-dropbtn > .fa-caret-down,
 /*policy-pg-design.css*/
 .policy-body p a,
-.rating-icon {
-	transition:0.2s ease-in-out;
+.rating-icon,
+/*cart.css*/
+.item-detail > .item-name {
+	transition: .2s ease-in-out;
 }
 
 
@@ -79,7 +81,9 @@ input[name="q"] + .fa-times,
 /*policy-pg-design*/
 .policy-body :is( p, ul),
 .tnc-btn,
-.review-btn {
+.review-btn,
+/*cart*/
+.checkout-btn {
 	font-family:var(--ff-primary);
 }
 
@@ -116,7 +120,10 @@ input[name="q"] + .fa-times,
 /*policy-pg-design*/
 .policy-head--s1 h1,
 .policy-head--s2 h1,
-.policy-body h1 {
+.policy-body h1,
+/*cart*/
+.cart--div,
+.checkout--div {
 	font-family:var(--ff-tertiary);
 }
 
@@ -132,7 +139,9 @@ body,
 .profile-cards .director-designation,
 /*blogs*/
 .blog-author-name span,
-.blog-pub-date {
+.blog-pub-date,
+/*cart*/
+#cart-header {
 	font-family:var(--ff-roboto);
 }
 

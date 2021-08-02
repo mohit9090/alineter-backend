@@ -2,7 +2,6 @@
 	padding: 2.2rem 1.2rem;
 	background: var(--bg-tertiary);
 	color: var(--bg-primary);
-	font-family: var(--ff-roboto);
 }
 #cart-header > div > h1 {
 	font-weight: 600;
@@ -19,12 +18,12 @@
 .cart--div,
 .checkout--div {
 	padding: 1rem;
-	font-family: var(--ff-tertiary);
 	border-radius: 2px;
 }
-.heading--div .heading {
+.heading--div .heading,
+.checkout-btn {
 	text-transform: capitalize;
-	font-weight: bold;
+	font-weight: 600;
 }
 .list {
 	padding: 0;
@@ -32,6 +31,13 @@
 }
 .list-item {
 	margin-bottom: .4rem;
+}
+.inr:before {
+	content: '₹';
+	margin-right: .1rem;
+}
+.inr.discount:before {
+	content: '- ₹';
 }
 
 /* CART */
@@ -56,11 +62,6 @@
 	width: 100%;
 	height: 100%;
 }
-.item-img--div .item-img {
-	width: 100%;
-	height: 100%;
-	object-fit: contain;
-}
 .item-detail--wrapper > *:not(:last-child),
 .item-detail > *:not(:last-child) {
 	margin-bottom: .4rem;
@@ -75,7 +76,6 @@
 .item-detail > .item-name {
 	font-weight: 700;
 	color: var(--bg-secondary);
-	transition: .3s ease;
 }
 .item-detail > .item-name:hover {
 	text-decoration: none;
@@ -146,13 +146,6 @@
 	font-size: 1.2rem;
 	font-weight: 800;
 }
-.price--item-value:before {
-	content: '₹';
-	margin-right: .1rem;
-}
-.price--item-value.discount:before {
-	content: '- ₹';
-}
 .promocode-applied--div {
 	margin-top: .4rem;
 }
@@ -178,9 +171,4 @@
 .coupon-code--input:focus {
 	border: none;
 	box-shadow: none;
-}
-.checkout-btn {
-	text-transform: uppercase;
-	font-family: var(--ff-primary);
-	font-weight: 600;
 }
