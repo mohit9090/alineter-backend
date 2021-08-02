@@ -92,6 +92,10 @@ section#about-products {
 	font-weight:600;
 	color:rgba(112, 112, 112, 0.7);
 }
+.profile-card-img {
+	height: 22rem;
+	object-fit: cover;
+}
 
 
 
