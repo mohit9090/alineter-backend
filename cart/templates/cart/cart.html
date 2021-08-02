@@ -64,51 +64,17 @@
       <div class="cart-container col-lg-8 col-md-7 col-sm-12">
         <div class="cart--div">
           <div class="heading--div">
-            <h6 class="heading">5 items in cart</h6>
+            <!-- <h6 class="heading">5 items in cart</h6> -->
           </div>
           <div class="cart--list-wrapper">
             <ul class="list cart--list">
-              <li class="list-item cart--item row ml-0 mr-0">
-                <div class="item-img--wrapper col-3 border-right">
-                  <div class="item-img--div cy position-relative">
-                    <a href="#product"><img src="{% static 'images/alineter/men-fashion-2.jpg' %}" class="item-img img-contain"></a>
-                  </div>
-                </div>
-                
-                <div class="item-detail--wrapper col-7">
-                  <div class="item-detail d-flex flex-column text-left">
-                    <a href="#product" class="item-name">This is the name of the product</a>
-                    <span class="item-price">
-                      <span class="price-tag">Price:</span>
-                      <span class="price-new inr">879</span>
-                      <span class="price-original inr">1200</span>
-                    </span>
-                  </div>
-                  <div class="item-quantity d-flex flex-wrap text-left">
-                    <span class="heading">Quantity:</span>
-                    <div class="item-quantity-counter d-flex">
-                      <button class="btn count--btn upcount"><span class="fa fa-caret-down"></span></button>
-                      <span class="display align-self-center">1</span>
-                      <button class="btn count--btn downcount"><span class="fa fa-caret-up"></span></button>
-                    </div>
-                  </div>
-                  <div class="item-link--div d-flex flex-wrap text-left">
-                    <a href="#remove" class="item-link remove">Remove Item</a>
-                  </div>
-                </div>
-                
-                <div class="item-checkout--wrapper col-2 border-left">
-                  <div class="add-for-checkout position-relative cy">
-                    <small class="font-weight-bold">ADD</small>
-                    <input type="checkbox" name="" checked>
-                  </div>
-                </div>
-              </li>
 
-              <li class="list-item cart--item row ml-0 mr-0">
+              <!-- <li class="list-item cart--item row ml-0 mr-0">
                 <div class="item-img--wrapper col-3 border-right">
                   <div class="item-img--div cy position-relative">
-                    <a href="#product"><img src="{% static 'images/alineter/men-fashion-5.jpg' %}" class="item-img img-contain"></a>
+                    <a href="#product">
+                      <img src="{% static 'images/alineter/men-fashion-2.jpg' %}" class="item-img img-contain" alt="product name">
+                    </a>
                   </div>
                 </div>
                 
@@ -140,44 +106,7 @@
                     <input type="checkbox" name="" checked>
                   </div>
                 </div>
-              </li>
-
-              <li class="list-item cart--item row ml-0 mr-0">
-                <div class="item-img--wrapper col-3 border-right">
-                  <div class="item-img--div cy position-relative">
-                    <a href="#product"><img src="{% static 'images/alineter/men-fashion.jpg' %}" class="item-img img-contain"></a>
-                  </div>
-                </div>
-                
-                <div class="item-detail--wrapper col-7">
-                  <div class="item-detail d-flex flex-column text-left">
-                    <a href="#product" class="item-name">This is the name of the product</a>
-                    <span class="item-price">
-                      <span class="price-tag">Price:</span>
-                      <span class="price-new inr">879</span>
-                      <span class="price-original inr">1200</span>
-                    </span>
-                  </div>
-                  <div class="item-quantity d-flex flex-wrap text-left">
-                    <span class="heading">Quantity:</span>
-                    <div class="item-quantity-counter d-flex">
-                      <button class="btn count--btn upcount"><span class="fa fa-caret-down"></span></button>
-                      <span class="display align-self-center">1</span>
-                      <button class="btn count--btn downcount"><span class="fa fa-caret-up"></span></button>
-                    </div>
-                  </div>
-                  <div class="item-link--div d-flex flex-wrap text-left">
-                    <a href="#remove" class="item-link remove">Remove Item</a>
-                  </div>
-                </div>
-                
-                <div class="item-checkout--wrapper col-2 border-left">
-                  <div class="add-for-checkout position-relative cy">
-                    <small class="font-weight-bold">ADD</small>
-                    <input type="checkbox" name="" checked>
-                  </div>
-                </div>
-              </li>
+              </li> -->
 
             </ul>
           </div>
@@ -263,6 +192,8 @@
 
 
 {% block js_script_link %}
+
+  <script type="text/javascript" src="{% static 'js/cart.js' %}?{% now 'U' %}"></script>
 
   <script type="text/javascript">
     const scrollBtn = document.querySelectorAll(".scroll-btn");
