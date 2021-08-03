@@ -22,7 +22,7 @@ class TestProduct(models.Model):
 
 	def save(self, *args, **kwargs):
 		price_diff = self.product_price * self.product_discount
-		self.product_sellprice = self.product_price - price_diff/100
+		self.product_sellprice = round(self.product_price - price_diff / 100)
 		super(TestProduct, self).save(*args, **kwargs)
 
 

@@ -134,15 +134,20 @@
 .checkout--div > div:not(:last-child) {
 	margin-bottom: 1rem;
 }
+.price--item {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
 .price--item:last-child {
 	border-top: .3px solid #ffffff60;
 	padding-top: .4rem;
 }
-.price--item-name {		
+.price--item_name {		
 	color: var(--bg-primary);
 	font-weight: 600;
 }
-.price--item-value {
+.price--item_value {
 	font-size: 1.2rem;
 	font-weight: 800;
 }
