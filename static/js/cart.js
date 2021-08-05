@@ -11,14 +11,97 @@ const checkoutNetPrice = checkoutContainer.querySelector('.price--item_net > .pr
 const checkoutNetDiscount = checkoutContainer.querySelector('.price--item_net .price--item_discount');
 
 let SHIPPING_CHARGE = 30; // Default
+const productDataForCheckout = [];
 
-// Format Price (Ex- 23 to 23.00)
+/* Format Price (Ex- 23 to 23.00) */
 const formatPrice = price => price.toFixed(2).toString();
 
+/* Get product index using products id */
+const getProductIndexById = pid => productDataForCheckout.findIndex(product => product.id.toString() === pid);
+
+/* Insert Data for checkout */
+const insertProductDataForCheckout = function(item) {
+	if (!item) return;
+
+	const { product : { id, price } , quantity } = item;
+	const addForCheckout = true; // Default is true when page loads
+
+	productDataForCheckout.push({
+		id, 
+		price,
+		quantity,
+		checkout: addForCheckout
+	});
+}
+
+/* Calculate total price for checkout */
+const calcTotalObj = function(items) {
+	if (!items.length) return;
+
+	const multiplyQuantity = (oPrice, sPrice, q) => {
+		return [
+			oPrice * q,
+			sPrice * q
+		]
+	}
+
+	const total = {
+		originalPrice: 0,
+		sellingPrice: 0,
+		discount: 0
+	};
+
+	// Update total Object
+	items.reduce( (tot, item) => {
+		const [ price, quantity ] = item;
+		const [ origPrice, sellPrice ] = multiplyQuantity(price.original_price, price.selling_price, quantity)
+
+		tot.originalPrice += origPrice;
+		tot.sellingPrice += sellPrice;
+		tot.discount += origPrice - sellPrice;
+		return tot;
+	}, total);
+
+	total.netPrice = total.sellingPrice + SHIPPING_CHARGE;
+	total.netDiscount = +formatPrice((total.originalPrice - total.sellingPrice) / total.originalPrice * 100) || 0;
+
+	return total;
+};
+
+/* Filter Product data based on some condition and return required fields for checkout */
+/* CONDITION: product.checkout should be true,
+	 Fields Required are products price and quantity */
+const filterProductForCheckout = products => {
+	return products
+		.filter(product => product.checkout === true)
+		.map(product => [product.price, product.quantity]);
+}
+
+/* Add product for checkout process */
+const addProductToCheckout = function(pid) {
+	const productIndex = getProductIndexById(pid);
+	if (productIndex === -1) return;
+
+	productDataForCheckout[productIndex].checkout = true;
+	renderCheckout(productDataForCheckout);
+};
+
+
+/* Remove product from checkout process */
+const removeProductFromCheckout = function(pid) {
+	const productIndex = getProductIndexById(pid);
+	if (productIndex === -1) return;
+
+	productDataForCheckout[productIndex].checkout = false;
+	renderCheckout(productDataForCheckout);
+}
+
+/* Clear the markup */
 const clearMarkup = function(elem) {
 	elem.innerHTML = '';
 }
 
+/* Insert Markup in given element */
 const insertMarkup = function(elem, markup) {
 	if (!elem) return;
 
@@ -48,35 +131,13 @@ const renderError = function(elem, error='Something Went Wrong') {
 			<p>${error}</p>
 		</div>
 	`;
+	
 	insertMarkup(elem, markup);
 }
 
-const calcTotalObj = function(items) {
-	if (!items.length) return;
-
-	const total = {
-		originalPrice: 0,
-		sellingPrice: 0,
-		discount: 0
-	};
-
-	// Update total Object
-	items.reduce( (tot, item) => {
-		tot.originalPrice += item.original_price;
-		tot.sellingPrice += item.selling_price;
-		tot.discount += item.original_price - item.selling_price;
-		return tot;
-	}, total);
-
-	total.netPrice = total.sellingPrice + SHIPPING_CHARGE;
-	total.netDiscount = +formatPrice((total.originalPrice - total.sellingPrice) / total.originalPrice * 100) || 0;
-
-	return total;
-}
-
 const renderCheckout = function(items) {
-
-	const total = calcTotalObj(items);
+	const checkoutFilter = filterProductForCheckout(items);
+	const total = calcTotalObj(checkoutFilter);
 
 	if (!total) return renderError(checkoutContainer, 'Please add Items for checkout.');
 
@@ -147,8 +208,7 @@ const renderCheckout = function(items) {
 	`;
 
 	insertMarkup(checkoutContainer, markup);
-	
-}
+};
 
 const renderCart = function(data) {
 	/* Markup for Cart heading */
@@ -159,14 +219,13 @@ const renderCart = function(data) {
 
 	/* Markup for Cart items */
 	markup = '';
-	const productPrice = [];
 
 	data.forEach(item => {
-		const { product } = item;
-		productPrice.push(product.price);
+		const { product, quantity } = item;
+		insertProductDataForCheckout(item);
 
 		markup += `
-			<li class="list-item cart--item row ml-0 mr-0" data-product-id=${product.id}>
+			<li class="list-item cart--item row ml-0 mr-0" data-product-id="${product.id}">
         <div class="item-img--wrapper col-3 border-right">
           <div class="item-img--div cy position-relative">
             <a href="#product">
@@ -189,7 +248,7 @@ const renderCart = function(data) {
             <span class="heading">Quantity:</span>
             <div class="item-quantity-counter d-flex">
               <button class="btn count--btn upcount"><span class="fa fa-caret-down"></span></button>
-              <span class="display align-self-center">${item.quantity}</span>
+              <span class="display align-self-center">${quantity}</span>
               <button class="btn count--btn downcount"><span class="fa fa-caret-up"></span></button>
             </div>
           </div>
@@ -201,7 +260,7 @@ const renderCart = function(data) {
         <div class="item-checkout--wrapper col-2 border-left">
           <div class="add-for-checkout position-relative cy">
             <small class="font-weight-bold">ADD</small>
-            <input type="checkbox" name="" checked>
+            <input type="checkbox" name="" checked data-product-id="${product.id}">
           </div>
         </div>
     	</li>
@@ -210,7 +269,7 @@ const renderCart = function(data) {
 	insertMarkup(cartList, markup);
 
 	// Render Checkout
-	renderCheckout(productPrice);
+	renderCheckout(productDataForCheckout);
 }
 
 const fetchCart = function(url) {
@@ -236,6 +295,31 @@ const fetchCart = function(url) {
 			renderCart(response.data)
 		}
 	})
+};
+
+const handleClickEvent = function() {
+	/* Handle click event on cart list */
+	cartList.addEventListener('click', function(e) {
+		const elem = e.target;
+		const checkbox = elem.closest('input[type="checkbox"]'); // CheckBox
+		const countBtn = elem.closest('.count--btn'); // Counter Button
+
+		if (!checkbox && !countBtn) return;
+
+		if (checkbox) {
+			/* Add-Remove Items from checkout */
+			const productID = checkbox.dataset.productId;
+			return (checkbox.checked)
+				?	addProductToCheckout(productID)
+				: removeProductFromCheckout(productID);
+		}
+
+		if (countBtn) {
+			/* Increase quantity of products */
+			console.log("inside count function", countBtn);
+		}
+
+	})
 }
 
 const handleLoadEvent = function() {
@@ -249,5 +333,6 @@ const init = function() {
 	renderSpinner(cartList);
 	renderSpinner(checkoutContainer);
 	handleLoadEvent();
+	handleClickEvent();
 }
 init();
