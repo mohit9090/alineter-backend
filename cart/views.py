@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
 # Models
-from cart.models import ProductCart
+from cart.models import TestProduct, ProductCart
 
 # Decorators
 from accounts.decorators import only_authenticated_user
@@ -67,4 +67,29 @@ def fetch_cart(request):
 	result['success'] = False
 	result['message'] = 'Allowed GET request only'
 	return JsonResponse(result, safe=False)
+
+
+@only_authenticated_user
+def update_quantity(request):
+	if request.POST:
+		result = {}
+		pid, quantity = request.POST.get('product_id'), request.POST.get('quantity')
+		try:
+			product = TestProduct.objects.get(id=pid)
+		except TestProduct.DoesNotExist:
+			result['success'] = False
+			result['message'] = f'Product with id, {pid} doesnot exists'
+		else:
+			try:
+				user_product_cart = ProductCart.objects.get(user=request.user, product=product)
+			except ProductCart.DoesNotExist:
+				result['success'] = False
+				result['message'] = f'Sorry, This product is not available in cart'
+			else:
+				user_product_cart.quantity = quantity
+				user_product_cart.save()
+				result['success'] = True
+				result['message'] = 'Successfully updated quantity of product in cart'
+		return JsonResponse(result, safe=False)
+	return HttpResponse("You are not allowed to access this page")
 

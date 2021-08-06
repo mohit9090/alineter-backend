@@ -13,6 +13,13 @@ const checkoutNetDiscount = checkoutContainer.querySelector('.price--item_net .p
 let SHIPPING_CHARGE = 30; // Default
 const productDataForCheckout = [];
 
+const freezeBody = function() {
+	document.body.style.pointerEvents = 'none';
+}
+const unfreezeBody = function() {
+	document.body.style.pointerEvents = 'auto';
+}
+
 /* Format Price (Ex- 23 to 23.00) */
 const formatPrice = price => price.toFixed(2).toString();
 
@@ -36,6 +43,18 @@ const insertProductDataForCheckout = function(item) {
 
 /* Calculate total price for checkout */
 const calcTotalObj = function(items) {
+	/* Structure of items
+		items : [
+			[
+				{
+					original_price: 243,
+					...
+				},
+				2 # Referes to quantity
+			]
+		]
+	*/
+	/* if items are empty */
 	if (!items.length) return;
 
 	const multiplyQuantity = (oPrice, sPrice, q) => {
@@ -83,9 +102,19 @@ const addProductToCheckout = function(pid) {
 	if (productIndex === -1) return;
 
 	productDataForCheckout[productIndex].checkout = true;
+
+	if (!productDataForCheckout[productIndex].quantity) {
+		// if product is added for checkout but quantity of product is zero	
+		updateQuantity(
+			document.querySelector(`.item-quantity-counter[data-product-id="${pid}"]`), 
+			pid,
+			1
+		);
+		return;
+	}
+
 	renderCheckout(productDataForCheckout);
 };
-
 
 /* Remove product from checkout process */
 const removeProductFromCheckout = function(pid) {
@@ -139,7 +168,10 @@ const renderCheckout = function(items) {
 	const checkoutFilter = filterProductForCheckout(items);
 	const total = calcTotalObj(checkoutFilter);
 
-	if (!total) return renderError(checkoutContainer, 'Please add Items for checkout.');
+	if (!total) {
+		renderError(checkoutContainer, 'Please add Items for checkout.');
+		return;
+	}
 
 	const markup = `
 		<div class="heading--div">
@@ -246,10 +278,10 @@ const renderCart = function(data) {
           </div>
           <div class="item-quantity d-flex flex-wrap text-left">
             <span class="heading">Quantity:</span>
-            <div class="item-quantity-counter d-flex">
-              <button class="btn count--btn upcount"><span class="fa fa-caret-down"></span></button>
+            <div class="item-quantity-counter d-flex" data-product-id="${product.id}">
+              <button class="btn count--btn downcount" data-next="${quantity - 1}"><span class="fa fa-caret-down"></span></button>
               <span class="display align-self-center">${quantity}</span>
-              <button class="btn count--btn downcount"><span class="fa fa-caret-up"></span></button>
+              <button class="btn count--btn upcount" data-next="${quantity + 1}"><span class="fa fa-caret-up"></span></button>
             </div>
           </div>
           <div class="item-link--div d-flex flex-wrap text-left">
@@ -260,7 +292,7 @@ const renderCart = function(data) {
         <div class="item-checkout--wrapper col-2 border-left">
           <div class="add-for-checkout position-relative cy">
             <small class="font-weight-bold">ADD</small>
-            <input type="checkbox" name="" checked data-product-id="${product.id}">
+            <input type="checkbox" ${quantity ? 'checked': ''} data-product-id="${product.id}">
           </div>
         </div>
     	</li>
@@ -297,6 +329,48 @@ const fetchCart = function(url) {
 	})
 };
 
+
+
+const updateQuantity = function(elem, productId, newQuantity) {
+	freezeBody()
+
+	// update cart model
+	const csrftoken = getCookie('csrftoken');
+	$.ajax({
+		url: '/cart/update/quantity/',
+		type: 'POST',
+		data: {
+			'csrfmiddlewaretoken': csrftoken,
+			'product_id': productId,
+			'quantity': newQuantity
+		},
+		complete: function(data) {
+			if (data.responseJSON.success) {
+				// Update checkbox
+				document
+					.querySelector(`input[type="checkbox"][data-product-id="${productId}"]`)
+					.checked = newQuantity ? true : false;
+
+				// Update Product data
+				const productData = productDataForCheckout.find(product => product.id === +productId);
+				productData.quantity = newQuantity;
+				productData.checkout = newQuantity ? true : false;
+
+				// Update cart quantity display
+				elem.querySelector('.display').textContent = productData.quantity;
+				elem.querySelector('.upcount').dataset.next = productData.quantity + 1;
+				elem.querySelector('.downcount').dataset.next = productData.quantity - 1;
+
+				// Render checkout
+				renderCheckout(productDataForCheckout);
+			}
+
+		}
+	});
+
+	unfreezeBody();
+}
+
 const handleClickEvent = function() {
 	/* Handle click event on cart list */
 	cartList.addEventListener('click', function(e) {
@@ -316,7 +390,14 @@ const handleClickEvent = function() {
 
 		if (countBtn) {
 			/* Increase quantity of products */
-			console.log("inside count function", countBtn);
+			const parentElem = countBtn.closest('.item-quantity-counter');
+			const productID = +parentElem.dataset.productId;
+			const updateToQuantity = +countBtn.dataset.next;
+			
+			if (isNaN(updateToQuantity) || updateToQuantity < 0) return;
+
+			// Update quantity display and model
+			updateQuantity(parentElem, productID, updateToQuantity);
 		}
 
 	})
