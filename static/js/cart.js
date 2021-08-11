@@ -125,6 +125,47 @@ const removeProductFromCheckout = function(pid) {
 	renderCheckout(productDataForCheckout);
 }
 
+/* Update product quantity in database and ui */
+const updateQuantity = function(elem, productId, newQuantity) {
+	freezeBody()
+
+	// update cart model
+	const csrftoken = getCookie('csrftoken');
+	$.ajax({
+		url: '/cart/update/quantity/',
+		type: 'POST',
+		data: {
+			'csrfmiddlewaretoken': csrftoken,
+			'product_id': productId,
+			'quantity': newQuantity
+		},
+		complete: function(data) {
+			if (data.responseJSON.success) {
+				// Update checkbox
+				document
+					.querySelector(`input[type="checkbox"][data-product-id="${productId}"]`)
+					.checked = newQuantity ? true : false;
+
+				// Update Product data
+				const productData = productDataForCheckout.find(product => product.id === +productId);
+				productData.quantity = newQuantity;
+				productData.checkout = newQuantity ? true : false;
+
+				// Update cart quantity display
+				elem.querySelector('.display').textContent = productData.quantity;
+				elem.querySelector('.upcount').dataset.next = productData.quantity + 1;
+				elem.querySelector('.downcount').dataset.next = productData.quantity - 1;
+
+				// Render checkout
+				renderCheckout(productDataForCheckout);
+			}
+
+		}
+	});
+
+	unfreezeBody();
+}
+
 /* Clear the markup */
 const clearMarkup = function(elem) {
 	elem.innerHTML = '';
@@ -330,47 +371,6 @@ const fetchCart = function(url) {
 };
 
 
-
-const updateQuantity = function(elem, productId, newQuantity) {
-	freezeBody()
-
-	// update cart model
-	const csrftoken = getCookie('csrftoken');
-	$.ajax({
-		url: '/cart/update/quantity/',
-		type: 'POST',
-		data: {
-			'csrfmiddlewaretoken': csrftoken,
-			'product_id': productId,
-			'quantity': newQuantity
-		},
-		complete: function(data) {
-			if (data.responseJSON.success) {
-				// Update checkbox
-				document
-					.querySelector(`input[type="checkbox"][data-product-id="${productId}"]`)
-					.checked = newQuantity ? true : false;
-
-				// Update Product data
-				const productData = productDataForCheckout.find(product => product.id === +productId);
-				productData.quantity = newQuantity;
-				productData.checkout = newQuantity ? true : false;
-
-				// Update cart quantity display
-				elem.querySelector('.display').textContent = productData.quantity;
-				elem.querySelector('.upcount').dataset.next = productData.quantity + 1;
-				elem.querySelector('.downcount').dataset.next = productData.quantity - 1;
-
-				// Render checkout
-				renderCheckout(productDataForCheckout);
-			}
-
-		}
-	});
-
-	unfreezeBody();
-}
-
 const handleClickEvent = function() {
 	/* Handle click event on cart list */
 	cartList.addEventListener('click', function(e) {
@@ -417,3 +417,5 @@ const init = function() {
 	handleClickEvent();
 }
 init();
+
+
